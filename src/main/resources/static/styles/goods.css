@@ -1,0 +1,78 @@
+
+.goodsListItem span {
+    color: black;
+}
+
+.goodsListItem div {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
+
+.goodsListItem img {
+    display: none;
+}
+
+.goodsList div:first-of-type div img {
+    display: inline;
+}
+
+
+.pagination > .page-item a {
+    color: black;
+}
+
+.pagination > .active > a {
+    color: white;
+    background-color: #000000 !Important;
+    border: solid 1px #000000 !Important;
+}
+
+.pagination > .page-item a:hover {
+    text-decoration: underline;
+}
+
+.goodsList {
+    min-width: 280px;
+    border-top: solid rgb(219, 219, 219) 2px; 
+    padding: 0 5px 5px 5px; 
+    gap: 10px;
+}
+
+.good {
+    height: 280px;
+    width: 240px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border: solid rgb(219, 219, 219) 2px;
+    background-color: rgb(247, 247, 247); 
+    padding: 30px 10px 20px 10px;
+}
+
+
+.good a {
+    text-decoration: underline;
+
+}
+
+.goods {
+    width: 100%;
+    margin-left: 20px;
+    align-content: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 30px;
+    column-gap: 10px;
+    border-top: solid rgb(219, 219, 219) 2px;
+}
+
+.footer {
+    color: white;
+    background-color: black;
+}
+
+.footer div a {
+    color: white;
+}

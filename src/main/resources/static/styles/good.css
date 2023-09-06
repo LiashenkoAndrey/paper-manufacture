@@ -1,0 +1,16 @@
+
+
+.content {
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 15%, rgb(95, 95, 95) 100%);
+}
+
+.characteristics p  {
+    margin: 0px;
+}
+
+.characteristics h5:first-of-type {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 30px;
+}

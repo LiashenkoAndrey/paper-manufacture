@@ -1,0 +1,77 @@
+
+
+.goodTypeBtn {
+    background-color: black;
+    padding: 0 10px 10px 10px;
+    color: white;
+    font-size: 16px;
+}
+
+
+.goodTypeBtn:hover {
+    cursor: pointer;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    background-color: black;
+}
+
+.goodTypeBtnHeadLine {
+    background: linear-gradient(90deg, rgb(255, 255, 255) 80%, rgb(0, 0, 0) 100%);
+}
+
+.goodTypeBtn div {
+    margin-bottom: 5px;
+    height: 1px;
+}
+
+.goodTypeBtn:hover div .goodTypeBtnHeadLine {
+    background: linear-gradient(90deg, rgb(0, 0, 0) 60%, rgb(255, 255, 255) 40%);
+    animation: animatedgradient 1400ms ease alternate;
+    background-size: 300% 300%;
+}
+
+.underlined:hover span {
+    text-decoration: underline;
+}
+
+
+@keyframes animatedgradient {
+    0% {
+        background-position: 95% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.tabText {
+    color: white;
+    align-self: center;
+    padding: 30px;
+}
+
+.tabItem {
+    justify-content: space-between;
+    display: flex;
+}
+
+#tabItem1 {
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 60%, rgba(255,255,255,1) 100%);
+}
+
+
+.tabText button:first-of-type {
+    border-radius: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 150px;
+}
+
+.tabText div:first-of-type {
+    margin-top: 10px;
+}
+
+.tabText div:first-of-type div {
+    margin-top: 125px;
+}

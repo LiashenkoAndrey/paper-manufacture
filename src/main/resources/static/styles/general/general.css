@@ -1,0 +1,39 @@
+
+@import url("/styles/general/footer.css");
+@import url("/styles/general/header.css");
+@import url("/styles/util/dropdown.css");
+
+* {
+    margin: 0;
+}
+
+body, html {
+    height: 100vh
+}
+
+.main-wrapper {
+    height: 120%;
+    display: grid;
+    grid-template-areas: 
+        'header header'
+        'content content'
+        'footer footer';
+    grid-template-columns: 350px 1fr;
+    grid-template-rows: 90px 1fr 1fr;
+}
+
+
+.content {
+    background-color: black;
+    grid-area: content;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+.link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

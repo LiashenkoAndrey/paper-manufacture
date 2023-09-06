@@ -1,0 +1,57 @@
+
+@import '/src/styles/util/dropdown.css';
+
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    grid-area: header;
+}
+
+.headerItem {
+    height: 50%;
+    color: white;
+    display: flex; 
+}
+
+
+#search {
+    background-color: rgb(46, 46, 46); 
+    align-self: center; 
+    width: 300px; 
+    height: 35px; 
+    border-radius: 2px; 
+}
+
+
+#logoAndLangAndCard {
+    border-bottom: solid rgb(68, 68, 68) 1px;
+    justify-content: space-between;
+}
+
+
+#headIconsWrapper {
+    align-items: center;
+    margin-right: 20px;
+    display: flex; 
+    color: white;
+}
+
+#headIconsWrapper div {
+    margin-right: 10px;
+}
+
+#links {
+    align-items: center;
+    font-size: 14px; 
+}
+
+#links div {
+    margin-right: 20px;
+}
+
+
+#contentHead {
+    background: rgb(0,0,0);
+background: linear-gradient(34deg, rgba(0,0,0,1) 0%, rgba(57,57,57,1) 100%);
+}

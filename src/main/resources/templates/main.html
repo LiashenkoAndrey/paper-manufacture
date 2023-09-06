@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper machinery manufacture and services</title>
+    <link rel="stylesheet" th:href="@{/styles/general/general.css}">
+    <link rel="stylesheet" th:href="@{/styles/mainPage.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div th:replace="~{/fragments/header.html :: header}"></div>
+
+        <div class="content">
+            <div id="contentHead" style="height: 80px; background-color: black; display: flex; flex-direction: column; justify-content: end;">
+                <div style="display: flex; width: 100%; margin-left: 20px;">
+                    <div class="goodTypeBtn" onclick="changeCurrentTab('tabItem1', this)">
+                        <div>
+                            <div class="goodTypeBtnHeadLine"></div>
+                        </div>
+                        <span>Machines for production of paper napkins</span>
+                    </div>
+                    <div class="goodTypeBtn" onclick="changeCurrentTab('tabItem2', this)">
+                        <div>
+                            <div class="goodTypeBtnHeadLine"></div>
+                        </div>
+                        <span>Services for control of quality & delivery</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tabs">
+                <div class="tabItem" id="tabItem1" >
+                    <div class="tabText" >
+                        <h2>HX-SJS-1575Full</h2>
+                        <p>Semi-automatic rewinding machine, for toilet paper roll making. This machine is for toilet paper roll processing.</p>
+                        <button class="btn btn-light">BUY</button>
+                        <div>
+                            <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
+                            <span class="link" >Learn more about the product</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <img class="img-fluid" th:src="@{/img/assets/good.png}" alt="">
+                    </div>
+                </div>
+
+                <div class="tabItem" id="tabItem2" style="display: none;">
+                    <div class="tabText" style="flex-basis: 40%;" >
+                        <h2>Delivery support services and repair</h2>
+                        <p>
+                            Each year more than $6 trillion in air cargo is shipped via the airways. This includes general cargo and special cargo such as perishables
+                        </p>
+                        <button class="btn btn-light ">ORDER</button>
+                        <div>
+                            <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
+                            <span class="link">Learn more about the services</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <img class="img-fluid" th:src="@{/img/assets/delivery.jpg}" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div style="color: white;">
+                <div style="margin: 20px 0 40px 40px; display: flex; align-items: center; gap: 5px; position: relative">
+                    <img th:src="@{/img/assets/arrow-right-circle.svg}" alt="">
+                    <a th:href="@{/good/manufacture-machine/view/all}" class="link" style="font-weight: bold; font-size: 25px; position: relative;bottom: 2px;}">See more products</a>
+                </div>
+                <div style="display: flex; gap: 20px;">
+                    <p style="font-size: 20px; max-width: 600px;">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
+                        
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="~{/fragments/footer.html :: footer}"></div>
+    </div>
+    <script th:src="@{/scripts/tabs.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

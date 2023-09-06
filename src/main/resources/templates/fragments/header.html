@@ -1,0 +1,63 @@
+<div class="header" th:fragment="header">
+  <div class="headerItem" id="logoAndLangAndCard">
+    <div style="display: flex; margin-left: 20px;">
+      <div style="align-self: center; margin-right: 20px;">
+        <a href="/" style="text-decoration: none;">
+          <img th:src="@{/img/assets/logo.jpg}" width="35px" height="35px" alt="" style="border-radius: 3px;">
+          <span style="font-size: 14px; color: white">Modern Enterprise Machines</span>
+        </a>
+      </div>
+      <div id="search" style="display: flex;">
+        <div>
+          <img th:src="@{/img/assets/magnifying_glass.jpg}" style="display: block; padding: 5px;" alt="">
+        </div>
+        <input  type="text" style="padding: 5px;background-color: rgba(0, 0, 0, 0); color: white; border: none; height: 100%; margin: 0; border-radius: 2px; width: 100%;">
+      </div>
+    </div>
+    <div id="headIconsWrapper">
+      <div class="dropdown">
+        <div>
+          <img th:src="@{/img/assets/globus.jpg}" alt="">
+        </div>
+        <div class="dropdown-content">
+          <p>English</p>
+          <p>Deutsch</p>
+          <p>Українська</p>
+          <p>日本語</p>
+          <p>汉语/漢語</p>
+          <p>español</p>
+          <p>हिन्दी</p>
+          <p>français</p>
+          <p>português</p>
+          <p>Türkçe</p>
+          <p>Русский</p>
+        </div>
+      </div>
+
+      <div style="border: solid white 1px; height: 25px;"></div>
+
+      <div>
+        <img th:src="@{/img/assets/cart.jpg}" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="headerItem container-xl" id="links">
+    <div class="dropdown">
+      <div>
+        <span>Catalog</span>
+        <svg width="9" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" id="caret-icon-uh-pn-1" class="uh-pn-caret-icon uh-pn-caret-level-0" data-testid="caret-icon-uh-pn-1"><path d="M8.001 6.25l-3.5 3.5-3.5-3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div class="dropdown-content">
+        <p th:text="${goodGroup.name}" th:each="goodGroup : ${goodGroupList}"></p>
+      </div>
+    </div>
+
+    <div>
+      <a class="link" href="">About</a>
+    </div>
+    <div>
+      <a href="" class="link">Contacts</a>
+    </div>
+  </div>
+</div>
