@@ -1,6 +1,7 @@
 package com.paper.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,26 +15,28 @@ import java.util.List;
 @Setter
 public abstract class Good {
 
-    public Good(String description, List<String> images, String name) {
-        this.name = name;
-        this.description = description;
-        this.images = images;
-    }
-
-    public Good(Long id, String description, String name, List<String> images) {
+    public Good(Long id, String description, List<String> images, String name, GoodGroup goodGroup) {
         this.id = id;
         this.description = description;
         this.name = name;
         this.images = images;
+        this.goodGroup = goodGroup;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+    @NotNull
     protected String description;
 
+    @NotNull
     private String name;
+
+    @ManyToOne
+    private GoodGroup goodGroup;
+
+
 
     @ElementCollection
     @CollectionTable(name = "good_images")

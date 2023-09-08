@@ -39,6 +39,16 @@
     gap: 10px;
 }
 
+.goodsList h5:first-of-type {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    letter-spacing: 5px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.404);
+    text-align: center;
+}
+
 .good {
     height: 280px;
     width: 240px;

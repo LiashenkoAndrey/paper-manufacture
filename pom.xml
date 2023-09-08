@@ -74,6 +74,13 @@
             <version>8.0.1.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+            <version>6.4.0</version>
+        </dependency>
+
+
     </dependencies>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

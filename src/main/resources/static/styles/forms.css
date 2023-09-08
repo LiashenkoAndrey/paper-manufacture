@@ -1,0 +1,35 @@
+
+.modalWrapper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000080;
+    padding: 10px;
+    color: white
+}
+
+.modalBody {
+
+}
+
+#modalProperties {
+    min-width: 700px;
+}
+
+#propertyContainer div {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 5px;
+}
+
+#propertyContainer div input {
+    width: 100%;
+}
+
+#plusProperty:hover {
+    cursor: pointer;
+}

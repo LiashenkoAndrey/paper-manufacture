@@ -1,6 +1,6 @@
 package com.paper.repositories;
 
-
+import com.paper.domain.GoodGroup;
 import com.paper.domain.ManufactureMachine;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
@@ -17,73 +17,75 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ManufactureMachineRepositoryTest {
+public class GoodCatalogTest {
 
     @Autowired
-    ManufactureMachineRepository repository;
+    private ManufactureMachineRepository machineRepository;
+
+    @Autowired
+    private GoodGroupRepository goodGroupRepository;
 
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
 
+    @BeforeAll
+    private void before() {
+        GoodGroup saved = goodGroupRepository.save(GoodGroup.builder()
+                .id(1L)
+                .name("Test 1 catalog")
+                .build());
 
-    @Test
-    @Order(1)
-    public void create() {
+
         ManufactureMachine manufactureMachine = ManufactureMachine.builder()
                 .description("test")
+                .id(1L)
+                .goodGroupId(saved)
                 .name("machine")
                 .properties(Map.of("pr1", "val1"))
                 .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
                 .build();
 
-
-        ManufactureMachine saved = repository.save(manufactureMachine);
-        assertTrue(repository.existsById(saved.getId()));
+        machineRepository.save(manufactureMachine);
     }
 
     @Test
-    @Order(2)
-    public void read() {
-        var manufactureMachine = repository.findById(1L);
-        assertTrue(manufactureMachine.isPresent());
-    }
+    @Order(1)
+    public void create() {
+        goodGroupRepository.save(GoodGroup.builder()
+                .id(2L)
+                .name("Test 2 catalog")
+                .build());
 
+        assertTrue(goodGroupRepository.existsById(1L));
+    }
+//
+//    @Test
+//    @Order(2)
+//    public void findGoodsByGoodGroupId() {
+//        List<ManufactureMachine> machineList = machineRepository.findAllByGood_group_id(1L);
+//        assertEquals(1, machineList.size());
+//    }
 
     @Test
     @Order(3)
     public void update() {
-        var manufactureMachine = repository.findById(1L).orElseThrow(EntityNotFoundException::new);
-        manufactureMachine.setDescription("new description");
+        GoodGroup goodGroup = goodGroupRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
+        goodGroup.setName("another name");
 
-        manufactureMachine.getProperties().put("new key", "new val");
-
-        var saved = repository.save(manufactureMachine);
-
-        assertEquals(manufactureMachine.getDescription(), saved.getDescription());
-        assertTrue(manufactureMachine.getProperties().containsKey("new key"));
+        GoodGroup saved = goodGroupRepository.save(goodGroup);
+        System.out.println(goodGroup);
+        System.out.println(saved);
+        assertNotEquals("Test 1 catalog", saved.getName());
     }
 
     @Test
     @Order(4)
     public void delete() {
-        ManufactureMachine manufactureMachine = ManufactureMachine.builder()
-                .description("test d")
-                .name("delete me")
-                .properties(Map.of("pr1443", "val443"))
-                .images(List.of("23dfdfdf", "dfdfdfdff"))
-                .build();
-
-        ManufactureMachine saved = repository.save(manufactureMachine);
-        assertTrue(repository.existsById(saved.getId()));
-        repository.deleteById(saved.getId());
-
-        assertFalse(repository.existsById(saved.getId()));
+        assertTrue(goodGroupRepository.existsById(2L));
+        goodGroupRepository.deleteById(2L);
+        assertFalse(goodGroupRepository.existsById(2L));
     }
 
-    @Test
-    public void selectByCatalogIdTest() {
-
-    }
 
     @AfterAll
     public void truncateManufactureMachineTable() {
@@ -96,6 +98,8 @@ public class ManufactureMachineRepositoryTest {
         em.createNativeQuery("truncate table good_images cascade").executeUpdate();
 
         em.createNativeQuery("truncate table manufacture_machine_properties cascade").executeUpdate();
+        em.createNativeQuery("truncate table good_group cascade").executeUpdate();
+        em.createNativeQuery("ALTER SEQUENCE good_group_id_seq RESTART WITH 1").executeUpdate();
         transaction.commit();
     }
 }

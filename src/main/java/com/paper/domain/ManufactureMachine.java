@@ -1,6 +1,7 @@
 package com.paper.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashMap;
@@ -16,8 +17,8 @@ import java.util.Map;
 public class ManufactureMachine extends Good {
 
     @Builder
-    public ManufactureMachine(Long id, String description, List<String> images, String name, Map<String, String> properties) {
-        super(id, description, name, images);
+    public ManufactureMachine(Long id, String description, List<String> images, String name, GoodGroup goodGroupId, Map<String, String> properties) {
+        super(id, description, images, name, goodGroupId);
         this.properties = properties;
     }
 
@@ -25,5 +26,6 @@ public class ManufactureMachine extends Good {
     @CollectionTable(name = "manufacture_machine_properties")
     @MapKeyColumn(name = "property_name")
     @Column(name = "property_value")
+    @NotNull
     protected Map<String, String> properties = new HashMap<>();
 }

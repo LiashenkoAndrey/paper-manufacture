@@ -11,7 +11,11 @@ body, html {
     height: 100vh
 }
 
-.main-wrapper {
+.btn {
+    border-radius: 3px!important;
+}
+
+#mainWrapper {
     height: 120%;
     display: grid;
     grid-template-areas: 
