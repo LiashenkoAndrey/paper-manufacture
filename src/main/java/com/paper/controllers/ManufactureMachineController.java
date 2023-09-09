@@ -1,10 +1,12 @@
 package com.paper.controllers;
 
 import com.paper.domain.GoodGroup;
+import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.GoodGroupRepository;
 import com.paper.repositories.ManufactureMachineRepository;
+import com.paper.services.ManufactureMachineService;
 import com.paper.util.EntityMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import static com.paper.util.EntityMapper.map;
 
@@ -26,6 +34,8 @@ public class ManufactureMachineController {
 
     private final GoodGroupRepository goodGroupRepository;
     private final ManufactureMachineRepository repository;
+
+    private final ManufactureMachineService machineService;
 
     @GetMapping("/all")
     public ResponseEntity<List<ManufactureMachine>> getAll() {
@@ -59,18 +69,26 @@ public class ManufactureMachineController {
         return "good";
     }
 
-    @GetMapping("/new")
-    public String getCreationView() {
-        return "manufactureMachine/new";
-    }
+
 
     @PostMapping("/new")
-    public ResponseEntity<?> create(@RequestBody ManufactureMachine manufactureMachine) {
+    public ResponseEntity<?> create(MultipartHttpServletRequest request,
+                                    @RequestBody ManufactureMachine manufactureMachine) throws IOException {
+
         if (repository.exists(Example.of(manufactureMachine))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } else if (request.getFileMap().size() < 1) {
+            throw new IllegalArgumentException("It needs at least a one image to save a good");
         }
 
-        ManufactureMachine saved = repository.save(manufactureMachine);
+        List<Image> images = new ArrayList<>();
+        Iterator<String> names = request.getFileNames();
+        while (names.hasNext()) {
+            MultipartFile file = request.getFile(names.next());
+            images.add(new Image(Objects.requireNonNull(file).getContentType(), file.getBytes()));
+        }
+
+        ManufactureMachine saved = machineService.save(manufactureMachine, images);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(saved.getId());

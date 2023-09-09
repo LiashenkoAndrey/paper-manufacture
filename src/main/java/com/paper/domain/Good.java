@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @MappedSuperclass
 @NoArgsConstructor
 @Getter
+@ToString
 @Setter
 public abstract class Good {
 
@@ -38,7 +40,7 @@ public abstract class Good {
 
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "good_images")
     @OrderColumn(name = "good_images_order")
     @Column(name = "image_id")

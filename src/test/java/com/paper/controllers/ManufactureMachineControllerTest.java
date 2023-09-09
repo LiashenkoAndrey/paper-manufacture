@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,15 +37,6 @@ public class ManufactureMachineControllerTest {
         testUtils.createDefaultManufactureMachine();
     }
 
-    @Test
-    @Order(1)
-    public void getViewsTest() throws Exception {
-        mockMvc.perform(get("/good/manufacture-machine/new"))
-                .andExpect(view().name("manufactureMachine/new"));
-
-        mockMvc.perform(get("/good/manufacture-machine/1/update"))
-                .andExpect(view().name("manufactureMachine/update"));
-    }
 
     @Test
     @Order(2)
@@ -60,25 +51,59 @@ public class ManufactureMachineControllerTest {
         properties.put("v2", "key2");
         rootNode.set("properties", properties);
 
+        MockMultipartFile file1 = new MockMultipartFile(
+                "testImage1",
+                "hello.jpg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "Hello, World!".getBytes()
+        );
 
-        mockMvc.perform(post("/good/manufacture-machine/new")
-                .content(rootNode.toString())
+        MockMultipartFile file2
+                = new MockMultipartFile(
+                "testImage2",
+                "hello.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "Hello, World!".getBytes()
+        );
+
+        mockMvc.perform(multipart("/good/manufacture-machine/new")
+                        .file(file1)
+                        .file(file2)
+                        .content(rootNode.toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andDo(result -> {
                     Long id = Long.parseLong(result.getResponse().getContentAsString());
                     ManufactureMachine saved = machineRepository.findById(id)
                             .orElseThrow(EntityNotFoundException::new);
+
+                    assertEquals(2, saved.getImages().size());
                     assertEquals("name1", saved.getName());
                     assertEquals("description1", saved.getDescription());
                     assertTrue(saved.getProperties().containsKey("v1"));
                     assertTrue(saved.getProperties().containsKey("v2"));
                 });
 
-        mockMvc.perform(post("/good/manufacture-machine/new")
+        mockMvc.perform(multipart("/good/manufacture-machine/new")
+                        .file(file1)
+                        .file(file2)
                         .content(rootNode.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict());
+
+        rootNode.put("description", "fwsfsf");
+        rootNode.put("name", "asdfsfsdfd");
+        rootNode.putNull("properties");
+
+        mockMvc.perform(multipart("/good/manufacture-machine/new")
+                        .content(rootNode.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        mockMvc.perform(multipart("/good/manufacture-machine/new")
+                        .file(file1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -129,5 +154,7 @@ public class ManufactureMachineControllerTest {
     @AfterAll
     public void after() {
         testUtils.truncateManufactureMachineAndGoodTypeTable();
+        testUtils.truncateGoodImages();
+        testUtils.deleteAllImages();
     }
 }

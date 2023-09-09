@@ -1,11 +1,11 @@
 package com.paper.controllers;
 
 import com.paper.domain.ManufactureMachine;
+import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.PersistenceUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +17,8 @@ import java.util.Map;
 public class TestUtils {
 
     private final ManufactureMachineRepository machineRepository;
+
+    private final ImageRepository imageRepository;
 
     private final EntityManagerFactory entityManagerFactory;
 
@@ -32,6 +34,11 @@ public class TestUtils {
         machineRepository.save(manufactureMachine);
     }
 
+    public void deleteAllImages() {
+        imageRepository.deleteAll();
+    }
+
+
     public void truncateManufactureMachineAndGoodTypeTable() {
         EntityManager em = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -44,6 +51,14 @@ public class TestUtils {
         em.createNativeQuery("truncate table manufacture_machine_properties cascade").executeUpdate();
         em.createNativeQuery("truncate table good_group cascade").executeUpdate();
         em.createNativeQuery("ALTER SEQUENCE good_group_id_seq RESTART WITH 1").executeUpdate();
+        transaction.commit();
+    }
+
+    public void truncateGoodImages() {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.createNativeQuery("truncate table good_images cascade").executeUpdate();
         transaction.commit();
     }
 }

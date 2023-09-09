@@ -29,7 +29,7 @@ public class GoodCatalogTest {
     private EntityManagerFactory entityManagerFactory;
 
     @BeforeAll
-    private void before() {
+    public void before() {
         GoodGroup saved = goodGroupRepository.save(GoodGroup.builder()
                 .id(1L)
                 .name("Test 1 catalog")

@@ -28,4 +28,14 @@ public class ManufactureMachine extends Good {
     @Column(name = "property_value")
     @NotNull
     protected Map<String, String> properties = new HashMap<>();
+
+    @Override
+    public String toString() {
+        return "ManufactureMachine{" +
+                "properties=" + properties +
+                ", id=" + id +
+                ", description='" + description + '\'' +
+                ", images=" + images +
+                '}';
+    }
 }

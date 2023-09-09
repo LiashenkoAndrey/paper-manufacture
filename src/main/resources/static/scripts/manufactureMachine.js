@@ -1,22 +1,3 @@
-
-class FormService {
-
-    static wrapper = document.getElementById("mainWrapper")
-
-    static enable(form) {
-        document.querySelector("body").style.overflowY = 'hidden';
-        this.wrapper.style.filter = 'blur(8px)';
-        document.body.insertAdjacentHTML('beforeend', form);
-    }
-
-    static disable(form) {
-        document.querySelector("body").style.overflowY = 'initial'
-        form.remove();
-        this.wrapper.style.filter = 'none';
-    }
-}
-
-
 let createManufactureMachineForm =
     `<div class="modalWrapper">
         <div class="modalBody">
@@ -27,17 +8,16 @@ let createManufactureMachineForm =
                 <div style="min-width: 400px; margin-top: 20px">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input id="name" class="form-control" type="text">
+                        <input id="inputName" class="form-control" type="text">
                     </div>
                     
                     <div class="form-group">
                         <label for="name">Description</label>
-                        <textarea cols="4" id="name" class="form-control" type="text"></textarea>
+                        <textarea cols="4" id="inputDescription" class="form-control" type="text"></textarea>
                     </div>
                         <label for="name">Images</label>
-                        <input type="file" id="name" class="form-control" multiple="multiple">
+                        <input type="file" id="inputFile" class="form-control" multiple="multiple">
                     <div>
-                    
                     </div>
                 </div>
     
@@ -72,8 +52,6 @@ let createManufactureMachineForm =
                     <span style="font-size: 54px" id="plusProperty" onclick="addProperty()">+</span>
                 </div>
             </div>
-            
-            
             <button class="btn btn-success mt-3" onclick="createNewManufactureMachine()">Save</button>
         </div>
     </div>`
@@ -111,5 +89,33 @@ function parsePropertiesAndReturnAsArray() {
 }
 
 function createNewManufactureMachine() {
+    let name = document.getElementById("inputName");
+    let description = document.getElementById("inputDescription");
+    let filesArray = document.getElementById("inputFiles").files;
+
+    let body = {
+        name: name,
+        description: description,
+    }
+    for (let i = 0; i < filesArray.length; i++) {
+        Object.defineProperty(body, 'image' + i, {
+            value: filesArray[i],
+        });
+    }
+
+    fetch("/good/manufacture-machine/new", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then((response) => {
+        console.log(response.status)
+
+        response.text().then((response) => {
+            console.log(response.body)
+        })
+    })
 
 }
+
