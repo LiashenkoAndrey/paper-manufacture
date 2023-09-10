@@ -1,7 +1,7 @@
 package com.paper.domain;
 
 import lombok.*;
-
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Getter
@@ -10,16 +10,17 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@Document(collection = "good_images")
 public class Image {
 
-    public Image(String type, byte[] image) {
+    public Image(String type, String  base64Image) {
         this.type = type;
-        this.image = image;
+        this.base64Image = base64Image;
     }
 
     private String id;
 
     private String type;
 
-    private byte[] image;
+    private String base64Image;
 }

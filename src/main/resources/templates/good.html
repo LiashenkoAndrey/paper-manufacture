@@ -6,6 +6,7 @@
     <title>Paper machinery manufacture and services</title>
     <link rel="stylesheet" th:href="@{/styles/general/general.css}">
     <link rel="stylesheet" th:href="@{/styles/good.css}">
+    <link rel="stylesheet" th:href="@{/styles/forms.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
@@ -24,13 +25,14 @@
                     </div>
                 </div>
                 <div>
-                    <img th:src="@{/img/assets/good.png}" style="max-height: 400px;" class="img-fluid" alt="">
+                    <img th:src="@{'/upload/image/' + ${machine.images.get(0)}}" style="max-height: 400px;" class="img-fluid" alt="">
                 </div>
             </div>
             <div style="background-color: rgb(56, 56, 56); border-radius: 10px; border: solid rgb(231, 231, 231) 1px; padding: 5px 20px 5px 20px; position: relative; bottom: 40px;">
                 <div class="text-white" style="border-bottom: solid rgb(97, 97, 97) 2px; padding: 5px;">
                     <span style="font-weight: bold; font-size: 22px;">Price 10000$</span>
                     <span style="margin-left: 40px;">Payments: p1 p2 p3 p4</span>
+                    <button style="display: inline" class="btn btn-dark mx-3" onclick="FormService.enable(deleteManufactureMachineForm)">Delete</button>
                 </div>
                 <div class="text-white d-flex gap-4 py-4">
 
@@ -73,6 +75,9 @@
 
         <div th:replace="~{/fragments/footer.html :: footer}"></div>
     </div>
+    <script th:src="@{/scripts/services/FormService.js}"></script>
+    <script th:src="@{/scripts/manufactureMachine.js}"></script>
+    <script th:src="@{/scripts/services/RequestService.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

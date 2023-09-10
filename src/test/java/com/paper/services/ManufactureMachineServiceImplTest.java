@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,10 @@ public class ManufactureMachineServiceImplTest {
                 .build();
 
         byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
-        manufactureMachineService.save(manufactureMachine, List.of(new Image(MediaType.IMAGE_JPEG_VALUE, image)));
+        manufactureMachineService.save(
+                manufactureMachine,
+                List.of(new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(image)))
+        );
     }
 
     @AfterAll

@@ -25,6 +25,11 @@ public abstract class Good {
         this.goodGroup = goodGroup;
     }
 
+    public Good(String description, String name) {
+        this.description = description;
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;

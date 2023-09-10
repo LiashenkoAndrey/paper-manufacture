@@ -16,6 +16,11 @@ import java.util.Map;
 @Table(schema = "public", name = "manufacture_machine")
 public class ManufactureMachine extends Good {
 
+    public ManufactureMachine(String description, String name, Map<String, String> properties) {
+        super(description, name);
+        this.properties = properties;
+    }
+
     @Builder
     public ManufactureMachine(Long id, String description, List<String> images, String name, GoodGroup goodGroupId, Map<String, String> properties) {
         super(id, description, images, name, goodGroupId);

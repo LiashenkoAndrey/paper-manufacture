@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,7 +24,7 @@ public class ImageRepositoryTest {
 
     @Test
     public void save() throws IOException {
-        Image image = new Image(MediaType.IMAGE_JPEG_VALUE, Files.readAllBytes(Path.of("src/test/resources/testImage.jpg")));
+        Image image = new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"))));
         Image saved = imageRepository.save(image);
         System.out.println(saved.getId());
         assertTrue(imageRepository.existsById(saved.getId()));

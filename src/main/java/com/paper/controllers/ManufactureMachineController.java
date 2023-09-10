@@ -3,27 +3,26 @@ package com.paper.controllers;
 import com.paper.domain.GoodGroup;
 import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
+import com.paper.domain.ManufactureMachineDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.GoodGroupRepository;
+import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import com.paper.services.ManufactureMachineService;
-import com.paper.util.EntityMapper;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.paper.util.EntityMapper.map;
 
@@ -34,6 +33,8 @@ public class ManufactureMachineController {
 
     private final GoodGroupRepository goodGroupRepository;
     private final ManufactureMachineRepository repository;
+
+    private final ImageRepository imageRepository;
 
     private final ManufactureMachineService machineService;
 
@@ -57,7 +58,7 @@ public class ManufactureMachineController {
         System.out.println(goodGroup);
         model.addAttribute("goodGroupList", goodGroupRepository.findAll());
         model.addAttribute("goodGroup", goodGroup);
-        model.addAttribute("machines", repository.findAllByByGoodGroupId(catalogId));
+        model.addAttribute("machines", repository.findAllByGoodGroupId(catalogId));
         return "goods";
     }
 
@@ -69,39 +70,22 @@ public class ManufactureMachineController {
         return "good";
     }
 
+    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> create(@Valid @RequestBody ManufactureMachineDto dto){
+        var manufactureMachine = new ManufactureMachine(dto.getDescription(), dto.getName(), dto.getProperties());
 
-
-    @PostMapping("/new")
-    public ResponseEntity<?> create(MultipartHttpServletRequest request,
-                                    @RequestBody ManufactureMachine manufactureMachine) throws IOException {
-
-        if (repository.exists(Example.of(manufactureMachine))) {
+        if (dto.getImages().size() < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image to save a good");
+        } else if (repository.exists(Example.of(manufactureMachine))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } else if (request.getFileMap().size() < 1) {
-            throw new IllegalArgumentException("It needs at least a one image to save a good");
         }
 
-        List<Image> images = new ArrayList<>();
-        Iterator<String> names = request.getFileNames();
-        while (names.hasNext()) {
-            MultipartFile file = request.getFile(names.next());
-            images.add(new Image(Objects.requireNonNull(file).getContentType(), file.getBytes()));
-        }
-
-        ManufactureMachine saved = machineService.save(manufactureMachine, images);
+        ManufactureMachine saved = machineService.save(manufactureMachine, dto.getImages());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(saved.getId());
     }
 
-
-    @GetMapping("/{id}/update")
-    public String getUpdateView(@PathVariable("id") Long id, Model model) {
-        var machine = repository.findById(id)
-                .orElseThrow(ManufactureMachineNotFoundException::new);
-        model.addAttribute("machine", machine);
-        return "manufactureMachine/update";
-    }
 
     @PutMapping("/{id}/update")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody ManufactureMachine manufactureMachine) {
@@ -123,10 +107,17 @@ public class ManufactureMachineController {
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+        var manufactureMachine = repository
+                .findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
+
         if (!repository.existsById(id)) {
             return ResponseEntity.badRequest().build();
+        } else {
+            repository.deleteById(id);
+            for (String image : manufactureMachine.getImages()) {
+                imageRepository.deleteById(image);
+            }
+            return ResponseEntity.ok().build();
         }
-        repository.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 }

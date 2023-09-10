@@ -12,5 +12,5 @@ import java.util.List;
 public interface ManufactureMachineRepository extends JpaRepository<ManufactureMachine, Long> {
 
     @Query("from  ManufactureMachine m where m.goodGroup.id = :groupId")
-    List<ManufactureMachine> findAllByByGoodGroupId(@Param("groupId") Long groupId);
+    List<ManufactureMachine> findAllByGoodGroupId(@Param("groupId") Long groupId);
 }

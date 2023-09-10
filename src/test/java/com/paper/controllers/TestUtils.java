@@ -1,5 +1,6 @@
 package com.paper.controllers;
 
+import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
@@ -7,8 +8,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -22,17 +29,7 @@ public class TestUtils {
 
     private final EntityManagerFactory entityManagerFactory;
 
-    public void createDefaultManufactureMachine() {
-        ManufactureMachine manufactureMachine = ManufactureMachine.builder()
-                .description("test")
-                .id(1L)
-                .name("machine")
-                .properties(Map.of("pr1", "val1"))
-                .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
-                .build();
 
-        machineRepository.save(manufactureMachine);
-    }
 
     public void deleteAllImages() {
         imageRepository.deleteAll();

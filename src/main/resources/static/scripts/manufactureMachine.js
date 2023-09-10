@@ -16,7 +16,7 @@ let createManufactureMachineForm =
                         <textarea cols="4" id="inputDescription" class="form-control" type="text"></textarea>
                     </div>
                         <label for="name">Images</label>
-                        <input type="file" id="inputFile" class="form-control" multiple="multiple">
+                        <input type="file" id="inputFiles" class="form-control" multiple="multiple">
                     <div>
                     </div>
                 </div>
@@ -56,6 +56,19 @@ let createManufactureMachineForm =
         </div>
     </div>`
 
+let deleteManufactureMachineForm =
+    `<div class="modalWrapper">
+        <div class="modalBody">
+            <div class="text-end mb-4">
+                <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode)" aria-label="Close"></button>
+            </div>
+             <div>
+                <h5 style="color: white">Are you sure that you want to delete this good?</h5>
+                <button class="btn btn-success mt-3" onclick="deleteManufactureMachine()">Delete</button>
+             </div>
+        </div>
+    </div>`
+
 let newProperty =
     `<div>
         <input class="key" type="text">
@@ -74,33 +87,48 @@ function parsePropertiesAndReturnAsArray() {
         alert("keys amount differs from values");
         return;
     }
-    let properties = [];
+    let properties = new Map();
     for (let i = 0; i < keys.length; i++) {
         let key = keys[i].value;
         let val = vals[i].value;
+        console.log(i)
         if (key !== '' && val !== '') {
-            let prop = {};
-            prop[key] = val;
-            console.log(prop)
-            properties.push(prop);
+            console.log(key+" , "+ val)
+            properties.set(key, val);
         }
     }
-    return JSON.stringify(properties);
+    return properties;
 }
 
-function createNewManufactureMachine() {
-    let name = document.getElementById("inputName");
-    let description = document.getElementById("inputDescription");
+async function deleteManufactureMachine() {
+    console.log(new URLSearchParams(document.location.search).get("id"))
+    fetch("/good/manufacture-machine/" + new URLSearchParams(document.location.search).get("id") + "/delete", {
+        method: "DELETE",
+    }).then((response) => {
+        RequestService.processResponseAndDoRedirect(response, "http://localhost/good/manufacture-machine/view/all");
+    })
+}
+
+async function createNewManufactureMachine() {
+    let name = document.getElementById("inputName").value;
+    let description = document.getElementById("inputDescription").value;
     let filesArray = document.getElementById("inputFiles").files;
 
+    let images = [];
+    for (let i = 0; i < filesArray.length; i++) {
+         await getBase64(filesArray[i]).then((converted) => {
+             const type = "image/" + converted.split(';')[0].split('/')[1];
+             images.push({
+                 type: type,
+                 base64Image: converted
+             })
+        })
+    }
     let body = {
         name: name,
         description: description,
-    }
-    for (let i = 0; i < filesArray.length; i++) {
-        Object.defineProperty(body, 'image' + i, {
-            value: filesArray[i],
-        });
+        properties: Object.fromEntries(parsePropertiesAndReturnAsArray()),
+        images: images
     }
 
     fetch("/good/manufacture-machine/new", {
@@ -113,9 +141,21 @@ function createNewManufactureMachine() {
         console.log(response.status)
 
         response.text().then((response) => {
-            console.log(response.body)
+            console.log(response)
+            RequestService.processResponseAndDoRedirect(response, "http://localhost/good/manufacture-machine?id=" + parseInt(response))
         })
     })
-
 }
+
+
+async function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+
 

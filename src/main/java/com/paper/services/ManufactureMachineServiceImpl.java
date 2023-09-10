@@ -6,9 +6,7 @@ import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +19,10 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
 
     @Override
     public ManufactureMachine save(ManufactureMachine machine, List<Image> images) {
+        System.out.println(imageRepository.findAll());
+
         List<Image> savedImages = imageRepository.saveAll(images);
+        System.out.println(imageRepository.findAll());
         List<String> ids = savedImages.stream().map(Image::getId).toList();
         machine.setImages(ids);
         return machineRepository.save(machine);

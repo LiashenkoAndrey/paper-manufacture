@@ -49,7 +49,7 @@
                 <div class="goods pt-4">
                     <div class="good" th:each="good : ${machines}">
                         <img width="80" th:src="@{/img/assets/photo_5420422175967530204_m-removebg-preview.png}" alt="">
-                        <img th:src="@{/img/assets/good.png}" alt="">
+                        <img  th:src="@{'/upload/image/' + ${good.getImages().get(0)}} "  alt="">
                         <span class="text-black" th:text="${good.name}"></span>
                         <a th:href="@{/good/manufacture-machine(id=${good.id})}" class="link text-black">Product details</a>
                     </div>

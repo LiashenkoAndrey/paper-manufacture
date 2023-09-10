@@ -2,7 +2,6 @@ package com.paper.controllers;
 
 import com.paper.domain.Image;
 import com.paper.repositories.ImageRepository;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,13 +35,13 @@ public class ImageControllerTest {
     @BeforeAll
     public void before() throws IOException {
         Image image1 = Image.builder()
-                .image(Files.readAllBytes(Path.of("src/test/resources/testImage.jpg")))
+                .base64Image(Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"))))
                 .type(MediaType.IMAGE_JPEG_VALUE)
                 .id("64fb5c6d490a243ee76dc7cb")
                 .build();
 
         Image image2 = Image.builder()
-                .image(Files.readAllBytes(Path.of("src/test/resources/testImage.png")))
+                .base64Image(Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.png"))))
                 .type(MediaType.IMAGE_PNG_VALUE)
                 .id("64fb5c6d490a243ee76dc7ac")
                 .build();
