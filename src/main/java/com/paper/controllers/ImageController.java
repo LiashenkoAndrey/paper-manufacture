@@ -22,7 +22,7 @@ public class ImageController {
 
     @CrossOrigin
     @GetMapping(value = "/{imageId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) throws UnsupportedEncodingException {
+    public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) {
         if (ObjectId.isValid(imageId)) {
             Image image = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
             String base64ImageWithoutHeader = image.getBase64Image().split(",")[1];

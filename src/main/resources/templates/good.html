@@ -15,8 +15,10 @@
 
         <div class="content p-5" style="padding-bottom: 30px; position: relative;">
             <div class="d-flex" style="max-height: 400px; justify-content: space-between;">
-                <div class="al text-white align-self-center" style="max-width: 500px;">
-                    <img th:src="@{/img/assets/photo_5420422175967530204_m-removebg-preview.png}" alt="">
+                <div class="al text-white align-self-center" style="max-width: 900px;">
+                    <a class="mb-2" style="display: block" th:href="@{'/producer/' + ${machine.producer.id}}">
+                        <img style="height: 50px" th:src="@{'/upload/image/' + ${machine.producer.logotypeId}}" alt="">
+                    </a>
                     <h4 th:text="${machine.name}"></h4>
                     <h6 th:text="${machine.description}">HX-CS-1517</h6>
                     <div>
@@ -25,7 +27,7 @@
                     </div>
                 </div>
                 <div>
-                    <img th:src="@{'/upload/image/' + ${machine.images.get(0)}}" style="max-height: 400px;" class="img-fluid" alt="">
+                    <img  th:src="@{'/upload/image/' + ${machine.images.get(0)}}" style="max-height: 400px; margin-right: 20px" class="img-fluid" alt="">
                 </div>
             </div>
             <div style="background-color: rgb(56, 56, 56); border-radius: 10px; border: solid rgb(231, 231, 231) 1px; padding: 5px 20px 5px 20px; position: relative; bottom: 40px;">
@@ -35,39 +37,16 @@
                     <button style="display: inline" class="btn btn-dark mx-3" onclick="FormService.enable(deleteManufactureMachineForm)">Delete</button>
                 </div>
                 <div class="text-white d-flex gap-4 py-4">
-
                     <div class="characteristics" style="border-right: solid rgb(97, 97, 97) 2px; padding-right: 30px;">
                         <h5>Main characteristics:</h5>
                         <div class="d-flex flex-columns gap-4">
                             <div>
-                                <p>Weight</p>
-                                <p>Type paper</p>
-                                <p>Channel Big Swivel Slitting Machine</p>
+                                <p th:text="${entry.key}" th:each="entry : ${machine.properties}"></p>
                             </div>
                             <div>
-                                <p>4000kg</p>
-                                <p>Type 1</p>
-                                <p>Channel Big Swivel</p>
+                                <p th:text="${entry.value}" th:each="entry : ${machine.properties}"></p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="characteristics">
-                        <h5>Main characteristics:</h5>
-                        <div class="d-flex flex-columns gap-4">
-                            <div>
-                                <p>Weight</p>
-                                <p>Paper machinery manufacture and services</p>
-                            </div>
-                            <div>
-                                <p>4000kg</p>
-                                <p>Paper machinery</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        
                     </div>
                 </div>
             </div>

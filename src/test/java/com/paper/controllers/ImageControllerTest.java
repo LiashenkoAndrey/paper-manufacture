@@ -35,13 +35,13 @@ public class ImageControllerTest {
     @BeforeAll
     public void before() throws IOException {
         Image image1 = Image.builder()
-                .base64Image(Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"))))
+                .base64Image("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"))))
                 .type(MediaType.IMAGE_JPEG_VALUE)
                 .id("64fb5c6d490a243ee76dc7cb")
                 .build();
 
         Image image2 = Image.builder()
-                .base64Image(Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.png"))))
+                .base64Image("data:image/png;base64,"+Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.png"))))
                 .type(MediaType.IMAGE_PNG_VALUE)
                 .id("64fb5c6d490a243ee76dc7ac")
                 .build();

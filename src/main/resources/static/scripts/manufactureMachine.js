@@ -15,9 +15,15 @@ let createManufactureMachineForm =
                         <label for="name">Description</label>
                         <textarea cols="4" id="inputDescription" class="form-control" type="text"></textarea>
                     </div>
-                        <label for="name">Images</label>
-                        <input type="file" id="inputFiles" class="form-control" multiple="multiple">
+                    
                     <div>
+                        <label for="images">Images</label>
+                        <input id="inputFiles" class="form-control" type="file" multiple="multiple">
+                    </div>
+                    
+                    <div>
+                        <label for="producer">Producer</label>
+                        <select name="producer" class="form-select" id="producersSelect"></select>
                     </div>
                 </div>
     
@@ -56,6 +62,29 @@ let createManufactureMachineForm =
         </div>
     </div>`
 
+function getAndDisplayAllProducers() {
+    let select = document.getElementById("producersSelect");
+    fetch("/producer/all", {
+        method: "GET"
+    }).then((response) => {
+        let contentType = response.headers.get("Content-Type");
+        if (contentType !== "application/json") {
+            throw Error("Unexpected content type: expected: 'application/json' but was '" + contentType + "'");
+        }
+
+        response.json().then((producers) => {
+            for (let i = 0; i < producers.length; i++) {
+                let option = document.createElement("option");
+                let producer = producers[i];
+                option.text = producer.name;
+                option.value = producer.id;
+                select.appendChild(option);
+            }
+        });
+    })
+
+}
+
 let deleteManufactureMachineForm =
     `<div class="modalWrapper">
         <div class="modalBody">
@@ -91,7 +120,6 @@ function parsePropertiesAndReturnAsArray() {
     for (let i = 0; i < keys.length; i++) {
         let key = keys[i].value;
         let val = vals[i].value;
-        console.log(i)
         if (key !== '' && val !== '') {
             console.log(key+" , "+ val)
             properties.set(key, val);
@@ -113,6 +141,7 @@ async function createNewManufactureMachine() {
     let name = document.getElementById("inputName").value;
     let description = document.getElementById("inputDescription").value;
     let filesArray = document.getElementById("inputFiles").files;
+    let producerId = document.getElementById("producersSelect").value;
 
     let images = [];
     for (let i = 0; i < filesArray.length; i++) {
@@ -128,7 +157,8 @@ async function createNewManufactureMachine() {
         name: name,
         description: description,
         properties: Object.fromEntries(parsePropertiesAndReturnAsArray()),
-        images: images
+        images: images,
+        producerId: producerId
     }
 
     fetch("/good/manufacture-machine/new", {

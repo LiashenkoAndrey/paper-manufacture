@@ -1,9 +1,8 @@
 package com.paper.controllers;
 
 import com.paper.domain.GoodGroup;
-import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
-import com.paper.domain.ManufactureMachineDto;
+import com.paper.dto.ManufactureMachineDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.GoodGroupRepository;
 import com.paper.repositories.ImageRepository;
@@ -21,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.*;
 
 import static com.paper.util.EntityMapper.map;
@@ -80,7 +78,7 @@ public class ManufactureMachineController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        ManufactureMachine saved = machineService.save(manufactureMachine, dto.getImages());
+        ManufactureMachine saved = machineService.save(manufactureMachine, dto.getImages(), dto.getProducerId());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(saved.getId());
@@ -109,7 +107,6 @@ public class ManufactureMachineController {
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         var manufactureMachine = repository
                 .findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
-
         if (!repository.existsById(id)) {
             return ResponseEntity.badRequest().build();
         } else {

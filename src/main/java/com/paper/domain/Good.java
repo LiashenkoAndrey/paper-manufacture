@@ -41,9 +41,10 @@ public abstract class Good {
     private String name;
 
     @ManyToOne
+    private Producer producer;
+
+    @ManyToOne
     private GoodGroup goodGroup;
-
-
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "good_images")

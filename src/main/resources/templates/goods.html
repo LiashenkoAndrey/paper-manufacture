@@ -30,7 +30,8 @@
                     <div style="position: relative;">
                         <span style="top: 10px; font-size: 24px;  position: relative;" th:if="${goodGroup != null}" th:text="${goodGroup.name}">Facial tissue paper machine</span>
                         <span style="top: 10px; position: relative; font-size: 24px"  th:unless="${goodGroup != null}">Facial tissue paper machine</span>
-                        <button style="display: inline" class="btn btn-dark" onclick="FormService.enable(createManufactureMachineForm)">Create a new item</button>
+                        <button style="display: inline" class="btn btn-dark" onclick="FormService.enableAndExecuteFunction(createManufactureMachineForm, getAndDisplayAllProducers)">Add a new item</button>
+                        <button style="display: inline" class="btn btn-dark" onclick="FormService.enable(addProducerForm)">Add a new producer</button>
                     </div>
                 </div>
             </div>
@@ -48,8 +49,10 @@
 
                 <div class="goods pt-4">
                     <div class="good" th:each="good : ${machines}">
-                        <img width="80" th:src="@{/img/assets/photo_5420422175967530204_m-removebg-preview.png}" alt="">
-                        <img  th:src="@{'/upload/image/' + ${good.getImages().get(0)}} "  alt="">
+                        <a th:href="@{'/producer/' + ${good.producer.id}}">
+                            <img width="60" th:src="@{'/upload/image/' + ${good.producer.logotypeId}}" alt="">
+                        </a>
+                        <img height="120" th:src="@{'/upload/image/' + ${good.getImages().get(0)}} "  alt="">
                         <span class="text-black" th:text="${good.name}"></span>
                         <a th:href="@{/good/manufacture-machine(id=${good.id})}" class="link text-black">Product details</a>
                     </div>
@@ -78,6 +81,7 @@
     </div>
     <script th:src="@{/scripts/services/FormService.js}"></script>
     <script th:src="@{/scripts/manufactureMachine.js}"></script>
+    <script th:src="@{/scripts/producer.js}"></script>
     <script th:src="@{/scripts/services/RequestService.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>

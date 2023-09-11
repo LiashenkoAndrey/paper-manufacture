@@ -1,10 +1,9 @@
 package com.paper.services;
 
-import com.paper.controllers.TestUtils;
+import com.paper.TestUtils;
 import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
-import com.paper.repositories.ImageRepository;
-import com.paper.repositories.ManufactureMachineRepository;
+import com.paper.services.impl.ManufactureMachineServiceImpl;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,10 +27,12 @@ public class ManufactureMachineServiceImplTest {
     private ManufactureMachineServiceImpl manufactureMachineService;
 
     @Autowired
-    private ManufactureMachineRepository machineRepository;
+    private TestUtils testUtils;
 
-    @Autowired
-    private ImageRepository imageRepository;
+    @BeforeAll
+    public void before() throws IOException {
+        testUtils.createTestProducerWithId1();
+    }
 
     @Test
     public void save() throws IOException {
@@ -46,13 +47,14 @@ public class ManufactureMachineServiceImplTest {
         byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
         manufactureMachineService.save(
                 manufactureMachine,
-                List.of(new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(image)))
-        );
+                List.of(new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(image))),
+        1L);
     }
 
     @AfterAll
     public void after() {
-        imageRepository.deleteAll();
-        machineRepository.deleteAll();
+        testUtils.truncateManufactureMachineAndGoodTypeTable();
+        testUtils.producerRepository.deleteAll();
+        testUtils.truncateProducerSequence();
     }
 }

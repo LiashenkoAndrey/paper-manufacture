@@ -9,6 +9,11 @@ class FormService {
         document.body.insertAdjacentHTML('beforeend', form);
     }
 
+    static enableAndExecuteFunction(form, executable) {
+        this.enable(form);
+        executable();
+    }
+
     static disable(form) {
         document.querySelector("body").style.overflowY = 'initial'
         form.remove();

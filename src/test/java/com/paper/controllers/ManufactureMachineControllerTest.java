@@ -2,11 +2,14 @@ package com.paper.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.paper.TestUtils;
 import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
-import com.paper.domain.ManufactureMachineDto;
+import com.paper.domain.Producer;
+import com.paper.dto.ManufactureMachineDto;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
+import com.paper.repositories.ProducerRepository;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,24 +48,35 @@ public class ManufactureMachineControllerTest {
     @Autowired
     private ImageRepository imageRepository;
 
+    @Autowired
+    private ProducerRepository producerRepository;
+
     @BeforeAll
     public void before() throws IOException {
         byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
-        Image image1 = new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(image)));
-        image1.setId("64fd7839f1992248d41676c0");
-        Image saved = imageRepository.save(image1);
+        Image saved = imageRepository.save(Image.builder()
+                .id("64fd7839f1992248d41676c0")
+                .type(MediaType.IMAGE_JPEG_VALUE)
+                .base64Image(Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(image)))
+                .build());
 
-        ManufactureMachine manufactureMachine = ManufactureMachine.builder()
+        machineRepository.save(ManufactureMachine.builder()
                 .description("test")
                 .id(1L)
                 .name("machine")
                 .properties(Map.of("pr1", "val1"))
                 .images(new ArrayList<>(List.of(saved.getId())))
-                .build();
+                .build());
 
-        machineRepository.save(manufactureMachine);
+        producerRepository.save(Producer.builder()
+                .logotypeId("64fd7839f1992248d41676c0")
+                .name("test")
+                .description("tn;lklkjlkj;lkj;lkj;lext")
+                .websiteUrl("http://localhost/good/manufacture-machine/view/all")
+                .id(1L)
+                .build());
+
     }
-
 
     @Test
     @Order(2)
@@ -73,12 +87,11 @@ public class ManufactureMachineControllerTest {
         ManufactureMachineDto dto = ManufactureMachineDto.builder()
                 .description("description1")
                 .id(2L)
+                .producerId(1L)
                 .name("name1")
                 .properties(Map.of("k1", "v1", "k2", "v2"))
                 .images(new ArrayList<>(List.of(image1)))
                 .build();
-
-        System.out.println(new ObjectMapper().writeValueAsString(dto));
 
         mockMvc.perform(multipart("/good/manufacture-machine/new")
                         .content(new ObjectMapper().writeValueAsString(dto))
@@ -89,6 +102,7 @@ public class ManufactureMachineControllerTest {
                     ManufactureMachine saved = machineRepository.findById(id)
                             .orElseThrow(EntityNotFoundException::new);
 
+                    assertEquals(1L, saved.getProducer().getId());
                     assertEquals(2, id);
                     assertEquals(1, saved.getImages().size());
                     assertEquals("name1", saved.getName());
@@ -108,8 +122,6 @@ public class ManufactureMachineControllerTest {
         var dto2 = ManufactureMachineDto.builder()
                 .images(List.of(imagePng))
                 .build();
-
-        System.out.println(new ObjectMapper().writeValueAsString(dto2));
 
         mockMvc.perform(multipart("/good/manufacture-machine/new")
                         .content(new ObjectMapper().writeValueAsString(dto2))
@@ -179,5 +191,8 @@ public class ManufactureMachineControllerTest {
         testUtils.truncateManufactureMachineAndGoodTypeTable();
         testUtils.truncateGoodImages();
         testUtils.deleteAllImages();
+
+        producerRepository.deleteAll();
+        testUtils.truncateProducerSequence();
     }
 }

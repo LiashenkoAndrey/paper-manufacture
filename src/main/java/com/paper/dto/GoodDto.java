@@ -1,4 +1,4 @@
-package com.paper.domain;
+package com.paper.dto;
 
 public class GoodDto {
 

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ManufactureMachineService {
 
-    ManufactureMachine save(ManufactureMachine machine, List<Image> images);
+    ManufactureMachine save(ManufactureMachine machine, List<Image> images, Long producerId);
 }

@@ -1,4 +1,4 @@
-package com.paper.domain;
+package com.paper.dto;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

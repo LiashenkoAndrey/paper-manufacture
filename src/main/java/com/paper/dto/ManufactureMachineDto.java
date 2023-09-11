@@ -1,5 +1,6 @@
-package com.paper.domain;
+package com.paper.dto;
 
+import com.paper.domain.Image;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class ManufactureMachineDto {
     @NotNull
     private String name;
 
-//    @JsonDeserialize(using = Base64Deserializer.class)
     private List<Image> images;
+
+    private Long producerId;
 }

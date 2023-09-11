@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper machinery manufacture and services</title>
+    <link rel="stylesheet" th:href="@{/styles/general/general.css}">
+    <link rel="stylesheet" th:href="@{/styles/forms.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div id="mainWrapper">
+    <div th:replace="~{/fragments/header.html :: header}"></div>
+
+    <div class="content p-5" style="padding-bottom: 30px; display: flex; justify-content: center; gap: 30px">
+
+       <div style="color: white; max-width: 500px">
+           <img width="100px" style="border-radius: 2px" th:src="@{'/upload/image/' + ${producer.logotypeId}}" alt="logotype">
+           <p th:text="${producer.name}"></p>
+           <p th:text="${producer.description}"></p>
+           <a th:href="${producer.websiteUrl}" class="link">→ Website</a>
+       </div>
+
+        <div>
+            <img style="border-radius: 2px" th:src="@{/img/company.jpg}" alt="">
+        </div>
+    </div>
+
+    <div th:replace="~{/fragments/footer.html :: footer}"></div>
+</div>
+<script th:src="@{/scripts/services/FormService.js}"></script>
+<script th:src="@{/scripts/services/RequestService.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
