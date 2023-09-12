@@ -1,6 +1,7 @@
 package com.paper.repositories;
 
 
+import com.paper.TestUtils;
 import com.paper.domain.ManufactureMachine;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
@@ -20,11 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ManufactureMachineRepositoryTest {
 
     @Autowired
-    ManufactureMachineRepository repository;
+    private ManufactureMachineRepository repository;
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
+    @Autowired
+    private TestUtils testUtils;
 
     @Test
     @Order(1)
@@ -32,6 +32,7 @@ public class ManufactureMachineRepositoryTest {
         ManufactureMachine manufactureMachine = ManufactureMachine.builder()
                 .description("test")
                 .name("machine")
+                .serialNumber("HX-150")
                 .properties(Map.of("pr1", "val1"))
                 .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
                 .build();
@@ -69,6 +70,7 @@ public class ManufactureMachineRepositoryTest {
         ManufactureMachine manufactureMachine = ManufactureMachine.builder()
                 .description("test d")
                 .name("delete me")
+                .serialNumber("HX-150")
                 .properties(Map.of("pr1443", "val443"))
                 .images(List.of("23dfdfdf", "dfdfdfdff"))
                 .build();
@@ -80,22 +82,10 @@ public class ManufactureMachineRepositoryTest {
         assertFalse(repository.existsById(saved.getId()));
     }
 
-    @Test
-    public void selectByCatalogIdTest() {
-
-    }
 
     @AfterAll
     public void truncateManufactureMachineTable() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.createNativeQuery("truncate table manufacture_machine cascade").executeUpdate();
-        em.createNativeQuery("ALTER SEQUENCE manufacture_machine_id_seq RESTART WITH 1").executeUpdate();
-
-        em.createNativeQuery("truncate table good_images cascade").executeUpdate();
-
-        em.createNativeQuery("truncate table manufacture_machine_properties cascade").executeUpdate();
-        transaction.commit();
+        testUtils.truncateManufactureMachineAndGoodTypeTable();
+        testUtils.truncateGoodImages();
     }
 }

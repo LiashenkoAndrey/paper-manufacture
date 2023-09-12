@@ -28,8 +28,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -120,6 +119,14 @@ public class ProducerControllerTest {
 
                     assertThat(producers).hasSize(1);
                 });
+    }
+
+    @Test
+    @Order(3)
+    public void viewTest() throws Exception {
+        mockMvc.perform(get("/producer/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/producer"));
     }
 
     @AfterAll

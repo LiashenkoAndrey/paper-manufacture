@@ -22,8 +22,9 @@ public class ManufactureMachine extends Good {
     }
 
     @Builder
-    public ManufactureMachine(Long id, String description, List<String> images, String name, GoodGroup goodGroupId, Map<String, String> properties) {
+    public ManufactureMachine(Long id, String description, List<String> images, String name, GoodGroup goodGroupId, Map<String, String> properties, String serialNumber) {
         super(id, description, images, name, goodGroupId);
+        this.serialNumber = serialNumber;
         this.properties = properties;
     }
 
@@ -33,6 +34,9 @@ public class ManufactureMachine extends Good {
     @Column(name = "property_value")
     @NotNull
     protected Map<String, String> properties = new HashMap<>();
+
+    @NotNull
+    private String serialNumber;
 
     @Override
     public String toString() {

@@ -16,6 +16,11 @@ let createManufactureMachineForm =
                         <textarea cols="4" id="inputDescription" class="form-control" type="text"></textarea>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="name">Serial number</label>
+                        <input id="serialNumber" class="form-control" type="text">
+                    </div>                    
+                    
                     <div>
                         <label for="images">Images</label>
                         <input id="inputFiles" class="form-control" type="file" multiple="multiple">
@@ -142,6 +147,7 @@ async function createNewManufactureMachine() {
     let description = document.getElementById("inputDescription").value;
     let filesArray = document.getElementById("inputFiles").files;
     let producerId = document.getElementById("producersSelect").value;
+    let serialNumber = document.getElementById("serialNumber").value;
 
     let images = [];
     for (let i = 0; i < filesArray.length; i++) {
@@ -154,9 +160,12 @@ async function createNewManufactureMachine() {
         })
     }
     let body = {
-        name: name,
-        description: description,
-        properties: Object.fromEntries(parsePropertiesAndReturnAsArray()),
+        manufactureMachine: {
+            name: name,
+            description: description,
+            properties: Object.fromEntries(parsePropertiesAndReturnAsArray()),
+            serialNumber: serialNumber
+        },
         images: images,
         producerId: producerId
     }

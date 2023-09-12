@@ -69,8 +69,8 @@ public class ManufactureMachineController {
     }
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@Valid @RequestBody ManufactureMachineDto dto){
-        var manufactureMachine = new ManufactureMachine(dto.getDescription(), dto.getName(), dto.getProperties());
+    public ResponseEntity<?> create(@Valid @RequestBody ManufactureMachineDto dto) {
+        var manufactureMachine = dto.getManufactureMachine();
 
         if (dto.getImages().size() < 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image to save a good");
@@ -116,5 +116,10 @@ public class ManufactureMachineController {
             }
             return ResponseEntity.ok().build();
         }
+    }
+
+    @GetMapping("/serial_numbers/all")
+    public @ResponseBody Map<String, Long> getAllSerialNumbers() {
+        return repository.getAllSerialNumbers();
     }
 }

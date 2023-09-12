@@ -40,6 +40,7 @@ public class ManufactureMachineServiceImplTest {
                 .description("test")
                 .id(1L)
                 .name("machine")
+                .serialNumber("HX-150")
                 .properties(Map.of("pr1", "val1"))
                 .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
                 .build();

@@ -1,5 +1,6 @@
 
-@import '/src/styles/util/dropdown.css';
+@import url("/styles/util/dropdown.css");
+@import url("/styles/util/search.css");
 
 .header {
     display: flex;
@@ -15,13 +16,6 @@
 }
 
 
-#search {
-    background-color: rgb(46, 46, 46); 
-    align-self: center; 
-    width: 300px; 
-    height: 35px; 
-    border-radius: 2px; 
-}
 
 
 #logoAndLangAndCard {

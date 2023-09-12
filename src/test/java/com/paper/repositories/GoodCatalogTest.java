@@ -1,5 +1,6 @@
 package com.paper.repositories;
 
+import com.paper.TestUtils;
 import com.paper.domain.GoodGroup;
 import com.paper.domain.ManufactureMachine;
 import jakarta.persistence.*;
@@ -25,8 +26,8 @@ public class GoodCatalogTest {
     @Autowired
     private GoodGroupRepository goodGroupRepository;
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
+    @Autowired
+    private TestUtils testUtils;
 
     @BeforeAll
     public void before() {
@@ -35,11 +36,11 @@ public class GoodCatalogTest {
                 .name("Test 1 catalog")
                 .build());
 
-
         ManufactureMachine manufactureMachine = ManufactureMachine.builder()
                 .description("test")
                 .id(1L)
                 .goodGroupId(saved)
+                .serialNumber("hX-150")
                 .name("machine")
                 .properties(Map.of("pr1", "val1"))
                 .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
@@ -58,28 +59,20 @@ public class GoodCatalogTest {
 
         assertTrue(goodGroupRepository.existsById(1L));
     }
-//
-//    @Test
-//    @Order(2)
-//    public void findGoodsByGoodGroupId() {
-//        List<ManufactureMachine> machineList = machineRepository.findAllByGood_group_id(1L);
-//        assertEquals(1, machineList.size());
-//    }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void update() {
         GoodGroup goodGroup = goodGroupRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
         goodGroup.setName("another name");
 
         GoodGroup saved = goodGroupRepository.save(goodGroup);
-        System.out.println(goodGroup);
-        System.out.println(saved);
+
         assertNotEquals("Test 1 catalog", saved.getName());
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public void delete() {
         assertTrue(goodGroupRepository.existsById(2L));
         goodGroupRepository.deleteById(2L);
@@ -89,17 +82,7 @@ public class GoodCatalogTest {
 
     @AfterAll
     public void truncateManufactureMachineTable() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.createNativeQuery("truncate table manufacture_machine cascade").executeUpdate();
-        em.createNativeQuery("ALTER SEQUENCE manufacture_machine_id_seq RESTART WITH 1").executeUpdate();
-
-        em.createNativeQuery("truncate table good_images cascade").executeUpdate();
-
-        em.createNativeQuery("truncate table manufacture_machine_properties cascade").executeUpdate();
-        em.createNativeQuery("truncate table good_group cascade").executeUpdate();
-        em.createNativeQuery("ALTER SEQUENCE good_group_id_seq RESTART WITH 1").executeUpdate();
-        transaction.commit();
+        testUtils.truncateManufactureMachineAndGoodTypeTable();
+        testUtils.truncateGoodImages();
     }
 }

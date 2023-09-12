@@ -1,5 +1,6 @@
 package com.paper.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.paper.TestUtils;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -64,6 +66,7 @@ public class ManufactureMachineControllerTest {
                 .description("test")
                 .id(1L)
                 .name("machine")
+                .serialNumber("HX-3we45")
                 .properties(Map.of("pr1", "val1"))
                 .images(new ArrayList<>(List.of(saved.getId())))
                 .build());
@@ -84,12 +87,17 @@ public class ManufactureMachineControllerTest {
         byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
         Image image1 = new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(image)));
 
-        ManufactureMachineDto dto = ManufactureMachineDto.builder()
+        ManufactureMachine machine = ManufactureMachine.builder()
                 .description("description1")
                 .id(2L)
-                .producerId(1L)
                 .name("name1")
+                .serialNumber("HX-345")
                 .properties(Map.of("k1", "v1", "k2", "v2"))
+                .build();
+
+        ManufactureMachineDto dto = ManufactureMachineDto.builder()
+                .manufactureMachine(machine)
+                .producerId(1L)
                 .images(new ArrayList<>(List.of(image1)))
                 .build();
 
@@ -184,6 +192,19 @@ public class ManufactureMachineControllerTest {
 
         mockMvc.perform(delete("/good/manufacture-machine/sadd/delete"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(5)
+    public void getAllSerialNumbers() throws Exception {
+        mockMvc.perform(get("/good/manufacture-machine/serial_numbers/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(result -> {
+                    String json = result.getResponse().getContentAsString();
+                    Map<String, Long> serialNumbers = new ObjectMapper().readValue(json, new TypeReference<>() {});
+                    assertEquals(1, serialNumbers.size());
+                });
     }
 
     @AfterAll

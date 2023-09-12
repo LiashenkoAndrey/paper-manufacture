@@ -27,7 +27,6 @@ public class ProducerController {
     @PostMapping("/new")
     public ResponseEntity<?> create(@Valid @RequestBody ProducerDto producerDto) {
         Producer saved = producerService.save(producerDto);
-        System.out.println(producerDto.getImage());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(saved.getId());
@@ -44,6 +43,6 @@ public class ProducerController {
     public String getInfo(@PathVariable("id") Long id, Model model) {
         var producer = producerRepository.findById(id).orElseThrow(ProducerNotFoundException::new);
         model.addAttribute("producer", producer);
-        return "producer";
+        return "/producer";
     }
 }

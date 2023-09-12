@@ -50,7 +50,7 @@
 }
 
 .good {
-    height: 280px;
+    height: auto;
     width: 240px;
     border-radius: 2px;
     display: flex;
@@ -61,6 +61,9 @@
     padding: 20px 10px 20px 10px;
 }
 
+.good span.serialNumber {
+    font-weight: bold;
+}
 
 .good a {
     text-decoration: underline;
