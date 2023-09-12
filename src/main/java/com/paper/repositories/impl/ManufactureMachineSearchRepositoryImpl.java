@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Tuple;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class ManufactureMachineSearchRepositoryImpl implements ManufactureMachin
      * @return serial number and entity id as a java.util.Map<String, Long>
      */
     @Override
+    @Transactional
     public Map<String, Long> getAllSerialNumbers() {
         Map<String, Long> map = manager.createQuery("""
            select 

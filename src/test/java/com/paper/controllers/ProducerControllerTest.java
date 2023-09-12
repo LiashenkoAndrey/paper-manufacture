@@ -53,21 +53,7 @@ public class ProducerControllerTest {
 
     @BeforeAll
     public void before() throws IOException {
-
-        Image image = imageRepository.save(Image.builder()
-                .base64Image(Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"))))
-                .type(MediaType.IMAGE_JPEG_VALUE)
-                .id("64fb5c6d490a243ee76dc7cb")
-                .build());
-
-        Producer producer = Producer.builder()
-                .id(1L)
-                .name("test")
-                .description("it is a test description")
-                .logotypeId(image.getId())
-                .websiteUrl("https://mvnrepository.com/artifact/org.assertj/assertj-core/3.24.2")
-                .build();
-        producerRepository.save(producer);
+        testUtils.createTestProducerWithId1();
     }
 
     @Test

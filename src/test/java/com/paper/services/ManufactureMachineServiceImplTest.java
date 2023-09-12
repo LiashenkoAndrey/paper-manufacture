@@ -3,6 +3,7 @@ package com.paper.services;
 import com.paper.TestUtils;
 import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
+import com.paper.repositories.ProducerRepository;
 import com.paper.services.impl.ManufactureMachineServiceImpl;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ public class ManufactureMachineServiceImplTest {
 
     @Autowired
     private TestUtils testUtils;
+
+    @Autowired
+    private ProducerRepository producerRepository;
+
 
     @BeforeAll
     public void before() throws IOException {
@@ -55,7 +60,7 @@ public class ManufactureMachineServiceImplTest {
     @AfterAll
     public void after() {
         testUtils.truncateManufactureMachineAndGoodTypeTable();
-        testUtils.producerRepository.deleteAll();
+        producerRepository.deleteAll();
         testUtils.truncateProducerSequence();
     }
 }
