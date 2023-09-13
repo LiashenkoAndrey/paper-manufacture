@@ -3,6 +3,7 @@ package com.paper.services;
 import com.paper.TestUtils;
 import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
+import com.paper.dto.ManufactureMachineDto;
 import com.paper.repositories.ProducerRepository;
 import com.paper.services.impl.ManufactureMachineServiceImpl;
 import org.junit.jupiter.api.*;
@@ -53,8 +54,10 @@ public class ManufactureMachineServiceImplTest {
         byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
         manufactureMachineService.save(
                 manufactureMachine,
-                List.of(new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(image))),
-        1L);
+                ManufactureMachineDto.builder()
+                        .images(List.of(new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(image))))
+                        .producerId(1L)
+                        .build());
     }
 
     @AfterAll

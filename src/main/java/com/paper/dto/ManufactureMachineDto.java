@@ -24,4 +24,6 @@ public class ManufactureMachineDto {
 
     @NotNull
     private Long producerId;
+
+    private Long catalogId;
 }

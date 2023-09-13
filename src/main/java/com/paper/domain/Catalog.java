@@ -4,16 +4,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-@Entity
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table
-@Builder
 @ToString
 @EqualsAndHashCode
-public class GoodGroup {
+@Table
+@Builder
+@Entity
+public class Catalog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +22,7 @@ public class GoodGroup {
 
     @Size(min = 4, max = 255)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private CatalogType type;
 }

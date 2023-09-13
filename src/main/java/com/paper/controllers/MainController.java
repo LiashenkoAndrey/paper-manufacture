@@ -1,7 +1,7 @@
 package com.paper.controllers;
 
 
-import com.paper.repositories.GoodGroupRepository;
+import com.paper.repositories.CatalogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final GoodGroupRepository goodGroupRepository;
+    private final CatalogRepository catalogRepository;
 
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("goodGroupList", goodGroupRepository.findAll());
+        model.addAttribute("goodGroupList", catalogRepository.findAll());
         return "/main";
     }
 

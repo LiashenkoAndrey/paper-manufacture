@@ -9,9 +9,11 @@ class FormService {
         document.body.insertAdjacentHTML('beforeend', form);
     }
 
-    static enableAndExecuteFunction(form, executable) {
+    static enableAndExecuteFunction(form, ...functionNames) {
         this.enable(form);
-        executable();
+        for (let i = 0; i < functionNames.length; i++) {
+            functionNames[i]();
+        }
     }
 
     static disable(form) {

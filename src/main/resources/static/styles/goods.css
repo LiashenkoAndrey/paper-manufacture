@@ -9,8 +9,9 @@
     height: 15px;
 }
 
-.goodsListItem img {
-    display: none;
+
+.goodsListItem a {
+    color: black;
 }
 
 .goodsList div:first-of-type div img {

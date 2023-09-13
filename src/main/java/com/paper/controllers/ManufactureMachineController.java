@@ -1,10 +1,12 @@
 package com.paper.controllers;
 
-import com.paper.domain.GoodGroup;
+import com.paper.domain.Catalog;
+import com.paper.domain.CatalogType;
 import com.paper.domain.ManufactureMachine;
 import com.paper.dto.ManufactureMachineDto;
+import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
-import com.paper.repositories.GoodGroupRepository;
+import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import com.paper.services.ManufactureMachineService;
@@ -29,7 +31,7 @@ import static com.paper.util.EntityMapper.map;
 @RequiredArgsConstructor
 public class ManufactureMachineController {
 
-    private final GoodGroupRepository goodGroupRepository;
+    private final CatalogRepository catalogRepository;
     private final ManufactureMachineRepository repository;
 
     private final ImageRepository imageRepository;
@@ -43,26 +45,32 @@ public class ManufactureMachineController {
 
     @GetMapping("/view/all")
     public String getPage(Model model) {
-        model.addAttribute("goodGroupList", goodGroupRepository.findAll());
+        model.addAttribute("catalogs", catalogRepository.findAll());
+        model.addAttribute("catalog", null);
         model.addAttribute("machines", repository.findAll());
         return "goods";
     }
 
-    @GetMapping("/catalog/{catalogId}/view")
+    @GetMapping("/catalog/{catalogId}")
     public String viewSpecifiedCatalog(@PathVariable("catalogId") Long catalogId, Model model) {
-        GoodGroup goodGroup = goodGroupRepository.findById(catalogId)
-                .orElseThrow(EntityNotFoundException::new);
+        Catalog catalog = catalogRepository.findById(catalogId)
+                .orElseThrow(CatalogNotFoundException::new);
 
-        System.out.println(goodGroup);
-        model.addAttribute("goodGroupList", goodGroupRepository.findAll());
-        model.addAttribute("goodGroup", goodGroup);
-        model.addAttribute("machines", repository.findAllByGoodGroupId(catalogId));
+        model.addAttribute("catalogs", catalogRepository.findAll());
+        model.addAttribute("catalog", catalog);
+        model.addAttribute("machines", repository.findAllByCatalogId(catalogId));
         return "goods";
+    }
+
+
+    @GetMapping("/catalog/all")
+    public @ResponseBody List<Catalog> getAllCatalogs() {
+        return catalogRepository.findAllByType(CatalogType.MANUFACTURE_MACHINE);
     }
 
     @GetMapping
     public String getGoodDetails(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("goodGroupList", goodGroupRepository.findAll());
+        model.addAttribute("goodGroupList", catalogRepository.findAll());
         var machine = repository.findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
         model.addAttribute("machine", machine);
         return "good";
@@ -78,7 +86,7 @@ public class ManufactureMachineController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        ManufactureMachine saved = machineService.save(manufactureMachine, dto.getImages(), dto.getProducerId());
+        ManufactureMachine saved = machineService.save(manufactureMachine, dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(saved.getId());

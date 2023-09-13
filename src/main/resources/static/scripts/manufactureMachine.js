@@ -27,8 +27,13 @@ let createManufactureMachineForm =
                     </div>
                     
                     <div>
-                        <label for="producer">Producer</label>
-                        <select name="producer" class="form-select" id="producersSelect"></select>
+                        <label for="catalogSelect">Group</label>
+                        <select class="form-select"  id="catalogSelect"></select>
+                    </div>
+                    
+                    <div>
+                        <label for="producersSelect">Producer</label>
+                        <select  class="form-select" id="producersSelect"></select>
                     </div>
                 </div>
     
@@ -72,22 +77,42 @@ function getAndDisplayAllProducers() {
     fetch("/producer/all", {
         method: "GET"
     }).then((response) => {
-        let contentType = response.headers.get("Content-Type");
-        if (contentType !== "application/json") {
-            throw Error("Unexpected content type: expected: 'application/json' but was '" + contentType + "'");
-        }
+        contentTypeIsJSON(response);
 
         response.json().then((producers) => {
-            for (let i = 0; i < producers.length; i++) {
-                let option = document.createElement("option");
-                let producer = producers[i];
-                option.text = producer.name;
-                option.value = producer.id;
-                select.appendChild(option);
-            }
+            displayEntityList(select, producers)
         });
     })
+}
 
+function getAndDisplayAllGroups() {
+    let select = document.getElementById("catalogSelect");
+    fetch("/good/manufacture-machine/catalog/all", {
+        method: "GET"
+    }).then((response) => {
+        contentTypeIsJSON(response);
+
+        response.json().then((groups) => {
+            displayEntityList(select, groups)
+        });
+    })
+}
+
+function displayEntityList(wrapper, entities) {
+    for (let i = 0; i < entities.length; i++) {
+        let option = document.createElement("option");
+        let entity = entities[i];
+        option.text = entity.name;
+        option.value = entity.id;
+        wrapper.appendChild(option);
+    }
+}
+
+function contentTypeIsJSON(response) {
+    let contentType = response.headers.get("Content-Type");
+    if (contentType !== "application/json") {
+        throw Error("Unexpected content type: expected: 'application/json' but was '" + contentType + "'");
+    }
 }
 
 let deleteManufactureMachineForm =
@@ -134,7 +159,6 @@ function parsePropertiesAndReturnAsArray() {
 }
 
 async function deleteManufactureMachine() {
-    console.log(new URLSearchParams(document.location.search).get("id"))
     fetch("/good/manufacture-machine/" + new URLSearchParams(document.location.search).get("id") + "/delete", {
         method: "DELETE",
     }).then((response) => {
@@ -148,6 +172,7 @@ async function createNewManufactureMachine() {
     let filesArray = document.getElementById("inputFiles").files;
     let producerId = document.getElementById("producersSelect").value;
     let serialNumber = document.getElementById("serialNumber").value;
+    let catalogId = document.getElementById("catalogSelect").value;
 
     let images = [];
     for (let i = 0; i < filesArray.length; i++) {
@@ -167,7 +192,8 @@ async function createNewManufactureMachine() {
             serialNumber: serialNumber
         },
         images: images,
-        producerId: producerId
+        producerId: producerId,
+        catalogId: catalogId
     }
 
     fetch("/good/manufacture-machine/new", {
@@ -177,10 +203,7 @@ async function createNewManufactureMachine() {
             "Content-Type": "application/json"
         }
     }).then((response) => {
-        console.log(response.status)
-
         response.text().then((response) => {
-            console.log(response)
             RequestService.processResponseAndDoRedirect(response, "http://localhost/good/manufacture-machine?id=" + parseInt(response))
         })
     })

@@ -4,7 +4,7 @@
       <div style="align-self: center; margin-right: 20px;">
         <a href="/" style="text-decoration: none;">
           <img th:src="@{/img/assets/logo.jpg}" width="35px" height="35px" alt="" style="border-radius: 3px;">
-          <span style="font-size: 14px; color: white">Modern Enterprise Machines</span>
+          <span th:text="#{headTitle}" style="font-size: 14px; color: white">Modern Enterprise Machines</span>
         </a>
       </div>
       <div id="search">
@@ -24,7 +24,7 @@
         <div>
           <img th:src="@{/img/assets/globus.jpg}" alt="">
         </div>
-        <div class="dropdown-content">
+        <div class="dropdown-content" style="right: -20px">
           <p>English</p>
           <p>Deutsch</p>
           <p>Українська</p>
@@ -38,12 +38,6 @@
           <p>Русский</p>
         </div>
       </div>
-
-      <div style="border: solid white 1px; height: 25px;"></div>
-
-      <div>
-        <img th:src="@{/img/assets/cart.jpg}" alt="">
-      </div>
     </div>
   </div>
 
@@ -53,8 +47,12 @@
         <span>Catalog</span>
         <svg width="9" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" id="caret-icon-uh-pn-1" class="uh-pn-caret-icon uh-pn-caret-level-0" data-testid="caret-icon-uh-pn-1"><path d="M8.001 6.25l-3.5 3.5-3.5-3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </div>
-      <div class="dropdown-content">
-        <p th:text="${goodGroup.name}" th:each="goodGroup : ${goodGroupList}"></p>
+      <div class="dropdown-content" style="min-width: 200px;">
+        <a class="link catalogItem"
+           th:href="@{'/good/manufacture-machine/catalog/' + ${catalogItem.id}}"
+           th:text="${catalogItem.name}"
+           th:each="catalogItem : ${catalogs}">
+        </a>
       </div>
     </div>
 

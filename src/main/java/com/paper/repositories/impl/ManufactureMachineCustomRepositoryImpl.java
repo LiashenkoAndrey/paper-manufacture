@@ -1,6 +1,6 @@
 package com.paper.repositories.impl;
 
-import com.paper.repositories.ManufactureMachineSearchRepository;
+import com.paper.repositories.ManufactureMachineCustomRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Tuple;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-public class ManufactureMachineSearchRepositoryImpl implements ManufactureMachineSearchRepository {
+public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachineCustomRepository {
 
 
     @PersistenceContext
@@ -24,7 +24,7 @@ public class ManufactureMachineSearchRepositoryImpl implements ManufactureMachin
     @Override
     @Transactional
     public Map<String, Long> getAllSerialNumbers() {
-        Map<String, Long> map = manager.createQuery("""
+        return manager.createQuery("""
            select 
                 m.serialNumber as serialNumber,
                 m.id as entityId
@@ -36,6 +36,6 @@ public class ManufactureMachineSearchRepositoryImpl implements ManufactureMachin
                         tuple -> ((Number) tuple.get("entityId")).longValue()
                 )
            );
-           return map;
     }
+
 }

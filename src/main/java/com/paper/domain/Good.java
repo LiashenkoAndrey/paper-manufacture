@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +12,16 @@ import java.util.List;
 @MappedSuperclass
 @NoArgsConstructor
 @Getter
-@ToString
 @Setter
 public abstract class Good {
 
-    public Good(Long id, String description, List<String> images, String name, GoodGroup goodGroup) {
+    public Good(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images) {
         this.id = id;
         this.description = description;
         this.name = name;
+        this.producer = producer;
+        this.catalog = catalog;
         this.images = images;
-        this.goodGroup = goodGroup;
-    }
-
-    public Good(String description, String name) {
-        this.description = description;
-        this.name = name;
     }
 
     @Id
@@ -44,7 +38,7 @@ public abstract class Good {
     private Producer producer;
 
     @ManyToOne
-    private GoodGroup goodGroup;
+    private Catalog catalog;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "good_images")

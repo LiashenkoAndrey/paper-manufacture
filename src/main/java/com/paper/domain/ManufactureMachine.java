@@ -16,16 +16,11 @@ import java.util.Map;
 @Table(schema = "public", name = "manufacture_machine")
 public class ManufactureMachine extends Good {
 
-    public ManufactureMachine(String description, String name, Map<String, String> properties) {
-        super(description, name);
-        this.properties = properties;
-    }
-
     @Builder
-    public ManufactureMachine(Long id, String description, List<String> images, String name, GoodGroup goodGroupId, Map<String, String> properties, String serialNumber) {
-        super(id, description, images, name, goodGroupId);
-        this.serialNumber = serialNumber;
+    public ManufactureMachine(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, Map<String, String> properties, String serialNumber) {
+        super(id, description, name, producer, catalog, images);
         this.properties = properties;
+        this.serialNumber = serialNumber;
     }
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -37,6 +32,7 @@ public class ManufactureMachine extends Good {
 
     @NotNull
     private String serialNumber;
+
 
     @Override
     public String toString() {

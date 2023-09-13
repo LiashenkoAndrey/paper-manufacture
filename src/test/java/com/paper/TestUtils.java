@@ -45,7 +45,7 @@ public class TestUtils {
         em.createNativeQuery("truncate table manufacture_machine cascade").executeUpdate();
         em.createNativeQuery("ALTER SEQUENCE manufacture_machine_id_seq RESTART WITH 1").executeUpdate();
         em.createNativeQuery("truncate table manufacture_machine_properties cascade").executeUpdate();
-        em.createNativeQuery("truncate table good_group cascade").executeUpdate();
+        em.createNativeQuery("truncate table catalog cascade").executeUpdate();
         em.createNativeQuery("ALTER SEQUENCE good_group_id_seq RESTART WITH 1").executeUpdate();
     }
 

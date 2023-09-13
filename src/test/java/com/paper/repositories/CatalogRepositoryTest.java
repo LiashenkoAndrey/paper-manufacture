@@ -1,7 +1,8 @@
 package com.paper.repositories;
 
 import com.paper.TestUtils;
-import com.paper.domain.GoodGroup;
+import com.paper.domain.Catalog;
+import com.paper.domain.CatalogType;
 import com.paper.domain.ManufactureMachine;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
@@ -18,28 +19,29 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class GoodCatalogTest {
+public class CatalogRepositoryTest {
 
     @Autowired
     private ManufactureMachineRepository machineRepository;
 
     @Autowired
-    private GoodGroupRepository goodGroupRepository;
+    private CatalogRepository catalogRepository;
 
     @Autowired
     private TestUtils testUtils;
 
     @BeforeAll
     public void before() {
-        GoodGroup saved = goodGroupRepository.save(GoodGroup.builder()
+        Catalog saved = catalogRepository.save(Catalog.builder()
                 .id(1L)
+                .type(CatalogType.MANUFACTURE_MACHINE)
                 .name("Test 1 catalog")
                 .build());
 
         ManufactureMachine manufactureMachine = ManufactureMachine.builder()
                 .description("test")
                 .id(1L)
-                .goodGroupId(saved)
+                .catalog(saved)
                 .serialNumber("hX-150")
                 .name("machine")
                 .properties(Map.of("pr1", "val1"))
@@ -52,21 +54,22 @@ public class GoodCatalogTest {
     @Test
     @Order(1)
     public void create() {
-        goodGroupRepository.save(GoodGroup.builder()
+        catalogRepository.save(Catalog.builder()
                 .id(2L)
+                .type(CatalogType.MANUFACTURE_MACHINE)
                 .name("Test 2 catalog")
                 .build());
 
-        assertTrue(goodGroupRepository.existsById(1L));
+        assertTrue(catalogRepository.existsById(1L));
     }
 
     @Test
     @Order(2)
     public void update() {
-        GoodGroup goodGroup = goodGroupRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
-        goodGroup.setName("another name");
+        var machineGroup = catalogRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
+        machineGroup.setName("another name");
 
-        GoodGroup saved = goodGroupRepository.save(goodGroup);
+        Catalog saved = catalogRepository.save(machineGroup);
 
         assertNotEquals("Test 1 catalog", saved.getName());
     }
@@ -74,9 +77,9 @@ public class GoodCatalogTest {
     @Test
     @Order(3)
     public void delete() {
-        assertTrue(goodGroupRepository.existsById(2L));
-        goodGroupRepository.deleteById(2L);
-        assertFalse(goodGroupRepository.existsById(2L));
+        assertTrue(catalogRepository.existsById(2L));
+        catalogRepository.deleteById(2L);
+        assertFalse(catalogRepository.existsById(2L));
     }
 
 

@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.paper.TestUtils;
-import com.paper.domain.Image;
-import com.paper.domain.ManufactureMachine;
-import com.paper.domain.Producer;
+import com.paper.domain.*;
 import com.paper.dto.ManufactureMachineDto;
+import com.paper.exceptions.CatalogNotFoundException;
+import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import com.paper.repositories.ProducerRepository;
@@ -27,6 +27,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -53,6 +54,9 @@ public class ManufactureMachineControllerTest {
     @Autowired
     private ProducerRepository producerRepository;
 
+    @Autowired
+    private CatalogRepository catalogRepository;
+
     @BeforeAll
     public void before() throws IOException {
         byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
@@ -62,9 +66,16 @@ public class ManufactureMachineControllerTest {
                 .base64Image(Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(image)))
                 .build());
 
+        var goodGroupSaved = catalogRepository.save(Catalog.builder()
+                .id(1L)
+                .type(CatalogType.MANUFACTURE_MACHINE)
+                .name("catalog name")
+                .build());
+
         machineRepository.save(ManufactureMachine.builder()
                 .description("test")
                 .id(1L)
+                .catalog(goodGroupSaved)
                 .name("machine")
                 .serialNumber("HX-3we45")
                 .properties(Map.of("pr1", "val1"))
@@ -96,6 +107,7 @@ public class ManufactureMachineControllerTest {
                 .build();
 
         ManufactureMachineDto dto = ManufactureMachineDto.builder()
+                .catalogId(1L)
                 .manufactureMachine(machine)
                 .producerId(1L)
                 .images(new ArrayList<>(List.of(image1)))
@@ -110,13 +122,16 @@ public class ManufactureMachineControllerTest {
                     ManufactureMachine saved = machineRepository.findById(id)
                             .orElseThrow(EntityNotFoundException::new);
 
+                    Catalog catalog = catalogRepository.findById(1L).orElseThrow(CatalogNotFoundException::new);
+                    assertThat(saved.getCatalog()).usingRecursiveComparison()
+                            .isEqualTo(catalog);
+
+                    assertThat(saved).usingRecursiveComparison()
+                            .ignoringFields("catalog", "producer", "images")
+                            .isEqualTo(machine);
+
                     assertEquals(1L, saved.getProducer().getId());
-                    assertEquals(2, id);
                     assertEquals(1, saved.getImages().size());
-                    assertEquals("name1", saved.getName());
-                    assertEquals("description1", saved.getDescription());
-                    assertTrue(saved.getProperties().containsKey("k1"));
-                    assertTrue(saved.getProperties().containsKey("k2"));
                 });
 
         mockMvc.perform(multipart("/good/manufacture-machine/new")
@@ -142,6 +157,7 @@ public class ManufactureMachineControllerTest {
                 .content(new ObjectMapper().writeValueAsString(dto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+
     }
 
     @Test
@@ -204,6 +220,19 @@ public class ManufactureMachineControllerTest {
                     String json = result.getResponse().getContentAsString();
                     Map<String, Long> serialNumbers = new ObjectMapper().readValue(json, new TypeReference<>() {});
                     assertEquals(1, serialNumbers.size());
+                });
+    }
+
+    @Test
+    @Order(6)
+    public void getAllCatalogs() throws Exception {
+        mockMvc.perform(get("/good/manufacture-machine/catalog/all"))
+                .andExpect(status().isOk())
+                .andDo(result -> {
+                    String json = result.getResponse().getContentAsString();
+                    List<Catalog> list = new ObjectMapper().readValue(json, new TypeReference<>() {});
+                    assertThat(list).hasSize(1);
+                    assertEquals(CatalogType.MANUFACTURE_MACHINE, list.get(0).getType());
                 });
     }
 

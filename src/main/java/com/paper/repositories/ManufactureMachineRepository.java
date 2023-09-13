@@ -9,9 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ManufactureMachineRepository extends JpaRepository<ManufactureMachine, Long>, ManufactureMachineSearchRepository {
+public interface ManufactureMachineRepository extends JpaRepository<ManufactureMachine, Long>, ManufactureMachineCustomRepository {
 
-    @Query("from  ManufactureMachine m where m.goodGroup.id = :groupId")
-    List<ManufactureMachine> findAllByGoodGroupId(@Param("groupId") Long groupId);
-
+    @Query("from ManufactureMachine m where m.catalog.id = :catalogId")
+    List<ManufactureMachine> findAllByCatalogId(@Param("catalogId") Long catalogId);
 }

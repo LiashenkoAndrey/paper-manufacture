@@ -2,7 +2,7 @@ package com.paper.repositories;
 
 import com.paper.TestUtils;
 import com.paper.domain.ManufactureMachine;
-import com.paper.repositories.impl.ManufactureMachineSearchRepositoryImpl;
+import com.paper.repositories.impl.ManufactureMachineCustomRepositoryImpl;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ManufactureMachineSearchRepositoryImplTest {
+public class ManufactureMachineCustomRepositoryImplTest {
 
     @Autowired
     private ManufactureMachineRepository repository;
 
     @Autowired
-    private ManufactureMachineSearchRepositoryImpl searchRepository;
+    private ManufactureMachineCustomRepositoryImpl searchRepository;
 
     @Autowired
     private TestUtils testUtils;
