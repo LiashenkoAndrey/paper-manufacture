@@ -24,6 +24,6 @@ class RequestService {
     }
 
     static doReload() {
-        // window.location.reload();
+        window.location.reload();
     }
 }

@@ -3,15 +3,12 @@ package com.paper.controllers;
 import com.paper.domain.Catalog;
 import com.paper.domain.CatalogType;
 import com.paper.domain.ManufactureMachine;
-import com.paper.domain.Producer;
 import com.paper.dto.ManufactureMachineDto;
 import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
-import com.paper.exceptions.ProducerNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
-import com.paper.repositories.ProducerRepository;
 import com.paper.services.ManufactureMachineService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +23,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
-import static com.paper.util.EntityMapper.map;
-
 @Controller
 @RequestMapping("/good/manufacture-machine")
 @RequiredArgsConstructor
@@ -35,8 +30,6 @@ public class ManufactureMachineController {
 
     private final CatalogRepository catalogRepository;
     private final ManufactureMachineRepository repository;
-
-    private final ProducerRepository producerRepository;
 
     private final ImageRepository imageRepository;
 
@@ -80,7 +73,7 @@ public class ManufactureMachineController {
 
     @GetMapping
     public String getGoodDetails(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("goodGroupList", catalogRepository.findAll());
+        model.addAttribute("catalogs", catalogRepository.findAll());
         var machine = repository.findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
         model.addAttribute("machine", machine);
         return "good";

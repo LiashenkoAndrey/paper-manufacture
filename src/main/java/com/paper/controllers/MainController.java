@@ -17,7 +17,7 @@ public class MainController {
 
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("goodGroupList", catalogRepository.findAll());
+        model.addAttribute("catalogs", catalogRepository.findAll());
         return "/main";
     }
 
