@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,7 +35,7 @@ public class ManufactureMachineCustomRepositoryImplTest {
                 .description("test")
                 .name("machine")
                 .serialNumber("HX-150")
-                .properties(Map.of("pr1", "val1"))
+                .properties(new TreeMap<>(Map.of("pr1", "val1")))
                 .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
                 .build());
 

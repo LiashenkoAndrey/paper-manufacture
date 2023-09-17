@@ -15,6 +15,10 @@ import java.util.List;
 @Setter
 public abstract class Good {
 
+    public Good(Long id) {
+        this.id = id;
+    }
+
     public Good(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images) {
         this.id = id;
         this.description = description;
@@ -32,13 +36,13 @@ public abstract class Good {
     protected String description;
 
     @NotNull
-    private String name;
+    protected String name;
 
     @ManyToOne
-    private Producer producer;
+    protected Producer producer;
 
     @ManyToOne
-    private Catalog catalog;
+    protected Catalog catalog;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "good_images")

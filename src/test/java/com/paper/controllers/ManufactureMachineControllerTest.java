@@ -22,10 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,7 +63,7 @@ public class ManufactureMachineControllerTest {
                 .base64Image(Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(image)))
                 .build());
 
-        var goodGroupSaved = catalogRepository.save(Catalog.builder()
+        var savedCatalog = catalogRepository.save(Catalog.builder()
                 .id(1L)
                 .type(CatalogType.MANUFACTURE_MACHINE)
                 .name("catalog name")
@@ -75,10 +72,10 @@ public class ManufactureMachineControllerTest {
         machineRepository.save(ManufactureMachine.builder()
                 .description("test")
                 .id(1L)
-                .catalog(goodGroupSaved)
+                .catalog(savedCatalog)
                 .name("machine")
                 .serialNumber("HX-3we45")
-                .properties(Map.of("pr1", "val1"))
+                .properties(new TreeMap<>(Map.of("pr1", "val1")))
                 .images(new ArrayList<>(List.of(saved.getId())))
                 .build());
 
@@ -103,7 +100,7 @@ public class ManufactureMachineControllerTest {
                 .id(2L)
                 .name("name1")
                 .serialNumber("HX-345")
-                .properties(Map.of("k1", "v1", "k2", "v2"))
+                .properties(new TreeMap<>(Map.of("k1", "v1", "k2", "v2")))
                 .build();
 
         ManufactureMachineDto dto = ManufactureMachineDto.builder()
@@ -163,34 +160,39 @@ public class ManufactureMachineControllerTest {
     @Test
     @Order(3)
     public void update() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode rootNode = mapper.createObjectNode();
-        rootNode.put("name", "name1");
-        rootNode.put("description", "new description1");
+        byte[] newImage = Files.readAllBytes(Path.of("src/test/resources/testImage.png"));
+        Image image1 = new Image(MediaType.IMAGE_PNG_VALUE, Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(newImage)));
 
-        ObjectNode properties = mapper.createObjectNode();
-        properties.put("v1", "new key1");
-        properties.put("v2", "key2");
-        rootNode.set("properties", properties);
+        ManufactureMachine machine = ManufactureMachine.builder()
+                .description("new description")
+                .id(1L)
+                .name("new name")
+                .serialNumber("new HX-345")
+                .properties(new TreeMap(Map.of("new k1", "new v1", "new k2", "new v2")) )
+                .build();
+
+        ManufactureMachineDto dto = ManufactureMachineDto.builder()
+                .catalogId(1L)
+                .manufactureMachine(machine)
+                .producerId(1L)
+                .images
+                        (new ArrayList<>(List.of(image1)))
+                .build();
+
+        String json = new ObjectMapper().writeValueAsString(dto);
 
         mockMvc.perform(put("/good/manufacture-machine/1/update")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(rootNode.toString())
+                .content(json)
             ).andExpect(status().isOk())
                 .andDo(result -> {
                     ManufactureMachine saved = machineRepository.findById(1L)
                             .orElseThrow(EntityNotFoundException::new);
 
-                    assertEquals("name1", saved.getName());
-                    assertEquals("new description1", saved.getDescription());
-                    assertEquals(saved.getProperties().get("v1"), "new key1");
-                    assertEquals(saved.getProperties().get("v2"), "key2");
+                    assertThat(saved).usingRecursiveComparison()
+                            .ignoringFields("catalog", "producer", "images")
+                            .isEqualTo(dto.getManufactureMachine());
                 });
-
-        mockMvc.perform(put("/good/manufacture-machine/1/update")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(rootNode.toString()))
-                .andExpect(status().isConflict());
     }
 
     @Test

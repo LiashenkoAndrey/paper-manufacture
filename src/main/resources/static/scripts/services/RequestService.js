@@ -14,8 +14,16 @@ class RequestService {
         this.doRedirect(redirectUrl);
     }
 
+    static processResponseAndReload(response) {
+        this.processResponse(response);
+        this.doReload();
+    }
+
     static doRedirect(redirectUrl) {
-        console.log(redirectUrl);
         window.location.replace(redirectUrl);
+    }
+
+    static doReload() {
+        // window.location.reload();
     }
 }

@@ -1,78 +1,170 @@
 let createManufactureMachineForm =
     `<div class="modalWrapper">
-        <div class="modalBody">
-            <div class="text-end mb-4">
-                <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode)" aria-label="Close"></button>
-            </div>
-            <div style="display: flex; column-gap: 20px">
-                <div style="min-width: 400px; margin-top: 20px">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input id="inputName" class="form-control" type="text">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="name">Description</label>
-                        <textarea cols="4" id="inputDescription" class="form-control" type="text"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="name">Serial number</label>
-                        <input id="serialNumber" class="form-control" type="text">
-                    </div>                    
-                    
+        <div class="contentWrapper">
+            <div>
+                <div class="text-end mb-4">
+                    <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode)" aria-label="Close"></button>
+                </div>
+                <div class="contentBody">
+                <div>
                     <div>
-                        <label for="images">Images</label>
-                        <input id="inputFiles" class="form-control" type="file" multiple="multiple">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="inputName" class="form-control" type="text">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name">Description</label>
+                            <textarea cols="4" id="inputDescription" class="form-control" type="text"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name">Serial number</label>
+                            <input id="serialNumber" class="form-control" type="text">
+                        </div>                    
+                        
+                        <div>
+                            <label for="images">Images</label>
+                            <input id="inputFiles" class="form-control" type="file" multiple="multiple">
+                        </div>
+                        
+                        <div>
+                            <label for="catalogSelect">Catalog</label>
+                            <select class="form-select"  id="catalogSelect"></select>
+                        </div>
+                        
+                        <div>
+                            <label for="producersSelect">Producer</label>
+                            <select  class="form-select" id="producersSelect"></select>
+                        </div>
                     </div>
-                    
-                    <div>
-                        <label for="catalogSelect">Group</label>
-                        <select class="form-select"  id="catalogSelect"></select>
-                    </div>
-                    
-                    <div>
-                        <label for="producersSelect">Producer</label>
-                        <select  class="form-select" id="producersSelect"></select>
+        
+                    <div id="modalProperties">
+                        <h5 class="mx-3 text-center">Properties</h5>
+                        <div id="propertyContainer">
+                            <div>
+                                <input class="key" type="text">
+                                <input class="val" type="text">
+                            </div>
+                            
+                            <div>
+                                <input class="key" type="text">
+                                <input class="val" type="text">
+                            </div>
+                           
+                            <div>
+                                <input class="key" type="text">
+                                <input class="val" type="text">
+                            </div>
+                            
+                            <div>
+                                <input class="key" type="text">
+                                <input class="val" type="text">
+                            </div>    
+                            
+                            <div>
+                                <input class="key" type="text">
+                                <input class="val" type="text">
+                            </div>                                                                               
+                        </div>
+                        <span style="font-size: 54px" id="plusProperty" onclick="addProperty()">+</span>
                     </div>
                 </div>
-    
-                <div id="modalProperties">
-                    <h5 class="mx-3 text-center">Properties</h5>
-                    <div id="propertyContainer">
-                        <div>
-                            <input class="key" type="text">
-                            <input class="val" type="text">
-                        </div>
-                        
-                        <div>
-                            <input class="key" type="text">
-                            <input class="val" type="text">
-                        </div>
-                       
-                        <div>
-                            <input class="key" type="text">
-                            <input class="val" type="text">
-                        </div>
-                        
-                        <div>
-                            <input class="key" type="text">
-                            <input class="val" type="text">
-                        </div>    
-                        
-                        <div>
-                            <input class="key" type="text">
-                            <input class="val" type="text">
-                        </div>                                                                               
-                    </div>
-                    <span style="font-size: 54px" id="plusProperty" onclick="addProperty()">+</span>
+                <button class="btn btn-success mt-3" onclick="save()">Save</button>
                 </div>
             </div>
-            <button class="btn btn-success mt-3" onclick="createNewManufactureMachine()">Save</button>
         </div>
     </div>`
 
-function getAndDisplayAllProducers() {
+let deleteManufactureMachineForm =
+    `<div class="modalWrapper">
+        <div class="contentWrapper">
+            <div>
+                <div class="text-end mb-4">
+                <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode.parentNode)" aria-label="Close"></button>
+            </div>
+            <div class="contentBody">
+                <h5 style="color: white">Are you sure that you want to delete this good?</h5>
+            </div>        
+                <button class="btn btn-success mt-3" onclick="deleteManufactureMachine()">Delete</button>
+            </div>
+        </div>
+    </div>`
+
+let updateManufactureMachineForm =
+    `<div class="modalWrapper">
+        <div class="contentWrapper">
+           <div>
+                <div class="text-end mt-3">
+                    <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode.parentNode)" aria-label="Close"></button>
+                </div>
+                <div class="contentBody">
+                    <div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="inputName" class="form-control" type="text">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name">Description</label>
+                            <textarea cols="4" id="inputDescription" class="form-control" type="text"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name">Serial number</label>
+                            <input id="serialNumber" class="form-control" type="text">
+                        </div>                    
+                        
+                        <div>
+                            <label for="images">Images</label>
+                            <input id="inputFiles" class="form-control" type="file" multiple="multiple">
+                        </div>
+                        
+                        <div>
+                            <label for="catalogSelect">Catalog</label>
+                            <select class="form-select" id="catalogSelect"></select>
+                        </div>
+                        
+                        <div>
+                            <label for="producersSelect">Producer</label>
+                            <select class="form-select" id="producersSelect"></select>
+                        </div>
+                    </div>
+        
+                    <div id="modalProperties">
+                        <h5 class="mx-3 text-center">Properties</h5>
+                        <div id="propertyContainer"></div>
+                        <span style="font-size: 54px" id="plusProperty" onclick="addProperty()">+</span>
+                    </div>
+                </div>
+                <button class="btn btn-success mt-3 mb-5" onclick="update()">Update</button>
+            </div> 
+        </div>
+    </div>`
+
+function displayData() {
+    let updateBtn = document.getElementById("updateData");
+    let catalogId = updateBtn.getAttribute("data-catalog_id");
+    let producerId = updateBtn.getAttribute("data-producer_id");
+    let name = document.getElementById("name").innerText;
+    let description = document.getElementById("description").innerText;
+    let serialNumber = document.getElementById("serialNumberValue").innerText;
+
+    document.getElementById("inputName").value = name;
+    document.getElementById("inputDescription").value = description;
+    document.getElementById("serialNumber").value = serialNumber;
+
+    getAndDisplayAllCatalogs(catalogId);
+    getAndDisplayAllProducers(producerId);
+    getAndDisplayAllPropertiesOfManufactureMachine();
+}
+
+function getQueryParam(name) {
+    return new URLSearchParams(document.location.search).get(name);
+}
+
+
+function getAndDisplayAllProducers(selectedId) {
     let select = document.getElementById("producersSelect");
     fetch("/producer/all", {
         method: "GET"
@@ -80,12 +172,12 @@ function getAndDisplayAllProducers() {
         contentTypeIsJSON(response);
 
         response.json().then((producers) => {
-            displayEntityList(select, producers)
+            displayEntityList(select, producers, selectedId)
         });
     })
 }
 
-function getAndDisplayAllGroups() {
+function getAndDisplayAllCatalogs(selectedId) {
     let select = document.getElementById("catalogSelect");
     fetch("/good/manufacture-machine/catalog/all", {
         method: "GET"
@@ -93,17 +185,58 @@ function getAndDisplayAllGroups() {
         contentTypeIsJSON(response);
 
         response.json().then((groups) => {
-            displayEntityList(select, groups)
+            displayEntityList(select, groups, selectedId)
         });
     })
 }
 
-function displayEntityList(wrapper, entities) {
+function getAndDisplayAllPropertiesOfManufactureMachine() {
+    fetch("/good/manufacture-machine/"+ new URLSearchParams(document.location.search).get("id") +"/properties", {
+        method: "GET"
+    }).then((response) => {
+        contentTypeIsJSON(response);
+
+        response.json().then((properties) => {
+            let map = new Map(Object.entries(properties))
+            let propertyContainer = document.getElementById("propertyContainer");
+            let keys = Array.from(map.keys());
+            let values = Array.from(map.values());
+            for (let i = 0; i < keys.length; i++) {
+                addFilledProperty(propertyContainer, keys[i], values[i])
+            }
+        });
+    })
+}
+
+function addFilledProperty(container, key, val) {
+    let property = document.createElement("div");
+    let keyInput = document.createElement("input");
+    keyInput.type = 'text';
+    keyInput.classList.add("key");
+    keyInput.value = key;
+    property.appendChild(keyInput)
+
+    let valInput = document.createElement("input");
+    valInput.type = 'text';
+    valInput.classList.add("val");
+    valInput.value = val;
+    property.appendChild(valInput)
+
+    container.appendChild(property);
+}
+
+function displayEntityList(wrapper, entities, selectedId) {
     for (let i = 0; i < entities.length; i++) {
         let option = document.createElement("option");
         let entity = entities[i];
         option.text = entity.name;
         option.value = entity.id;
+
+        if (selectedId != null) {
+            if (selectedId == entity.id) {
+                option.selected = true;
+            }
+        }
         wrapper.appendChild(option);
     }
 }
@@ -115,18 +248,6 @@ function contentTypeIsJSON(response) {
     }
 }
 
-let deleteManufactureMachineForm =
-    `<div class="modalWrapper">
-        <div class="modalBody">
-            <div class="text-end mb-4">
-                <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode)" aria-label="Close"></button>
-            </div>
-             <div>
-                <h5 style="color: white">Are you sure that you want to delete this good?</h5>
-                <button class="btn btn-success mt-3" onclick="deleteManufactureMachine()">Delete</button>
-             </div>
-        </div>
-    </div>`
 
 let newProperty =
     `<div>
@@ -166,7 +287,7 @@ async function deleteManufactureMachine() {
     })
 }
 
-async function createNewManufactureMachine() {
+async function getData() {
     let name = document.getElementById("inputName").value;
     let description = document.getElementById("inputDescription").value;
     let filesArray = document.getElementById("inputFiles").files;
@@ -176,15 +297,16 @@ async function createNewManufactureMachine() {
 
     let images = [];
     for (let i = 0; i < filesArray.length; i++) {
-         await getBase64(filesArray[i]).then((converted) => {
-             const type = "image/" + converted.split(';')[0].split('/')[1];
-             images.push({
-                 type: type,
-                 base64Image: converted
-             })
+        await getBase64(filesArray[i]).then((converted) => {
+            const type = "image/" + converted.split(';')[0].split('/')[1];
+            images.push({
+                type: type,
+                base64Image: converted
+            })
         })
     }
-    let body = {
+
+    return {
         manufactureMachine: {
             name: name,
             description: description,
@@ -194,11 +316,13 @@ async function createNewManufactureMachine() {
         images: images,
         producerId: producerId,
         catalogId: catalogId
-    }
+    };
+}
 
-    fetch("/good/manufacture-machine/new", {
+async function save() {
+    fetch(`/good/manufacture-machine/${getQueryParam('id')}/save`, {
         method: "POST",
-        body: JSON.stringify(body),
+        body: JSON.stringify(await getData()),
         headers: {
             "Content-Type": "application/json"
         }
@@ -209,6 +333,20 @@ async function createNewManufactureMachine() {
     })
 }
 
+async function update() {
+    console.log(JSON.stringify(await getData()));
+    fetch(`/good/manufacture-machine/${getQueryParam('id')}/update`, {
+        method: "PUT",
+        body: JSON.stringify(await getData()),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then((response) => {
+        response.text().then((response) => {
+            RequestService.processResponseAndReload(response);
+        })
+    })
+}
 
 async function getBase64(file) {
     return new Promise((resolve, reject) => {

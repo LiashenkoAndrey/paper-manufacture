@@ -3,14 +3,16 @@ package com.paper.controllers;
 import com.paper.domain.Catalog;
 import com.paper.domain.CatalogType;
 import com.paper.domain.ManufactureMachine;
+import com.paper.domain.Producer;
 import com.paper.dto.ManufactureMachineDto;
 import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
+import com.paper.exceptions.ProducerNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
+import com.paper.repositories.ProducerRepository;
 import com.paper.services.ManufactureMachineService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -33,6 +35,8 @@ public class ManufactureMachineController {
 
     private final CatalogRepository catalogRepository;
     private final ManufactureMachineRepository repository;
+
+    private final ProducerRepository producerRepository;
 
     private final ImageRepository imageRepository;
 
@@ -62,6 +66,12 @@ public class ManufactureMachineController {
         return "goods";
     }
 
+    @GetMapping("/{id}/properties")
+    public @ResponseBody Map<String, String> getProperties(@PathVariable("id") Long id) {
+        var manufactureMachine = repository.findById(id)
+                .orElseThrow(ManufactureMachineNotFoundException::new);
+        return manufactureMachine.getProperties();
+    }
 
     @GetMapping("/catalog/all")
     public @ResponseBody List<Catalog> getAllCatalogs() {
@@ -78,15 +88,13 @@ public class ManufactureMachineController {
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> create(@Valid @RequestBody ManufactureMachineDto dto) {
-        var manufactureMachine = dto.getManufactureMachine();
-
         if (dto.getImages().size() < 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image to save a good");
-        } else if (repository.exists(Example.of(manufactureMachine))) {
+        } else if (repository.exists(Example.of(dto.getManufactureMachine()))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        ManufactureMachine saved = machineService.save(manufactureMachine, dto);
+        ManufactureMachine saved = machineService.save(dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(saved.getId());
@@ -94,20 +102,9 @@ public class ManufactureMachineController {
 
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody ManufactureMachine manufactureMachine) {
-        if (repository.exists(Example.of(manufactureMachine))) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-
-        ManufactureMachine saved = repository.findById(id)
-                .orElseThrow(ManufactureMachineNotFoundException::new);
-
-        map(manufactureMachine, saved)
-                .mapEmptyString(false)
-                .mapNull(false)
-                .map();
-
-        repository.save(saved);
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody ManufactureMachineDto dto) {
+        ManufactureMachine saved = repository.findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
+        machineService.update(saved, dto);
         return ResponseEntity.ok().build();
     }
 

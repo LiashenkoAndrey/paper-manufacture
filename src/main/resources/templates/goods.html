@@ -30,7 +30,7 @@
                     <div style="position: relative;">
                         <span style="top: 10px; font-size: 24px;  position: relative;" th:if="${catalog != null}" th:text="${catalog.name}"></span>
                         <span style="top: 10px; position: relative; font-size: 24px"  th:unless="${catalog != null}">All products</span>
-                        <button style="display: inline" class="btn btn-dark" onclick="FormService.enableAndExecuteFunction(createManufactureMachineForm, getAndDisplayAllProducers, getAndDisplayAllGroups)">Add a new item</button>
+                        <button style="display: inline" class="btn btn-dark" onclick="FormService.enableAndExecuteFunction(createManufactureMachineForm, getAndDisplayAllProducers, getAndDisplayAllCatalogs)">Add a new item</button>
                         <button style="display: inline" class="btn btn-dark" onclick="FormService.enable(addProducerForm)">Add a new producer</button>
                     </div>
                 </div>

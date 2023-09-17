@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,14 +48,14 @@ public class ManufactureMachineServiceImplTest {
                 .id(1L)
                 .name("machine")
                 .serialNumber("HX-150")
-                .properties(Map.of("pr1", "val1"))
+                .properties(new TreeMap<>(Map.of("pr1", "val1")))
                 .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
                 .build();
 
         byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
         manufactureMachineService.save(
-                manufactureMachine,
                 ManufactureMachineDto.builder()
+                        .manufactureMachine(manufactureMachine)
                         .images(List.of(new Image(MediaType.IMAGE_JPEG_VALUE, Base64.getEncoder().encodeToString(image))))
                         .producerId(1L)
                         .build());

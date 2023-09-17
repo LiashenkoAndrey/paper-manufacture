@@ -1,19 +1,28 @@
 
 .modalWrapper {
-    display: flex;
     height: 100%;
     width: 100%;
     top: 0;
     position: absolute;
-    justify-content: center;
-    align-items: center;
     background-color: #00000080;
-    padding: 10px;
     color: white
 }
 
-.modalBody {
+.contentWrapper {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+}
 
+.contentBody {
+    display: flex;
+    column-gap: 20px
+}
+
+.contentBody div:nth-of-type(1) {
+    min-width: 500px;
 }
 
 #modalProperties {
