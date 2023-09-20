@@ -3,15 +3,19 @@ package com.paper.controllers;
 import com.paper.domain.Catalog;
 import com.paper.domain.CatalogType;
 import com.paper.domain.ManufactureMachine;
+import com.paper.domain.Video;
 import com.paper.dto.ManufactureMachineDto;
 import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
+import com.paper.repositories.VideoRepository;
 import com.paper.services.ManufactureMachineService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,8 +23,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.time.LocalTime;
 import java.util.*;
 
 @Controller
@@ -28,12 +35,16 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ManufactureMachineController {
 
+    private static final Logger logger = LogManager.getLogger(ManufactureMachineController.class);
+
     private final CatalogRepository catalogRepository;
     private final ManufactureMachineRepository repository;
 
     private final ImageRepository imageRepository;
 
     private final ManufactureMachineService machineService;
+
+    private final VideoRepository videoRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<ManufactureMachine>> getAll() {
@@ -91,6 +102,24 @@ public class ManufactureMachineController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(saved.getId());
+    }
+
+    @PostMapping("/video/new")
+    public ResponseEntity<?> addVideo(@RequestParam("video") MultipartFile file,
+                                      @RequestParam("duration") LocalTime duration,
+                                      @RequestParam("goodId") Long goodId) throws IOException {
+        Video video = Video.builder()
+                .data(file.getBytes())
+                .name("test")
+                .description("desctiption")
+                .duration(duration)
+                .build();
+
+        logger.info(video);
+        var good = repository.findById(goodId).orElseThrow(ManufactureMachineNotFoundException::new);
+        good.getVideos().add(video);
+        repository.save(good);
+        return ResponseEntity.ok().build();
     }
 
 

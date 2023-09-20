@@ -19,13 +19,14 @@ public abstract class Good {
         this.id = id;
     }
 
-    public Good(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images) {
+    public Good(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, List<Video> videos) {
         this.id = id;
         this.description = description;
         this.name = name;
         this.producer = producer;
         this.catalog = catalog;
         this.images = images;
+        this.videos = videos;
     }
 
     @Id
@@ -50,6 +51,7 @@ public abstract class Good {
     @Column(name = "image_id")
     protected List<String> images = new ArrayList<>();
 
-//    @OneToMany
-//    protected List<Video> videos = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "manufacture_machine_id")
+    protected List<Video> videos = new ArrayList<>();
 }

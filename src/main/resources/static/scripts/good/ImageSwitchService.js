@@ -70,7 +70,7 @@ class NavImageSwitcher extends ImageSwitcher {
 }
 
 
-let imageImageList = document.getElementsByClassName("imageListItem");
+let imageImageList = document.getElementsByClassName("zoomable");
 for(let i = 0; i < imageImageList.length; i++) {
     magnify(imageImageList[i], 2);
 }

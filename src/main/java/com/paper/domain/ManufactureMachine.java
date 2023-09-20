@@ -20,8 +20,8 @@ public class ManufactureMachine extends Good {
     }
 
     @Builder
-    public ManufactureMachine(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, SortedMap<String, String> properties, String serialNumber) {
-        super(id, description, name, producer, catalog, images);
+    public ManufactureMachine(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, SortedMap<String, String> properties, String serialNumber, List<Video> videos) {
+        super(id, description, name, producer, catalog, images, videos);
         this.properties = properties;
         this.serialNumber = serialNumber;
     }

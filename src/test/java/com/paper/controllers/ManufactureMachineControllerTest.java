@@ -17,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -159,6 +162,21 @@ public class ManufactureMachineControllerTest {
 
     @Test
     @Order(3)
+    public void addVideo() throws Exception {
+        byte[] videoAsBytes = Files.readAllBytes(Path.of("src/test/resources/testVideo.mp4"));
+
+        mockMvc.perform(multipart("/good/manufacture-machine/video/new")
+                .file("video", videoAsBytes)
+                .param("goodId", "1")
+                .param("duration", "00:01:43")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+        ).andExpect(status().isOk());
+    }
+
+
+
+    @Test
+    @Order(4)
     public void update() throws Exception {
         byte[] newImage = Files.readAllBytes(Path.of("src/test/resources/testImage.png"));
         Image image1 = new Image(MediaType.IMAGE_PNG_VALUE, Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(newImage)));
@@ -196,7 +214,7 @@ public class ManufactureMachineControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void deleteGood() throws Exception {
 
         assertTrue(machineRepository.existsById(1L));
@@ -213,7 +231,7 @@ public class ManufactureMachineControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void getAllSerialNumbers() throws Exception {
         mockMvc.perform(get("/good/manufacture-machine/serial_numbers/all"))
                 .andExpect(status().isOk())
@@ -226,7 +244,7 @@ public class ManufactureMachineControllerTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void getAllCatalogs() throws Exception {
         mockMvc.perform(get("/good/manufacture-machine/catalog/all"))
                 .andExpect(status().isOk())

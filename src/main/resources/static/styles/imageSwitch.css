@@ -5,7 +5,6 @@
     justify-content: end;
     left: 0;
     position: absolute;
-    bottom: 0;
     height: 73px;
     width: 100%;
 }
@@ -54,12 +53,11 @@
     transition-duration: 300ms;
 }
 
-.child img {
+.navItem {
     user-select: none;
     height: 100%;
     width: 100%;
 }
-
 
 
 .videoTime {
@@ -104,6 +102,7 @@
 
 
 #mainImageWrapper {
+    min-width: 700px;
     min-height: 400px;
 }
 
@@ -116,7 +115,10 @@
 * {box-sizing: border-box;}
 
 .img-magnifier-container {
-  position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
 }
 
 .img-magnifier-glass {
@@ -133,6 +135,7 @@
 }
 
 .imageListItem {
+    width: 100%;
     max-height: 400px;
     user-select: none;
 }
