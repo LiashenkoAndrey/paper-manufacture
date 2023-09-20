@@ -49,4 +49,7 @@ public abstract class Good {
     @OrderColumn(name = "good_images_order")
     @Column(name = "image_id")
     protected List<String> images = new ArrayList<>();
+
+//    @OneToMany
+//    protected List<Video> videos = new ArrayList<>();
 }

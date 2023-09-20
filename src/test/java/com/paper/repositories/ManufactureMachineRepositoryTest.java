@@ -57,6 +57,14 @@ public class ManufactureMachineRepositoryTest {
 
     @Test
     @Order(2)
+    public void findAllProperties() {
+        ManufactureMachine manufactureMachine = repository.findById(1L).orElseThrow(ManufactureMachineNotFoundException::new);
+        Map<String, String> map = manufactureMachine.getProperties();
+        assertThat(map).hasSize(2);
+    }
+
+    @Test
+    @Order(3)
     public void update() {
         var manufactureMachine = repository.findById(1L).orElseThrow(EntityNotFoundException::new);
         manufactureMachine.setDescription("new description");
@@ -67,14 +75,6 @@ public class ManufactureMachineRepositoryTest {
 
         assertEquals(manufactureMachine.getDescription(), saved.getDescription());
         assertTrue(manufactureMachine.getProperties().containsKey("new key"));
-    }
-
-    @Test
-    @Order(3)
-    public void findAllProperties() {
-        ManufactureMachine manufactureMachine = repository.findById(1L).orElseThrow(ManufactureMachineNotFoundException::new);
-        Map<String, String> map = manufactureMachine.getProperties();
-        assertThat(map).hasSize(2);
     }
 
     @Test

@@ -14,3 +14,11 @@
     font-size: 18px;
     margin-bottom: 30px;
 }
+
+#goodInfo {
+    background-color: rgb(56, 56, 56);
+    border-radius: 10px;
+    border: solid rgb(231, 231, 231) 1px;
+    padding: 5px 20px 5px 20px;
+    position: relative;
+}
