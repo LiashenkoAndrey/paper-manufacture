@@ -56,8 +56,6 @@ let addProducerForm =
          image: image
      }
 
-     console.log(JSON.stringify(body))
-
      fetch("/producer/new", {
          method: "POST",
          body: JSON.stringify(body),
@@ -65,9 +63,7 @@ let addProducerForm =
              "Content-Type": "application/json"
          }
      }).then((response) => {
-         console.log(response.status)
          response.text().then((response) => {
-             console.log(response)
              RequestService.processResponseAndDoRedirect(response, "http://localhost/good/manufacture-machine/view/all")
          })
      })
