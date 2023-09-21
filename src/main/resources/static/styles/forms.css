@@ -17,6 +17,9 @@
 }
 
 .contentBody {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
     display: flex;
     column-gap: 20px
 }
@@ -25,9 +28,7 @@
     min-width: 500px;
 }
 
-#modalProperties {
-    min-width: 700px;
-}
+
 
 #propertyContainer div {
     display: flex;

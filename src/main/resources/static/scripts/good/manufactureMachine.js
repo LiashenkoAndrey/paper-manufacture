@@ -3,10 +3,9 @@ let createManufactureMachineForm =
         <div class="contentWrapper">
             <div>
                 <div class="text-end mb-4">
-                    <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode)" aria-label="Close"></button>
+                    <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode.parentNode)" aria-label="Close"></button>
                 </div>
                 <div class="contentBody">
-                <div>
                     <div>
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -71,22 +70,6 @@ let createManufactureMachineForm =
                     </div>
                 </div>
                 <button class="btn btn-success mt-3" onclick="save()">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>`
-
-let deleteManufactureMachineForm =
-    `<div class="modalWrapper">
-        <div class="contentWrapper">
-            <div>
-                <div class="text-end mb-4">
-                <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode.parentNode)" aria-label="Close"></button>
-            </div>
-            <div class="contentBody">
-                <h5 style="color: white">Are you sure that you want to delete this good?</h5>
-            </div>        
-                <button class="btn btn-success mt-3" onclick="deleteManufactureMachine()">Delete</button>
             </div>
         </div>
     </div>`
@@ -95,10 +78,10 @@ let updateManufactureMachineForm =
     `<div class="modalWrapper">
         <div class="contentWrapper">
            <div>
-                <div class="text-end mt-3">
+               <div class="text-end mb-4">
                     <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode.parentNode)" aria-label="Close"></button>
                 </div>
-                <div class="contentBody">
+               <div class="contentBody">
                     <div>
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -137,10 +120,26 @@ let updateManufactureMachineForm =
                         <span style="font-size: 54px" id="plusProperty" onclick="addProperty()">+</span>
                     </div>
                 </div>
-                <button class="btn btn-success mt-3 mb-5" onclick="update()">Update</button>
+               <button class="btn btn-success mt-3 mx-5 mb-5" onclick="update()">Update</button>
             </div> 
         </div>
     </div>`
+
+let deleteManufactureMachineForm =
+    `<div class="modalWrapper">
+        <div class="contentWrapper">
+            <div>
+                <div class="text-end mb-4">
+                <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode.parentNode)" aria-label="Close"></button>
+            </div>
+            <div class="contentBody">
+                <h5 style="color: white">Are you sure that you want to delete this video?</h5>
+            </div>        
+                <button class="btn btn-success mt-3" onclick="deleteManufactureMachine()">Delete</button>
+            </div>
+        </div>
+    </div>`
+
 
 function displayData() {
     let updateBtn = document.getElementById("updateData");
@@ -320,7 +319,7 @@ async function getData() {
 }
 
 async function save() {
-    fetch(`/good/manufacture-machine/${getQueryParam('id')}/save`, {
+    fetch(`/good/manufacture-machine/new`, {
         method: "POST",
         body: JSON.stringify(await getData()),
         headers: {

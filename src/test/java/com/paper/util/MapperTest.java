@@ -36,7 +36,7 @@ public class MapperTest {
                 .build();
 
         assertThat(source).usingRecursiveComparison()
-                .ignoringFields("images", "producer", "catalog")
+                .ignoringFields("images", "producer", "catalog", "videos")
                 .isEqualTo(expected);
     }
 }

@@ -6,11 +6,44 @@
 }
 
 .characteristics p  {
-    margin: 0px;
+    margin: 0;
 }
 
 .characteristics h5:first-of-type {
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 30px;
+}
+
+#goodInfo {
+    background-color: rgb(56, 56, 56);
+    border-radius: 10px;
+    border: solid rgb(231, 231, 231) 1px;
+    padding: 5px 20px 5px 20px;
+    position: relative;
+}
+
+.footer {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 2vh;
+}
+
+.footer div a {
+    color: white;
+}
+
+.footerWrapper {
+    background-color: black;
+}
+
+.characteristics div div p{
+    margin-bottom: 5px;
+    border-bottom: #f5deb336 solid 1px;
+    padding: 0 10px 1px 10px;
+}
+.table > :not(caption) > * > * {
+    background-color: rgb(45, 45, 45);
 }

@@ -2,14 +2,16 @@
 
 
 .footer {
-    padding: 20px 40px 20px 0;
-    display: flex;
-    color: black;
     background-color: white;
+}
+
+.footerWrapper {
+    color: black;
     grid-area: footer;
 }
 
 .footer div a {
+    display: flex;
     color: black;
     text-decoration: none;
 }
