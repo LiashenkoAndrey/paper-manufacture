@@ -4,7 +4,7 @@ class ImageSwitcher {
         this.idName = idName;
         this.currentImageIndex = 0;
         let array = document.getElementsByClassName(className);
-        array[0].style.display = "block"
+        array[0].style.display = "flex"
         this.images = array;
     }
 
@@ -16,7 +16,7 @@ class ImageSwitcher {
 
             let nextImg = this.images[this.currentImageIndex + 1];
             nextImg.setAttribute("id", this.idName);
-            nextImg.style.display = "block"
+            nextImg.style.display = "flex"
 
             this.currentImageIndex++;
         }
@@ -30,7 +30,7 @@ class ImageSwitcher {
 
             let previousImg = this.images[this.currentImageIndex - 1];
             previousImg.setAttribute("id", this.idName);
-            previousImg.style.display = "block"
+            previousImg.style.display = "flex"
 
             this.currentImageIndex--;
         }
@@ -44,7 +44,7 @@ class ImageSwitcher {
 
             let selected = this.images[id];
             selected.setAttribute("id", this.idName);
-            selected.style.display = "block"
+            selected.style.display = "flex"
 
             this.currentImageIndex = id;
         }

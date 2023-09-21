@@ -120,7 +120,7 @@ let updateManufactureMachineForm =
                         <span style="font-size: 54px" id="plusProperty" onclick="addProperty()">+</span>
                     </div>
                 </div>
-               <button class="btn btn-success mt-3 mb-5" onclick="update()">Update</button>
+               <button class="btn btn-success mt-3 mx-5 mb-5" onclick="update()">Update</button>
             </div> 
         </div>
     </div>`
@@ -133,7 +133,7 @@ let deleteManufactureMachineForm =
                 <button style="font-size: 20px" type="button" class="btn-close btn-close-white" onclick="FormService.disable(this.parentNode.parentNode.parentNode.parentNode)" aria-label="Close"></button>
             </div>
             <div class="contentBody">
-                <h5 style="color: white">Are you sure that you want to delete this good?</h5>
+                <h5 style="color: white">Are you sure that you want to delete this video?</h5>
             </div>        
                 <button class="btn btn-success mt-3" onclick="deleteManufactureMachine()">Delete</button>
             </div>

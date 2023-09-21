@@ -51,7 +51,7 @@ public abstract class Good {
     @Column(name = "image_id")
     protected List<String> images = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "manufacture_machine_id")
     protected List<Video> videos = new ArrayList<>();
 }

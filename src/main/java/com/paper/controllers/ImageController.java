@@ -25,13 +25,23 @@ public class ImageController {
     public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) {
         if (ObjectId.isValid(imageId)) {
             Image image = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
-            String base64ImageWithoutHeader = image.getBase64Image().split(",")[1];
+            String base64Image = image.getBase64Image();
+            String payload = hasHeader(base64Image) ? getPayLoad(base64Image) : base64Image;
+
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(image.getType()))
-                    .body(Base64.getDecoder().decode(base64ImageWithoutHeader));
+                    .body(Base64.getDecoder().decode(payload));
         } else {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    private boolean hasHeader(String base64) {
+        return base64.contains(",");
+    }
+
+    private String getPayLoad(String base64ImageWithHeader) {
+        return base64ImageWithHeader.split(",")[1];
     }
 
 }

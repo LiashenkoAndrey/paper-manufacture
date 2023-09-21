@@ -1,5 +1,5 @@
 function magnify(img, zoom) {
-    var img, glass, w, h, bw;
+    var glass, w, h, bw;
 
     /* Create magnifier glass: */
     glass = document.createElement("DIV");
@@ -60,8 +60,8 @@ function magnify(img, zoom) {
       if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
       if (y < h / zoom) {y = h / zoom;}
       /* Set the position of the magnifier glass: */
-      glass.style.left = (x - w) + "px";
-      glass.style.top = (y - h) + "px";
+      glass.style.left = ((x - w)-100) + "px";
+      glass.style.top = ((y - h)-100) + "px";
       /* Display what the magnifier glass "sees": */
       glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
     }

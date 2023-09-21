@@ -70,13 +70,13 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
             saved.setProducer(producer);
         }
 
-//        if (dto.getImages() != null) {
-//            imageRepository.deleteAll(saved.getImages());
-//            List<Image> savedImages = imageRepository.saveAll(dto.getImages());
-//            List<String> idList = savedImages.stream().map(Image::getId).toList();
-//            saved.setImages(idList);
-//        }
         machineRepository.save(saved);
+    }
+
+    @Override
+    public void deleteImageById(String imageId) {
+        imageRepository.deleteById(imageId);
+        machineRepository.deleteGoodImageById(imageId);
     }
 
 }

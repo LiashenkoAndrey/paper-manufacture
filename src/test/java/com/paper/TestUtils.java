@@ -72,6 +72,11 @@ public class TestUtils {
         em.createNativeQuery("ALTER SEQUENCE producer_id_seq RESTART WITH 1").executeUpdate();
     }
 
+    @Transactional
+    public void truncateVideoSequence() {
+        em.createNativeQuery("ALTER SEQUENCE videos_id_seq RESTART WITH 1").executeUpdate();
+    }
+
 
     @Transactional
     public void truncateGoodImages() {
