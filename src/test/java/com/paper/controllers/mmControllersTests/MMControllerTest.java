@@ -1,4 +1,4 @@
-package com.paper.controllers;
+package com.paper.controllers.mmControllersTests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -53,45 +54,37 @@ public class MMControllerTest {
     @Autowired
     private CatalogRepository catalogRepository;
 
-    String imageId = "64fd7839f1992248d41676c0";
-
     @BeforeAll
-    public void before() throws IOException {
-        byte[] image = Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"));
-        Image saved = imageRepository.save(Image.builder()
-                .id(imageId)
-                .type(MediaType.IMAGE_JPEG_VALUE)
-                .base64Image(Base64.getEncoder().encodeToString(Base64.getMimeEncoder().encode(image)))
-                .build());
-
-        var savedCatalog = catalogRepository.save(Catalog.builder()
+    @Transactional
+    public void before() {
+        Catalog saved = catalogRepository.save(Catalog.builder()
                 .id(1L)
                 .type(CatalogType.MANUFACTURE_MACHINE)
-                .name("catalog name")
+                .name("Test 1 catalog")
                 .build());
 
-        machineRepository.save(ManufactureMachine.builder()
-                .description("test")
-                .id(1L)
-                .catalog(savedCatalog)
-                .name("machine")
-                .serialNumber("HX-3we45")
-                .properties(new TreeMap<>(Map.of("pr1", "val1")))
-                .images(new ArrayList<>(List.of(saved.getId())))
-                .build());
+        for (int i = 0; i < 10; i++) {
+            ManufactureMachine manufactureMachine = ManufactureMachine.builder()
+                    .description("test" + i)
+                    .serialNumber("hX-150" + i)
+                    .catalog(saved)
+                    .name("machine" + i)
+                    .properties(new TreeMap<>(Map.of("pr1", "val1")))
+                    .images(List.of("2342423423dfsdf", "sdf3r34r3f34r3"))
+                    .build();
 
-        producerRepository.save(Producer.builder()
-                .logotypeId("64fd7839f1992248d41676c0")
-                .name("test")
-                .description("tn;lklkjlkj;lkj;lkj;lext")
-                .websiteUrl("http://localhost/good/manufacture-machine/view/all")
-                .id(1L)
-                .build());
+            machineRepository.save(manufactureMachine);
+        }
 
     }
 
     @Nested
+    @Component
     class CrudTests {
+
+        @Autowired
+        private CatalogRepository catalogRepository;
+
         @Test
         @Order(1)
         public void create() throws Exception {
@@ -200,6 +193,22 @@ public class MMControllerTest {
 
         @Test
         @Order(3)
+        public void getPageOfGoods() throws Exception {
+            mockMvc.perform(get("/good/manufacture-machine/page")
+                    .param("catalogId", "1")
+                    .param("pageId", "1")
+                    .param("pageSize", "2"))
+                    .andExpect(status().isOk())
+                    .andDo(result -> {
+                        String json = result.getResponse().getContentAsString();
+                        System.out.println(machineRepository.findAll());
+                        List<ManufactureMachine> machines = new ObjectMapper().readValue(json, new TypeReference<>() {});
+                        assertEquals(2, machines.size());
+                    });
+        }
+
+        @Test
+        @Order(4)
         public void deleteGood() throws Exception {
 
             assertTrue(machineRepository.existsById(1L));
@@ -292,7 +301,7 @@ public class MMControllerTest {
     @Nested
     @Component
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class VideoAndImageTest {
+    class VideoTest {
 
         @Autowired
         private  VideoRepository videoRepository;
@@ -330,6 +339,25 @@ public class MMControllerTest {
         }
     }
 
+    @Nested
+    @Component
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class CatalogTest {
+        @Test
+        @Order(1)
+        public void getAllCatalogs() throws Exception {
+            mockMvc.perform(get("/good/manufacture-machine/catalog/all"))
+                    .andExpect(status().isOk())
+                    .andDo(result -> {
+                        String json = result.getResponse().getContentAsString();
+                        List<Catalog> list = new ObjectMapper().readValue(json, new TypeReference<>() {
+                        });
+                        assertThat(list).hasSize(1);
+                        assertEquals(CatalogType.MANUFACTURE_MACHINE, list.get(0).getType());
+                    });
+        }
+    }
+
 
     @Test
     @Order(5)
@@ -344,18 +372,7 @@ public class MMControllerTest {
                 });
     }
 
-    @Test
-    @Order(6)
-    public void getAllCatalogs() throws Exception {
-        mockMvc.perform(get("/good/manufacture-machine/catalog/all"))
-                .andExpect(status().isOk())
-                .andDo(result -> {
-                    String json = result.getResponse().getContentAsString();
-                    List<Catalog> list = new ObjectMapper().readValue(json, new TypeReference<>() {});
-                    assertThat(list).hasSize(1);
-                    assertEquals(CatalogType.MANUFACTURE_MACHINE, list.get(0).getType());
-                });
-    }
+
 
     @AfterAll
     public void after() {

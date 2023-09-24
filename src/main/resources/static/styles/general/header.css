@@ -23,6 +23,7 @@
 
 
 #logoAndLangAndCard {
+    gap: 10px;
     border-bottom: solid rgb(68, 68, 68) 1px;
     justify-content: space-between;
 }

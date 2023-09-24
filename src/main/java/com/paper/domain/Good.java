@@ -19,7 +19,7 @@ public abstract class Good {
         this.id = id;
     }
 
-    public Good(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, List<Video> videos) {
+    public Good(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, List<Video> videos, Long price) {
         this.id = id;
         this.description = description;
         this.name = name;
@@ -27,6 +27,7 @@ public abstract class Good {
         this.catalog = catalog;
         this.images = images;
         this.videos = videos;
+        this.price = price;
     }
 
     @Id
@@ -44,6 +45,8 @@ public abstract class Good {
 
     @ManyToOne
     protected Catalog catalog;
+
+    protected Long price = 1000L; //default
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "good_images")

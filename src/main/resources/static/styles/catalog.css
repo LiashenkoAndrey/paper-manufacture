@@ -1,0 +1,173 @@
+
+#catalogFiltersWrapper {
+    min-width: 320px;
+    border-top: solid rgb(219, 219, 219) 2px;
+    padding: 0 5px 5px 5px;
+    gap: 10px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+
+.catalogFilter {
+    gap: 5px;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    margin-top: 20px;
+    border-bottom: rgb(219, 219, 219) solid 2px;
+}
+
+.catalogFilter img:nth-of-type(1) {
+    align-self: flex-start;
+    display: block;
+    position: relative;
+    bottom: -7px;
+}
+
+.catalogFilterSubWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.catalogFilterSubWrapper p {
+    color: black;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.checkboxWrapper {
+    padding-bottom: 20px;
+}
+
+.checkboxWrapper div input {
+    margin-right: 3px;
+    padding: 7px;
+    user-select: none;
+}
+
+.checkboxWrapper div label {
+    cursor: pointer;
+    user-select: none;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+}
+
+.filters div {
+    width: fit-content;
+    display: flex;
+    padding: 1px 6px;
+}
+
+
+.filterVal {
+    margin-right: 5px;
+}
+
+.filter {
+    border: black 1px solid;
+    border-radius: 12px;
+}
+
+.filter:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.11);
+}
+
+.closeFilter {
+    align-self: center;
+    background-color: white;
+    border-radius: 15px;
+    color: #84292900;
+    text-shadow: 0 0 0 red;
+    font-size: 11px;
+    padding: 3px;
+}
+
+.resetBtn {
+    border: black 1px solid;
+    border-radius: 12px;
+}
+
+.resetBtn:hover {
+    cursor: pointer;
+    background-color: rgba(249, 0, 0, 0.26);
+}
+
+
+#filterIcon {
+    min-width: 323px;
+}
+
+@media screen and (max-width: 370px) {
+    #chartWrapper {
+        margin-right: 10px;
+    }
+}
+
+@media screen and (max-width: 994px) {
+    #goodsListWrapper {
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .content {
+        max-width: 1115px!important;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    #priceFilterWrapper {
+        position: relative;
+        left: -7px;
+    }
+
+    #filterIcon {
+        display: none;
+    }
+
+    #contactWithConsultant {
+        display: none;
+    }
+
+    #catalogFiltersWrapper {
+        padding: 0;
+        width: 100%;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    #logoAndSearch {
+        margin-left: 10px;!important;
+    }
+
+    #search {
+        width: 200px;
+    }
+
+    .goods {
+        margin-left: 0;
+    }
+
+    .good {
+        width: fit-content;
+    }
+
+    .goodImage {
+        max-width: 100%;
+        height: auto;
+    }
+
+    #goodsListWrapper {
+        flex-wrap: wrap;
+    }
+}

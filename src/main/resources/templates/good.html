@@ -64,7 +64,7 @@
                 <div class="text-white" style="border-bottom: solid rgb(97, 97, 97) 2px; display: flex">
                     <div style="display: flex;">
                         <div>
-                            <span style="font-weight: bold; font-size: 22px;">Price 10000$</span>
+                            <span style="font-weight: bold; font-size: 22px;" th:text="${'An approximate price: ' + machine.price + '$'}">Price 10000$</span>
                         </div>
                         <button style="display: inline" class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(deleteManufactureMachineForm)">Delete</button>
                         <button id="updateData"

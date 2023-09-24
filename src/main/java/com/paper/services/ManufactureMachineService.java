@@ -1,7 +1,11 @@
 package com.paper.services;
 
 import com.paper.domain.ManufactureMachine;
+import com.paper.dto.MMDtoInt;
 import com.paper.dto.ManufactureMachineDto;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 
 public interface ManufactureMachineService {
@@ -16,4 +20,6 @@ public interface ManufactureMachineService {
      * @param imageId image id
      */
     void deleteImageById(String imageId);
+
+    List<MMDtoInt> findAllWithFilters(Long catalogId, Long from, Long to, List<Long> producerId, Pageable pageable);
 }
