@@ -3,6 +3,7 @@
 @import url("/styles/general/footer.css");
 @import url("/styles/general/header.css");
 @import url("/styles/util/dropdown.css");
+@import url("/styles/lib/Bootstrap.css");
 
 * {
     margin: 0;
