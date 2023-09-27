@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface ManufactureMachineRepository extends JpaRepository<ManufactureMachine, Long>, ManufactureMachineCustomRepository {
 
-    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
+    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
             "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
             "    inner join catalog c on c.id = mm.catalog_id" +
             "    inner join producer p on p.id = mm.producer_id" +
@@ -33,7 +33,7 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
     void deleteGoodImageById(@Param("imageId") String id);
 
 
-    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
+    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
             "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
             "    inner join catalog c on c.id = mm.catalog_id" +
             "    inner join producer p on p.id = mm.producer_id" +
@@ -43,7 +43,7 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             @Param("producerIds") List<Long> producerIds,
             Pageable pageable);
 
-@Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
+    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
         "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
         "    inner join catalog c on c.id = mm.catalog_id" +
         "    inner join producer p on p.id = mm.producer_id" +
@@ -54,7 +54,7 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             @Param("to") Long to,
             Pageable pageable);
 
-    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
+    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
             "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
             "    inner join catalog c on c.id = mm.catalog_id" +
             "    inner join producer p on p.id = mm.producer_id" +
@@ -85,5 +85,12 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             "from manufacture_machine m group by m.price;", nativeQuery = true)
     List<PricesWithGoodAmountsDto> getAllPricesWithGoodAmounts();
 
+
+    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
+            "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
+            "    inner join catalog c on c.id = mm.catalog_id" +
+            "    inner join producer p on p.id = mm.producer_id" +
+            "    where gi.good_images_order = 0;", nativeQuery = true)
+    List<MMDtoInt> getAllDto(Pageable pageable);
 
 }

@@ -2,9 +2,6 @@
 let leftRectangle = document.getElementById("leftRectangle");
 let rightRectangle = document.getElementById("rightRectangle");
 let slider = $( "#slider-range" );
-
-// const yValues = [0,7,8,8,9,9,9,10,11,14,14,15,0];
-
 let sliders = document.getElementById("slider-range").getElementsByTagName("span");
 
 
@@ -36,7 +33,6 @@ $( async function () {
         })
 
     await getPrices().then((response) => {
-        console.log(response);
         let yValues = [0];
         const xValues = [0];
 

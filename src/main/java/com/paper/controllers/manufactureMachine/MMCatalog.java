@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static com.paper.util.ControllerUtil.parseProducerIds;
 
@@ -51,9 +53,8 @@ public class MMCatalog {
                 .toList();
 
 
-        model.addAttribute("selectedProducersNames", selected.stream()
-                .map(Producer::getName)
-                .toList());
+        model.addAttribute("selectedProducersIdsAndNames", selected.stream()
+                .collect(Collectors.toMap(Producer::getId, Producer::getName)));
 
         model.addAttribute("selectedProducersIds", selected.stream()
                 .map(Producer::getId)

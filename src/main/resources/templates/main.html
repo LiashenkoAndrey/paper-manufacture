@@ -12,76 +12,100 @@
     <div id="mainWrapper">
         <div th:replace="~{/fragments/header.html :: header}"></div>
 
-        <div class="content">
-            <div id="contentHead" style="height: 80px; background-color: black; display: flex; flex-direction: column; justify-content: end;">
-                <div style="display: flex; width: 100%; margin-left: 20px;">
-                    <div class="goodTypeBtn" onclick="changeCurrentTab('tabItem1', this)">
-                        <div>
-                            <div class="goodTypeBtnHeadLine"></div>
+        <div class="mainContentWrapper" style="grid-area: content;background-color: black">
+            <div class="content" >
+                <div id="contentHead" style="height: 104px; background-color: black; display: flex; flex-direction: column; justify-content: end;">
+                    <div style="display: flex; width: 100%; margin-left: 20px;">
+                        <div class="goodTypeBtn selectedGoodType" onclick="changeCurrentTab('tabItem1', this)">
+                            <div>
+                                <div class="goodTypeBtnHeadLine"></div>
+                            </div>
+                            <span>Machines for production of paper napkins</span>
                         </div>
-                        <span>Machines for production of paper napkins</span>
-                    </div>
-                    <div class="goodTypeBtn" onclick="changeCurrentTab('tabItem2', this)">
-                        <div>
-                            <div class="goodTypeBtnHeadLine"></div>
+                        <div class="goodTypeBtn" onclick="changeCurrentTab('tabItem2', this)">
+                            <div>
+                                <div class="goodTypeBtnHeadLine"></div>
+                            </div>
+                            <span>Services for control of quality & delivery</span>
                         </div>
-                        <span>Services for control of quality & delivery</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tabs">
-                <div class="tabItem" id="tabItem1" >
-                    <div class="tabText" >
-                        <h2>HX-SJS-1575Full</h2>
-                        <p>Semi-automatic rewinding machine, for toilet paper roll making. This machine is for toilet paper roll processing.</p>
-                        <button class="btn btn-light">BUY</button>
-                        <div>
-                            <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
-                            <span class="link" >Learn more about the product</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <img class="img-fluid" th:src="@{/img/assets/good.png}" alt="">
                     </div>
                 </div>
 
-                <div class="tabItem" id="tabItem2" style="display: none;">
-                    <div class="tabText" style="flex-basis: 40%;" >
-                        <h2>Delivery support services and repair</h2>
-                        <p>
-                            Each year more than $6 trillion in air cargo is shipped via the airways. This includes general cargo and special cargo such as perishables
-                        </p>
-                        <button class="btn btn-light ">ORDER</button>
-                        <div>
-                            <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
-                            <span class="link">Learn more about the services</span>
+                <div id="tabs">
+                    <div class="tabItem" id="tabItem1" style="height: 715px;" >
+                        <div class="tabDescription" style="display: flex; flex-direction: column; justify-content: space-between">
+                            <div class="tabText" >
+                                <h2 style="font-size: 33px">HX-SJS-1575Full</h2>
+                                <p style="max-width: 600px; margin: 0; font-size: 18px">Semi-automatic rewinding machine, for toilet paper roll making. This machine is for toilet paper roll processing.</p>
+                                <button style="margin-top: 40px" class="btn btn-light">BUY</button>
+                                <div style="margin-top: 48px">
+                                    <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
+                                    <span class="link" >Learn more about the product</span>
+                                </div>
+                            </div>
+
+                            <div class="my-5 mx-5" style="display: flex; position: relative; gap: 5px">
+                                <img style="bottom: -5px;position: relative;" height="30" th:src="@{/img/assets/arrow-right-circle.svg}">
+                                <a th:href="@{/good/manufacture-machine/view/all}" class="link" style="font-weight: bold; font-size: 25px; position: relative;bottom: 2px;}">See more products</a>
+                            </div>
+                        </div>
+
+
+
+                        <div class="goodImg">
+                            <img class="img-fluid" th:src="@{/img/assets/good.png}" alt="">
                         </div>
                     </div>
 
-                    <div>
-                        <img class="img-fluid" th:src="@{/img/assets/delivery.jpg}" alt="">
+                    <div class="tabItem" id="tabItem2" style="display: none; height: 715px;">
+                        <div class="tabText" style="flex-basis: 40%;" >
+                            <h2>Delivery support services and repair</h2>
+                            <p>
+                                Each year more than $6 trillion in air cargo is shipped via the airways. This includes general cargo and special cargo such as perishables
+                            </p>
+                            <button class="btn btn-light ">ORDER</button>
+                            <div>
+                                <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
+                                <span class="link">Learn more about the services</span>
+                            </div>
+                        </div>
+
+                        <div class="goodImg">
+                            <img class="img-fluid" th:src="@{/img/assets/delivery.jpg}" alt="">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style="color: white;">
-                <div style="margin: 20px 0 40px 40px; display: flex; align-items: center; gap: 5px; position: relative">
-                    <img th:src="@{/img/assets/arrow-right-circle.svg}" alt="">
-                    <a th:href="@{/good/manufacture-machine/view/all}" class="link" style="font-weight: bold; font-size: 25px; position: relative;bottom: 2px;}">See more products</a>
+
+                <div  style="background-color: #ffffff">
+                    <div class="px-5 pt-5 pb-2 container" style="display: flex; gap: 40px; max-width: 1450px; background-color: white; font-family: 'Roboto', serif; justify-content: space-between">
+                        <div style="max-width: 400px; color: black">
+                            <div style="font-size: 19px">
+                                <span>TEAM. </span>
+                                <span>CUSTOMER. </span>
+                                <span>COMMUNITY. </span>
+                            </div>
+                            <h2 style="font-weight: bold; margin-top: 43px; font-size: 33px">We work with the best partners</h2>
+                            <p style="margin: 40px 0 32px 0; font-size: 19px">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, aut maiores quos voluptatum optio hic sunt dolorem asperiores, veniam repellendus eum a distinctio quod delectus vitae illum omnis esse tempora?
+                            </p>
+                            <button  class="btn btn-dark" style="width: 100px">BUY</button>
+
+                        </div>
+
+                        <div id="partners" >
+                            <div>
+                                <img th:src="@{/img/assets/footer/logo1.svg}" alt="">
+                                <img th:src="@{/img/assets/footer/logo2.svg}"  alt="">
+                            </div>
+                            <div>
+                                <img th:src="@{/img/assets/footer/logo3.svg}"  alt="">
+                                <img th:src="@{/img/assets/footer/logo4.svg}"  alt="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style="display: flex; gap: 20px;">
-                    <p style="font-size: 20px; max-width: 600px;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
-                        
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, provident. Fugit eum, nobis, autem sit alias illum doloribus incidunt quibusdam possimus distinctio qui ad quos totam tenetur amet. Omnis, minima?
-                    </p>
-                </div>
+
             </div>
         </div>
 

@@ -16,6 +16,8 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -68,7 +70,6 @@ public class MMController {
                 parseProducerIds(producerIds),
                 Pageable.ofSize(pageSize).withPage(pageId)
         );
-
     }
 
     @GetMapping("/maxPrice")
@@ -89,17 +90,28 @@ public class MMController {
         return repository.getAllPricesWithGoodAmounts();
     }
 
+    private final Integer PAGE_SIZE = 5;
+
 
     @GetMapping("/all")
-    public ResponseEntity<List<ManufactureMachine>> getAll() {
-        return ResponseEntity.ok(repository.findAll());
+    public @ResponseBody List<MMDtoInt> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
+                                               @RequestParam(value = "pageSize",required = false) Integer pageSize) {
+
+        System.out.println(pageId);
+        System.out.println(pageSize);
+        if (pageId != null) {
+            System.out.println("ok");
+            return repository.getAllDto(PageRequest.of(pageId, pageSize));
+        } else {
+            return repository.getAllDto(PageRequest.of(0, PAGE_SIZE));
+        }
     }
 
     @GetMapping("/view/all")
     public String getPage(Model model) {
         model.addAttribute("catalogs", catalogRepository.findAll());
         model.addAttribute("catalog", null);
-        model.addAttribute("machines", repository.findAll());
+        model.addAttribute("machines", repository.findAll(PageRequest.of(0, PAGE_SIZE)));
         return "goods";
     }
 

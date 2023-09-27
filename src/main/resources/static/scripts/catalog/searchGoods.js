@@ -31,7 +31,7 @@ function getSelectedProducers() {
 }
 
 function hasPriceFilters() {
-    return priceFromInput.value !== 0 && priceToInput.value !== 0;
+    return priceFromInput.value != 0 && priceToInput.value != 0;
 }
 
 if (getSelectedProducers().length !== 0) {
@@ -39,4 +39,32 @@ if (getSelectedProducers().length !== 0) {
 }
 if (hasPriceFilters()) {
     document.getElementById("priceFilterBtn").click();
+}
+
+function resetFilters() {
+    window.location.replace(window.location.origin + window.location.pathname);
+}
+
+function removeProducerFilter(filter) {
+    let producerId = filter.getAttribute("data-producerId");
+    let params = new URLSearchParams(window.location.search);
+    let selectedIds = JSON.parse(decodeURIComponent(params.get("producerIds")));
+
+    if (selectedIds.length != 1) {
+        selectedIds = jQuery.grep(selectedIds, function(value) {
+            return value != producerId;
+        });
+        params.set("producerIds", JSON.stringify(selectedIds))
+    } else {
+        params.delete("producerIds")
+    }
+    params.entries().
+    RequestService.doRedirect(window.location.origin + window.location.pathname + "?" + params.toString())
+}
+
+function removePriceFilter() {
+    let params = new URLSearchParams(window.location.search);
+    params.delete("priceFrom")
+    params.delete("priceTo")
+    RequestService.doRedirect(window.location.origin + window.location.pathname + "?" + params.toString())
 }

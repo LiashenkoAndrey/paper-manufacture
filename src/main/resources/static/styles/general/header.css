@@ -10,9 +10,13 @@
 }
 
 .headerItem {
-    height: 50%;
     color: white;
     display: flex; 
+}
+
+#headerSubWrapper {
+    height: 67px;
+    margin: 0 100px;
 }
 
 .catalogItem {
@@ -24,7 +28,6 @@
 
 #logoAndLangAndCard {
     gap: 10px;
-    border-bottom: solid rgb(68, 68, 68) 1px;
     justify-content: space-between;
 }
 
@@ -40,8 +43,10 @@
 }
 
 #links {
+    height: 100%;
+    margin-left: 100px;
     align-items: center;
-    font-size: 14px; 
+    font-size: 14px;
 }
 
 #links div {
@@ -50,6 +55,5 @@
 
 
 #contentHead {
-    background: rgb(0,0,0);
-background: linear-gradient(34deg, rgba(0,0,0,1) 0%, rgba(57,57,57,1) 100%);
+    background: linear-gradient(85deg, rgb(17 17 17) 32%, rgb(68 68 68) 100%);
 }

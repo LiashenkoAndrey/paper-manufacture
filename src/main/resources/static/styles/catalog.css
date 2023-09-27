@@ -1,11 +1,11 @@
 
 #catalogFiltersWrapper {
-    min-width: 320px;
+    position: sticky;
+    top: 0;
     border-top: solid rgb(219, 219, 219) 2px;
     padding: 0 5px 5px 5px;
     gap: 10px;
     display: flex;
-    position: relative;
     flex-direction: column;
 }
 
@@ -116,11 +116,6 @@
     }
 }
 
-@media screen and (min-width: 1400px) {
-    .content {
-        max-width: 1115px!important;
-    }
-}
 
 
 @media screen and (max-width: 500px) {

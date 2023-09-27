@@ -1,17 +1,20 @@
-
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;1,700&display=swap');
 
 .footer {
-    background-color: white;
+    justify-content: space-between;
+    display: flex;
+    color: white;
 }
 
 .footerWrapper {
-    color: black;
-    grid-area: footer;
+    background-color: #1b1c1d;
 }
 
 .footer div a {
-    display: flex;
+    color: white;
+}
+
+.footer div a {
     color: black;
     text-decoration: none;
 }
@@ -24,18 +27,11 @@
     font-weight: bold ;
 }
 
-#partnersLogo {
-    display: flex;
-    flex-direction: row;
-}
-
-#partnersLogo img {
-    width: 150px;
-    height: 60px;
-}
-
 .footer div {
-    margin: 0 40px 0 20px;
     display: flex;
     flex-direction: column;
+}
+
+#contacts p {
+    font-weight: bold;
 }
