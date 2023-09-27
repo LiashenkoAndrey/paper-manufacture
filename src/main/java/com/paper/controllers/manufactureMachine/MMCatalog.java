@@ -5,18 +5,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.paper.domain.Catalog;
 import com.paper.domain.CatalogType;
 import com.paper.domain.Producer;
+import com.paper.dto.MMDto;
 import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ProducerRepository;
 import com.paper.services.ManufactureMachineService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static com.paper.util.ControllerUtil.parseProducerIds;
@@ -60,13 +61,16 @@ public class MMCatalog {
                 .map(Producer::getId)
                 .toList());
 
-        model.addAttribute("machines", machineService.findAllWithFilters(
+        Page<MMDto> machinePage = machineService.findAllWithFilters(
                 catalogId,
                 priceFrom,
                 priceTo,
                 producerIdsList,
                 PageRequest.of(0, 5)
-        ));
+        );
+
+
+        model.addAttribute("machines", machinePage);
         return "/catalog";
     }
 

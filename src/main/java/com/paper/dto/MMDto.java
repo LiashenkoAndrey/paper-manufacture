@@ -1,6 +1,6 @@
 package com.paper.dto;
 
-public interface MMDtoInt {
+public interface MMDto {
 
      Long getId();
 

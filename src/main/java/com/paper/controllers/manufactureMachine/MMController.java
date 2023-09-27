@@ -2,10 +2,8 @@ package com.paper.controllers.manufactureMachine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.paper.domain.ManufactureMachine;
-import com.paper.dto.MMDtoInt;
+import com.paper.dto.MMDto;
 import com.paper.dto.PricesWithGoodAmountsDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.CatalogRepository;
@@ -16,7 +14,6 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -57,19 +54,19 @@ public class MMController {
     }
 
     @GetMapping("/page")
-    public @ResponseBody List<MMDtoInt> getPageOfEntities(@RequestParam("catalogId") Long catalogId,
-                                                          @RequestParam("pageId") Integer pageId,
-                                                          @RequestParam("pageSize") Integer pageSize,
-                                                          @RequestParam(value = "producerIds", required = false) String producerIds,
-                                                          @RequestParam(value = "priceFrom", required = false) Long priceFrom,
-                                                          @RequestParam(value = "priceTo", required = false) Long priceTo) throws JsonProcessingException {
+    public @ResponseBody List<MMDto> getPageOfEntities(@RequestParam("catalogId") Long catalogId,
+                                                       @RequestParam("pageId") Integer pageId,
+                                                       @RequestParam("pageSize") Integer pageSize,
+                                                       @RequestParam(value = "producerIds", required = false) String producerIds,
+                                                       @RequestParam(value = "priceFrom", required = false) Long priceFrom,
+                                                       @RequestParam(value = "priceTo", required = false) Long priceTo) throws JsonProcessingException {
         return machineService.findAllWithFilters(
                 catalogId,
                 priceFrom,
                 priceTo,
                 parseProducerIds(producerIds),
                 Pageable.ofSize(pageSize).withPage(pageId)
-        );
+        ).toList();
     }
 
     @GetMapping("/maxPrice")
@@ -94,8 +91,8 @@ public class MMController {
 
 
     @GetMapping("/all")
-    public @ResponseBody List<MMDtoInt> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
-                                               @RequestParam(value = "pageSize",required = false) Integer pageSize) {
+    public @ResponseBody List<MMDto> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
+                                            @RequestParam(value = "pageSize",required = false) Integer pageSize) {
 
         System.out.println(pageId);
         System.out.println(pageSize);

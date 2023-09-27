@@ -49,6 +49,7 @@
 }
 
 .checkboxWrapper div label {
+    font-size: 17px;
     cursor: pointer;
     user-select: none;
 }

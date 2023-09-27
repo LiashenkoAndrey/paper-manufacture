@@ -31,7 +31,7 @@
 <div id="mainWrapper">
   <div th:replace="~{/fragments/header.html :: header}"></div>
 
-  <div class="content mt-5" style="background-color: white; margin: 0 160px;">
+  <div class="content mt-5" style="background-color: white; margin: 0 160px; max-width: 1506px !important;">
     <div>
       <h2 style="font-weight: bold;">Machine products</h2>
       <div id="contactWithConsultant" style="text-align: end; margin-right: 20px; position: relative;">
@@ -48,7 +48,7 @@
           <div class="mt-4">
             <div class="filters">
               <div>
-                <span th:text="${machines.size()}"></span>
+                <span th:text="${machines.toList().size()}"></span>
                 <span class="mx-1">results</span>
               </div>
 
@@ -81,9 +81,9 @@
             <div class="catalogFilterSubWrapper">
               <p id="producerFilterBtn" class="link" onclick="showTab(this)">By manufacturer</p>
               <div class="checkboxWrapper tab" style="display: none; flex-direction: column;">
-                <div th:each="producer : ${producers}">
+                <div th:each="producer : ${producers}" class="mb-2">
                   <input th:checked="${selectedProducersIds.contains(producer.id)}"  th:data-producerId="${producer.id}" class="form-check-input producerCheckInput" type="checkbox" th:id="${'manufacturer-' + producer.id}">
-                  <label th:id="${'manufacturer-' + producer.id}" th:text="${producer.name}"></label>
+                  <label style="display: initial!important;" th:for="${'manufacturer-' + producer.id}" th:text="${producer.name}"></label>
                 </div>
               </div>
             </div>
@@ -119,24 +119,26 @@
         </div>
       </div>
 
-      <div class="goods pt-4" >
-        <div class="good" th:each="good : ${machines}">
+      <div class="goods pt-4" style="margin-right: 15px" >
+
+        <div class="good" th:each="good : ${machines.toList()}">
           <a th:href="@{'/producer/' + ${good.getProducerId()}}">
             <img style="margin-bottom: 10px; max-height: 40px; width: auto; max-width: 80px"  th:src="@{'/upload/image/' + ${good.getProducerLogotypeId()}}" alt="">
           </a>
           <div style="max-height: 220px">
             <img class="goodImage" style="height: 100%; width: 100%;" th:src="@{'/upload/image/' + ${good.getImageId()}} "  alt="">
           </div>
-          <span class="serialNumber" th:text="${good.getSerialNumber()}"></span>
-          <span class="text-black" th:text="${good.getName()}"></span>
+          <span class="serialNumber" th:text="${good.getSerialNumber()}" ></span>
+          <span class="text-black" th:text="${good.getName()}" ></span>
           <span class="mt-2" th:text="${'An approximate price: ' + good.getPrice()}" style="font-weight: bold"></span>
           <a th:href="@{/good/manufacture-machine(id=${good.getId()})}" class="link text-black mt-2">Product details</a>
         </div>
+
       </div>
     </div>
 
-    <div style="display: flex; justify-content: center;" class="mt-5">
-      <button class="btn btn-dark mb-5 mt-5" data-pageId="1" th:data-cataloId="${catalog.id}" id="loadGoodBtn" onclick="window.loadGood()">Load more items</button>
+    <div style="display: flex; justify-content: center;" class="mt-5" th:if="${machines.getTotalElements() > 5}">
+      <button class="btn btn-dark mb-5 mt-5" th:text="${'Load more items(' + (machines.getTotalElements() - 5) + ')'}" data-pageId="1" th:data-cataloId="${catalog.id}" id="loadGoodBtn" onclick="window.loadGood()"></button>
     </div>
 
 

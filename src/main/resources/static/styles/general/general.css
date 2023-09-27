@@ -1,4 +1,5 @@
 
+@import url("/styles/fonts/Roboto.css");
 @import url("/styles/general/footer.css");
 @import url("/styles/general/header.css");
 @import url("/styles/util/dropdown.css");
@@ -44,6 +45,7 @@ body::-webkit-scrollbar-thumb {
         'footer footer';
     grid-template-columns: 350px 1fr;
     grid-template-rows: 121px 1fr 364px;
+    font-family: Roboto, serif;
 }
 
 

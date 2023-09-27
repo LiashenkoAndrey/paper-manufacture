@@ -58,7 +58,6 @@ function removeProducerFilter(filter) {
     } else {
         params.delete("producerIds")
     }
-    params.entries().
     RequestService.doRedirect(window.location.origin + window.location.pathname + "?" + params.toString())
 }
 

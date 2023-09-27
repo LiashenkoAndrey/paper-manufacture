@@ -16,14 +16,17 @@ export class GoodPrinter {
 
     static createGoodHtml(good) {
         let goodHtml =
-            `  <a href="/producer/${good.producerId}">
-            <img width="60" src="/upload/image/${good.producerLogotypeId}" alt="">
-          </a>
-          <img class="goodImage" height="120" src="/upload/image/${good.imageId}"  alt="">
-          <span class="serialNumber">${good.serialNumber}</span>
-          <span class="text-black"${good.name}</span>
-          <span class="mt-2" style="font-weight: bold">An approximate price: ${good.price}</span>
-          <a href="/good/manufacture-machine?id=${good.id}" class="link text-black mt-2">Product details</a>`
+             `
+            <a href="/producer/${good.producerId}">
+                <img width="60" src="/upload/image/${good.producerLogotypeId}" alt="">
+            </a>
+            <img class="goodImage" height="120" src="/upload/image/${good.imageId}"  alt="">
+            <span class="serialNumber">${good.serialNumber}</span>
+            <span class="text-black">${good.name}</span>
+            <span class="mt-2" style="font-weight: bold">An approximate price: ${good.price}</span>
+            <a href="/good/manufacture-machine?id=${good.id}" class="link text-black mt-2">Product details</a>
+            
+            `
 
         let goodWrapper = document.createElement("div")
         goodWrapper.classList.add("good");

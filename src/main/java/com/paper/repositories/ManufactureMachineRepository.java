@@ -1,8 +1,9 @@
 package com.paper.repositories;
 
 import com.paper.domain.ManufactureMachine;
-import com.paper.dto.MMDtoInt;
+import com.paper.dto.MMDto;
 import com.paper.dto.PricesWithGoodAmountsDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,7 +22,7 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             "    inner join catalog c on c.id = mm.catalog_id" +
             "    inner join producer p on p.id = mm.producer_id" +
             "    where mm.catalog_id = :catalogId and gi.good_images_order = 0;", nativeQuery = true)
-    List<MMDtoInt> findAllByCatalogId(@Param("catalogId") Long catalogId, Pageable pageable);
+    Page<MMDto> findAllByCatalogId(@Param("catalogId") Long catalogId, Pageable pageable);
 
     /**
      * Deletes image record from relational database
@@ -38,7 +39,7 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             "    inner join catalog c on c.id = mm.catalog_id" +
             "    inner join producer p on p.id = mm.producer_id" +
             "    where mm.catalog_id = :catalogId and gi.good_images_order = 0 and p.id in :producerIds", nativeQuery = true)
-    List<MMDtoInt> findAllByCatalogIdAndProducerId(
+    Page<MMDto> findAllByCatalogIdAndProducerId(
             @Param("catalogId") Long catalogId,
             @Param("producerIds") List<Long> producerIds,
             Pageable pageable);
@@ -48,7 +49,7 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
         "    inner join catalog c on c.id = mm.catalog_id" +
         "    inner join producer p on p.id = mm.producer_id" +
         "    where mm.catalog_id = :catalogId and gi.good_images_order = 0 and (price >= :from and price <= :to)", nativeQuery = true)
-    List<MMDtoInt> findAllByCatalogIdAndByPrice(
+    Page<MMDto> findAllByCatalogIdAndByPrice(
             @Param("catalogId") Long catalogId,
             @Param("from") Long from,
             @Param("to") Long to,
@@ -62,7 +63,7 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             "       and gi.good_images_order = 0 " +
             "       and (price >= :from and price <= :to) " +
             "       and p.id in :producerIds", nativeQuery = true)
-    List<MMDtoInt> findAllByByCatalogIdAndProducerAndPrice(
+    Page<MMDto> findAllByByCatalogIdAndProducerAndPrice(
             @Param("catalogId") Long catalogId,
             @Param("from") Long from,
             @Param("to") Long to,
@@ -91,6 +92,6 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             "    inner join catalog c on c.id = mm.catalog_id" +
             "    inner join producer p on p.id = mm.producer_id" +
             "    where gi.good_images_order = 0;", nativeQuery = true)
-    List<MMDtoInt> getAllDto(Pageable pageable);
+    List<MMDto> getAllDto(Pageable pageable);
 
 }

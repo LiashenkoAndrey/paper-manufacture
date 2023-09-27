@@ -5,7 +5,7 @@ import com.paper.domain.Catalog;
 import com.paper.domain.Image;
 import com.paper.domain.ManufactureMachine;
 import com.paper.domain.Producer;
-import com.paper.dto.MMDtoInt;
+import com.paper.dto.MMDto;
 import com.paper.dto.ManufactureMachineDto;
 import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.exceptions.ProducerNotFoundException;
@@ -16,6 +16,7 @@ import com.paper.repositories.ProducerRepository;
 import com.paper.services.ManufactureMachineService;
 import com.paper.util.MapConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -82,7 +83,7 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
     }
 
     @Override
-    public List<MMDtoInt> findAllWithFilters(Long catalogId, Long from, Long to, List<Long> producerIds, Pageable pageable) {
+    public Page<MMDto> findAllWithFilters(Long catalogId, Long from, Long to, List<Long> producerIds, Pageable pageable) {
         if (priceNotNull(from, to) && !producerIds.isEmpty()) {
             return machineRepository.findAllByByCatalogIdAndProducerAndPrice(catalogId, from, to, producerIds, pageable);
         } else if (priceNotNull(from, to)) {

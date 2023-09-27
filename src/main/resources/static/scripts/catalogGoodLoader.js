@@ -14,7 +14,7 @@ function loadGood() {
   params.append('catalogId', loadGoodBtn.getAttribute("data-cataloId"));
 
   if (producerIds.length !== 0) {
-    params.append('producerIds', producerIds);
+    params.append('producerIds', JSON.stringify(producerIds));
   }
   if (priceFromInput.value !== 0 && priceToInput.value !== 0) {
     params.append('priceFrom', priceFromInput.value);
