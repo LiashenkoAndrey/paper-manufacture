@@ -23,22 +23,6 @@
     position: relative;
 }
 
-.footer {
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    padding: 2vh;
-}
-
-.footer div a {
-    color: white;
-}
-
-.footerWrapper {
-    background-color: #1b1c1d;
-}
-
 .characteristics div div p{
     margin-bottom: 5px;
     border-bottom: #f5deb336 solid 1px;
