@@ -9,6 +9,10 @@
     flex-direction: column;
 }
 
+#headerSubWrapper {
+    max-width: 1506px !important;
+}
+
 .catalogFilter {
     gap: 5px;
     position: relative;

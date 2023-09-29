@@ -20,7 +20,12 @@ let createManufactureMachineForm =
                         <div class="form-group">
                             <label for="name">Serial number</label>
                             <input id="serialNumber" class="form-control" type="text">
-                        </div>                    
+                        </div>            
+                        
+                        <div class="form-group">
+                            <label for="name">Price</label>
+                            <input id="inputPrice" class="form-control" type="number">
+                        </div>          
                         
                         <div>
                             <label for="images">Images</label>
@@ -98,6 +103,11 @@ let updateManufactureMachineForm =
                             <input id="serialNumber" class="form-control" type="text">
                         </div>                    
                         
+                        <div class="form-group">
+                            <label for="name">Price</label>
+                            <input id="inputPrice" class="form-control" type="number">
+                        </div>    
+                        
                         <div>
                             <label for="images">Images</label>
                             <input id="inputFiles" class="form-control" type="file" multiple="multiple">
@@ -145,13 +155,11 @@ function displayData() {
     let updateBtn = document.getElementById("updateData");
     let catalogId = updateBtn.getAttribute("data-catalog_id");
     let producerId = updateBtn.getAttribute("data-producer_id");
-    let name = document.getElementById("name").innerText;
-    let description = document.getElementById("description").innerText;
-    let serialNumber = document.getElementById("serialNumberValue").innerText;
 
-    document.getElementById("inputName").value = name;
-    document.getElementById("inputDescription").value = description;
-    document.getElementById("serialNumber").value = serialNumber;
+    copyVal('priceValue', 'inputPrice');
+    copyVal('name', 'inputName')
+    copyVal('description', 'inputDescription')
+    copyVal('serialNumberValue', 'serialNumber')
 
     getAndDisplayAllCatalogs(catalogId);
     getAndDisplayAllProducers(producerId);
@@ -162,6 +170,16 @@ function getQueryParam(name) {
     return new URLSearchParams(document.location.search).get(name);
 }
 
+function copyVal(fromId, toId) {
+    console.log(fromId)
+    console.log(toId)
+    let to = document.getElementById(toId);
+    let from = document.getElementById(fromId);
+    console.log(from)
+    console.log(to)
+
+    to.value = from.innerText;
+}
 
 function getAndDisplayAllProducers(selectedId) {
     let select = document.getElementById("producersSelect");
@@ -293,6 +311,7 @@ async function getData() {
     let producerId = document.getElementById("producersSelect").value;
     let serialNumber = document.getElementById("serialNumber").value;
     let catalogId = document.getElementById("catalogSelect").value;
+    let price = document.getElementById("inputPrice").value;
 
     let images = [];
     for (let i = 0; i < filesArray.length; i++) {
@@ -310,7 +329,8 @@ async function getData() {
             name: name,
             description: description,
             properties: Object.fromEntries(parsePropertiesAndReturnAsArray()),
-            serialNumber: serialNumber
+            serialNumber: serialNumber,
+            price: price
         },
         images: images,
         producerId: producerId,
