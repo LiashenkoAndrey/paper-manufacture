@@ -14,7 +14,7 @@
         <div th:replace="~{/fragments/header.html :: header}"></div>
 
         <div class="content pb-5 pt-4" style="padding-bottom: 30px; position: relative; display: flex; flex-direction: column">
-            <div class="d-flex" style="max-height: 400px; justify-content: space-between; margin: 0 100px">
+            <div id="goodPriceAndMainImage">
 
                 <div class="al text-white align-self-center" style="max-width: 900px;">
                     <a class="mb-2" style="display: block" th:href="@{'/producer/' + ${machine.producer.id}}">
@@ -46,19 +46,6 @@
 <!--                        </div>-->
                     </div>
 
-<!--                    <div class="arrow" id="switchBackBtn" style="left: -36px;">-->
-<!--                        <svg viewBox="0 0 104 290" xmlns="http://www.w3.org/2000/svg">-->
-<!--                            <path d="M94.2759 270.397L56.8264 289.69L0 142H43L94.2759 270.397Z" fill="#D9D9D9"/>-->
-<!--                            <path d="M43 142H0L67.7342 0L103.588 22.9971L43 142Z" fill="#D9D9D9"/>-->
-<!--                        </svg>-->
-<!--                    </div>-->
-
-<!--                    <div class="arrow" id="switchNextBtn" style="right: -37px;">-->
-<!--                        <svg style="transform: rotate(180deg);" viewBox="0 0 104 290" xmlns="http://www.w3.org/2000/svg">-->
-<!--                            <path d="M94.2759 270.397L56.8264 289.69L0 142H43L94.2759 270.397Z" fill="#D9D9D9"/>-->
-<!--                            <path d="M43 142H0L67.7342 0L103.588 22.9971L43 142Z" fill="#D9D9D9"/>-->
-<!--                        </svg>-->
-<!--                    </div>-->
                 </div>
             </div>
             <div id="goodInfo">
@@ -69,15 +56,6 @@
                             <span id="priceValue" th:text="${machine.price}"></span>
                             <span>$</span>
                         </div>
-                        <button style="display: inline" class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(deleteManufactureMachineForm)">Delete</button>
-                        <button id="updateData"
-                                th:data-catalog_id="${machine.catalog.id}"
-                                th:data-producer_id="${machine.producer.id}"
-                                style="display: inline" class="btn btn-dark mx-1 adminBtn"
-                                onclick="FormService.enableAndExecuteFunction(updateManufactureMachineForm, displayData)">Update
-                        </button>
-                        <button class="btn btn-dark mx-1 adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>-->
-                        <button class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>
                     </div>
 
 <!--                    <div id="goodImagesWrapper">-->
@@ -128,17 +106,29 @@
                             </div>
                         </div>
                     </div>
+
+                    <div>
+                        <button style="display: inline" class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(deleteManufactureMachineForm)">Delete</button>
+                        <button id="updateData"
+                                th:data-catalog_id="${machine.catalog.id}"
+                                th:data-producer_id="${machine.producer.id}"
+                                style="display: inline" class="btn btn-dark mx-1 adminBtn"
+                                onclick="FormService.enableAndExecuteFunction(updateManufactureMachineForm, displayData)">Update
+                        </button>
+                        <button class="btn btn-dark mx-1 adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>-->
+                        <button class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>
+                    </div>
                 </div>
                 <h5 id="showInfoBtn" class="mt-3" style="cursor: pointer; color: white" onclick="showMoreContent()">Show more...</h5>
             </div>
 
             <div class="mt-5" style="display: flex; justify-content: center; align-items: center; height: 100%; margin-bottom: 219px;">
-                <div style="position: relative">
+                <div id="sceneWrapper" style="position: relative">
                     <div class="reflection" id="css-element">
                         <div>
                             <img style="z-index: 1;" id="mesh" th:src="@{/img/assets/good/net.png}" alt="">
 
-                            <div style="position: relative; right: -85px;bottom: 35px;">
+                            <div id="sceneImage">
                                 <img id="img" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
                                 <img id="impression" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
                             </div>

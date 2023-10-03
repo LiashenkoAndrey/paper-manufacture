@@ -55,7 +55,7 @@
     object-position: bottom;
     bottom: -50px;
     left: 0;
-    height: 187px;
+    height: 150px;
     width: 100%;
     max-width: 700px;
 }
@@ -105,5 +105,157 @@
     cursor: pointer;
     width: 50px;
     height: 50px;
+}
 
+#sceneWrapper {
+    position: relative;
+    left: -98px;
+}
+
+#sceneImage {
+    position: relative;
+    right: -85px;
+    bottom: 35px;
+}
+
+#goodPriceAndMainImage {
+    max-height: 400px;
+    justify-content: space-between;
+    margin: 0 100px;
+    display: flex;
+}
+
+@media screen and (max-width: 680px) {
+    #goodInfo {
+        margin: 0!important;
+    }
+
+    #allCharacteristics {
+        flex-direction: column!important;
+    }
+
+    .characteristics {
+        border: none;
+    }
+
+    #goodPriceAndMainImage {
+        margin: 0 10px;
+    }
+}
+
+@media screen and (max-width: 1060px) {
+    #about, #mesh {
+        width: 700px;
+    }
+
+    #sceneWrapper {
+        width: 400px;
+    }
+
+    #impression {
+        height: 100px;
+    }
+}
+
+
+
+@media screen and (max-width: 740px) {
+    #impression {
+        height: 100px;
+    }
+
+    #about, #mesh {
+        width: 583px;
+    }
+
+    #sceneWrapper {
+        left: -47px;
+        width: 400px;
+    }
+
+    #sceneImage {
+        right: -23px;
+        bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    #about, #mesh {
+        width: 500px;
+    }
+
+    #sceneWrapper {
+        left: -30px;
+        width: 350px;
+    }
+
+    #sceneImage {
+        right: -23px;
+        bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+
+    #impression {
+        height: 95px;
+    }
+
+    #about, #mesh {
+        width: 430px;
+    }
+
+    #sceneWrapper {
+        left: -21px;
+        width: 300px;
+    }
+
+    #sceneImage {
+        right: -23px;
+        bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 440px) {
+
+    #impression {
+        height: 102px;
+    }
+
+    #about, #mesh {
+        width: 350px;
+    }
+
+    #sceneWrapper {
+        width: 240px;
+        left: -11px;
+    }
+
+    #sceneImage {
+        width: 240px;
+        left: 0;
+    }
+}
+
+@media screen and (max-width: 360px) {
+
+    #impression {
+        height: 84px;
+    }
+
+
+    #about, #mesh {
+        width: 320px;
+    }
+
+    #sceneWrapper {
+        width: 240px;
+        left: -11px;
+    }
+
+    #sceneImage {
+        width: 240px;
+        left: -11px;
+        bottom: 12px;
+    }
 }
