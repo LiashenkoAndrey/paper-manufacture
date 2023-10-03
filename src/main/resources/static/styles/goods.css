@@ -1,4 +1,10 @@
 
+
+.content {
+    background-color: white;
+    max-width: 1529px !important;
+}
+
 .goodsListItem span {
     color: black;
 }
@@ -18,20 +24,6 @@
     display: inline;
 }
 
-
-.pagination > .page-item a {
-    color: black;
-}
-
-.pagination > .active > a {
-    color: white;
-    background-color: #000000 !Important;
-    border: solid 1px #000000 !Important;
-}
-
-.pagination > .page-item a:hover {
-    text-decoration: underline;
-}
 
 .goodsList {
     min-width: 280px;
@@ -105,10 +97,18 @@
 
 
 @media screen and (max-width: 500px) {
-    #search {
-        width: auto;
+
+    #contactWithConsultant {
+        display: none;
     }
 
+    .content {
+        margin-top: 2rem!important;
+    }
+
+    .goods {
+        margin-left: 0;
+    }
 
     .good {
         width: fit-content;
@@ -120,3 +120,30 @@
     }
 }
 
+#goodsListWrapper {
+    margin-right: 3px;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 1162px) {
+    #goodsListWrapper {
+        flex-direction: row;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #goodsListWrapper {
+        width: 314px;
+    }
+}
+
+
+#filterIcon {
+    min-width: 370px;
+}
+
+@media screen and (max-width: 1162px) {
+    #filterIcon {
+        display: none;
+    }
+}

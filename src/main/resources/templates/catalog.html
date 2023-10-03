@@ -33,10 +33,8 @@
   <div class="content container mt-5">
     <div>
       <h2 style="font-weight: bold;">Machine products</h2>
-      <div id="contactWithConsultant" style="text-align: end; margin-right: 20px; position: relative;">
-        <img th:src="@{/img/assets/goods/reshot-icon-bold-arrow-right-RB7XW6DC4Z.svg}" style="position: relative; bottom: 3px;" width="19" height="19" alt="">
-        <span class="link" style="font-size: 18px; font-weight: bold; color: black;">Contact with consultant</span>
-      </div>
+      <div th:replace="~{/fragments/goods.html :: #contactWithConsultant}"></div>
+
       <div class="d-flex">
         <div id="filterIcon" >
           <img th:src="@{/img/assets/filter.png}" width="30" height="30" alt="">

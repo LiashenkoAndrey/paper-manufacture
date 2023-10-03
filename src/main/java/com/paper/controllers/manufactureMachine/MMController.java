@@ -107,7 +107,6 @@ public class MMController {
     @GetMapping("/view/all")
     public String getPage(Model model) {
         model.addAttribute("catalogs", catalogRepository.findAll());
-        model.addAttribute("catalog", null);
         model.addAttribute("machines", repository.findAll(PageRequest.of(0, PAGE_SIZE)));
         return "goods";
     }
