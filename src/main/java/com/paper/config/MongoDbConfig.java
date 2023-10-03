@@ -9,13 +9,8 @@ import org.springframework.data.mongodb.core.MongoClientFactoryBean;
 @Configuration
 public class MongoDbConfig {
 
-//    public @Bean MongoClient mongoClient() {
-//        return MongoClients.create("mongodb://localhost:27017");
-//    }
-
     public @Bean MongoClientFactoryBean mongo() {
         MongoClientFactoryBean mongo = new MongoClientFactoryBean();
-        mongo.setHost("localhost");
         mongo.setPort(27017);
         return mongo;
     }
