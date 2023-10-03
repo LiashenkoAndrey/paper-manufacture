@@ -11,52 +11,57 @@
     <div id="mainWrapper">
         <div th:replace="~{/fragments/header.html :: header}"></div>
 
-        <div class="mainContentWrapper" style="grid-area: content;background-color: black">
+        <div class="mainContentWrapper">
             <div class="content" >
-                <div id="contentHead" style="height: 104px; background-color: black; display: flex; flex-direction: column; justify-content: end;">
-                    <div style="display: flex; width: 100%; margin-left: 20px;">
+                <div id="contentHead">
+                    <div id="typeBtns">
                         <div class="goodTypeBtn selectedGoodType" onclick="changeCurrentTab('tabItem1', this)">
                             <div>
                                 <div class="goodTypeBtnHeadLine"></div>
                             </div>
-                            <span>Machines for production of paper napkins</span>
+                            <div class="goodTypeBtnText">
+                                <span >Machines for production of paper napkins</span>
+                            </div>
                         </div>
                         <div class="goodTypeBtn" onclick="changeCurrentTab('tabItem2', this)">
                             <div>
                                 <div class="goodTypeBtnHeadLine"></div>
                             </div>
-                            <span>Services for control of quality & delivery</span>
+
+                            <div class="goodTypeBtnText">
+                                <span>Services for control of quality & delivery</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="tabs">
-                    <div class="tabItem" id="tabItem1" style="height: 715px;" >
-                        <div class="tabDescription" style="display: flex; flex-direction: column; justify-content: space-between">
+                    <div class="tabItem" id="tabItem1" >
+                        <div class="tabDescription">
                             <div class="tabText" >
                                 <h2 style="font-size: 33px">HX-SJS-1575Full</h2>
                                 <p style="max-width: 600px; margin: 0; font-size: 18px">Semi-automatic rewinding machine, for toilet paper roll making. This machine is for toilet paper roll processing.</p>
-                                <button style="margin-top: 40px" class="btn btn-light">BUY</button>
-                                <div style="margin-top: 48px">
-                                    <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
-                                    <span class="link" >Learn more about the product</span>
-                                </div>
-                            </div>
 
-                            <div class="my-5 mx-5" style="display: flex; position: relative; gap: 5px">
-                                <img style="bottom: -5px;position: relative;" height="30" th:src="@{/img/assets/arrow-right-circle.svg}">
-                                <a th:href="@{/good/manufacture-machine/view/all}" class="link" style="font-weight: bold; font-size: 25px; position: relative;bottom: 2px;}">See more products</a>
+                                <div class="mt-5" id="buyAndGoodInfoBtns">
+                                    <button class="btn btn-light">BUY</button>
+                                    <span class="link" style="display: block;" >Learn more about the product</span>
+                                </div>
                             </div>
                         </div>
 
+                        <div id="goodImgWrapper" style="background: rgb(0,0,0);background: linear-gradient(90deg, rgba(0,0,0,1) 60%, rgba(255,255,255,1) 100%);">
+                            <div class="goodImg">
+                                <img class="img-fluid" th:src="@{/img/assets/good.png}" alt="">
+                            </div>
+                        </div>
 
-
-                        <div class="goodImg">
-                            <img class="img-fluid" th:src="@{/img/assets/good.png}" alt="">
+                        <div id="seeMoreProducts" class="my-5 mx-5">
+                            <img height="30" th:src="@{/img/assets/arrow-right-circle.svg}">
+                            <a th:href="@{/good/manufacture-machine/view/all}" class="link">See more products</a>
                         </div>
                     </div>
 
-                    <div class="tabItem" id="tabItem2" style="display: none; height: 715px;">
+                    <div class="tabItem" id="tabItem2" style="display: none;">
                         <div class="tabText" style="flex-basis: 40%;" >
                             <h2>Delivery support services and repair</h2>
                             <p>
@@ -76,8 +81,8 @@
                 </div>
 
 
-                <div  style="background-color: #ffffff">
-                    <div class="px-5 pt-5 pb-2 container" style="display: flex; gap: 40px; max-width: 1450px; background-color: white; font-family: 'Roboto', serif; justify-content: space-between">
+                <div style="background-color: #ffffff">
+                    <div id="about" class="px-5 pt-5 pb-5 container">
                         <div style="max-width: 400px; color: black">
                             <div style="font-size: 19px">
                                 <span>TEAM. </span>
@@ -88,8 +93,7 @@
                             <p style="margin: 40px 0 32px 0; font-size: 19px">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, aut maiores quos voluptatum optio hic sunt dolorem asperiores, veniam repellendus eum a distinctio quod delectus vitae illum omnis esse tempora?
                             </p>
-                            <button  class="btn btn-dark" style="width: 100px">BUY</button>
-
+                            <button class="btn btn-dark" style="width: 100px">BUY</button>
                         </div>
 
                         <div id="partners" >

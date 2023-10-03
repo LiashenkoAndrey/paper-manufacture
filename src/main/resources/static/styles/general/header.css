@@ -84,10 +84,6 @@
     font-weight: bold
 }
 
-#contentHead {
-    background: linear-gradient(85deg, rgb(17 17 17) 32%, rgb(68 68 68) 100%);
-}
-
 @media screen and (max-width: 1130px) {
     #headerSubWrapper {
         margin: 0 ;
