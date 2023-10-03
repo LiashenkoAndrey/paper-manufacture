@@ -1,27 +1,26 @@
 <div class="header" th:fragment="header">
-  <div id="headerSubWrapper" style="" >
-    <div class="headerItem" id="logoAndLangAndCard" style="height: 100%;">
-      <div id="logoAndSearch" style="display: flex; height: 100%;">
-        <div style="align-self: center; margin-right: 20px; height: 100%">
-
+  <div id="headerSubWrapper" class="container">
+    <div class="headerItem" id="logoAndLangAndCard">
+      <div id="logoAndSearch">
+        <div id="logoWrapper">
           <a href="/" style="text-decoration: none;">
-            <div style="display: flex; gap: 10px; margin-top: 20px">
-              <img th:src="@{/img/assets/logo.jpg}" width="25px" height="25px" alt="" style="border-radius: 3px; align-self: center">
-              <span th:text="#{headTitle}" style="font-size: 17px; color: white; font-weight: bold">Modern Enterprise Machines</span>
+            <div id="logo">
+              <img th:src="@{/img/assets/logo.jpg}"  alt="logo">
+              <span th:text="#{headTitle}">Modern Enterprise Machines</span>
             </div>
           </a>
         </div>
+
         <div style="height: 100%">
           <div id="search">
             <img th:src="@{/img/assets/magnifying-glass.svg}" alt="">
-
-            <div style="width: 100%; margin-left: 15px; padding: 5px">
+            <div id="searchInputWrapper">
               <input id="searchInput" type="text">
-              <div id="searchedList">
-              </div>
+              <div id="searchedList"></div>
             </div>
           </div>
         </div>
+
       </div>
       <div id="headIconsWrapper">
         <div class="dropdown">
@@ -50,7 +49,7 @@
 
   <div style="border-top: solid rgb(68, 68, 68) 1px;"></div>
   <div style="width: 100%; background-color: #0a0a0a; height: 53px">
-    <div class="headerItem" id="links" >
+    <div class="headerItem container" id="links" >
       <div class="dropdown">
         <div>
           <span style="font-size: 15px; font-weight: bold" >Catalog</span>

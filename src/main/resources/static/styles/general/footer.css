@@ -1,6 +1,9 @@
 
 
 .footer {
+    max-width: 1529px !important;
+    margin-top: 77px;
+    gap: 20px;
     justify-content: space-between;
     display: flex;
     color: white;
@@ -35,3 +38,58 @@
 #contacts p {
     font-weight: bold;
 }
+
+@media screen and (max-width: 800px) {
+    .footer {
+        flex-direction: column;
+    }
+}
+
+#footerLogoWrapper p  {
+    margin-left: 3px;
+    position: relative;
+    white-space: nowrap;
+    align-self: center;
+    font-size: 20px
+}
+
+#footerLogoWrapper p span {
+    color: rgb(213, 36, 20);
+    position: relative;
+    left: -3px;
+}
+
+#footerLogoWrapper img {
+    display: block;
+}
+
+#footerLogoWrapper {
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+}
+
+#socialMedia {
+    display: flex;
+    flex-direction: row;
+    margin-top: 80px
+}
+
+@media screen and (max-width: 420px) {
+    #footerLogoWrapper p {
+        white-space: normal;
+        bottom: 10px;
+    }
+
+
+    .footer {
+        margin-top: 35px;
+        gap: 60px;
+    }
+
+    #socialMedia {
+        margin-top: 20px;
+    }
+}
+

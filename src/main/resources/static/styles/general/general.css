@@ -13,7 +13,9 @@
 }
 
 body, html {
-    height: 100vh
+    height: 100%;
+    /*font-family: Roboto;*/
+    overflow-x: hidden;
 }
 
 body {
@@ -45,7 +47,7 @@ body::-webkit-scrollbar-thumb {
         'content content'
         'footer footer';
     grid-template-columns: 350px 1fr;
-    grid-template-rows: 121px 1fr 364px;
+    grid-template-rows: 121px 1fr 1fr;
     font-family: Roboto, serif;
 }
 

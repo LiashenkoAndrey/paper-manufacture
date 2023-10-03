@@ -15,8 +15,8 @@
 }
 
 #headerSubWrapper {
+    max-width: 1529px !important;
     height: 67px;
-    margin: 0 100px;
 }
 
 .catalogItem {
@@ -27,6 +27,7 @@
 
 
 #logoAndLangAndCard {
+    height: 100%;
     gap: 10px;
     justify-content: space-between;
 }
@@ -43,8 +44,8 @@
 }
 
 #links {
+    max-width: 1529px !important;
     height: 100%;
-    margin-left: 100px;
     align-items: center;
     font-size: 14px;
 }
@@ -53,7 +54,97 @@
     margin-right: 20px;
 }
 
+#logoAndSearch {
+    display: flex;
+    height: fit-content;
+}
+
+#logo {
+    display: flex;
+    gap: 10px;
+    align-self: center;
+}
+
+#logoWrapper {
+    align-self: center;
+    margin-right: 20px;
+    height: 100%
+}
+
+#logo img {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    align-self: center
+}
+
+#logo span {
+    font-size: 17px;
+    color: white;
+    font-weight: bold
+}
 
 #contentHead {
     background: linear-gradient(85deg, rgb(17 17 17) 32%, rgb(68 68 68) 100%);
+}
+
+@media screen and (max-width: 1130px) {
+    #headerSubWrapper {
+        margin: 0 ;
+    }
+}
+
+@media screen and (max-width: 830px) {
+    #search {
+        width: auto!important;
+    }
+}
+
+@media screen and (max-width: 830px) {
+    #search {
+        width: auto!important;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    #logoWrapper {
+        margin-right: 10px;
+    }
+}
+
+#searchInputWrapper {
+    width: 100%;
+    margin-left: 15px;
+    padding: 5px
+}
+
+
+
+@media screen and (max-width: 570px) {
+    #search {
+        background: none;
+    }
+
+    #searchInputWrapper {
+
+        display: none;
+    }
+
+    #search img {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    #headIconsWrapper {
+        margin-right: 10px;
+    }
+
+    #logo span {
+        font-size: 15px;
+    }
+
+    #logoWrapper {
+        width: 186px;
+    }
 }

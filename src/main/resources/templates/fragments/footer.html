@@ -1,12 +1,12 @@
 
 <div class="footerWrapper" style="grid-area: footer;" th:fragment="footer">
-    <div class="footer container" style="max-width: 1440px; margin-top: 77px">
+    <div class="footer mb-2 container">
         <div style="display: flex; font-family: 'Roboto', serif; font-weight: 700;">
-            <div style="font-size: 14px; display: flex; flex-direction: row; gap: 3px;">
-                <img style="display: block;"  th:src="@{/img/assets/logo.jpg}"  width="28px" height="30" alt="">
-                <p style="position: relative; white-space: nowrap; align-self: center; margin: 0; font-size: 20px">
+            <div id="footerLogoWrapper">
+                <img th:src="@{/img/assets/logo.jpg}"  width="28px" height="30" alt="">
+                <p>
                     MODER ENTERPRISE MACHINES
-                    <span style="color: rgb(213, 36, 20); position: relative; left: -3px;">.COM</span>
+                    <span>.COM</span>
                 </p>
             </div>
 
@@ -15,7 +15,7 @@
                 <span style="font-weight: 100; color: #8f8f8f;">(Quarkou 323)</span>
             </div>
 
-            <div  style="display: flex; flex-direction: row; margin-top: 80px">
+            <div id="socialMedia">
                 <img th:src="@{/img/assets/footer/instagram.svg}" height="25" width="25" alt="">
                 <img th:src="@{/img/assets/footer/youtube.svg}" height="25" width="25" alt="">
             </div>

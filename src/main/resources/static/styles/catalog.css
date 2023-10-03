@@ -9,8 +9,9 @@
     flex-direction: column;
 }
 
-#headerSubWrapper {
-    max-width: 1506px !important;
+.content {
+    background-color: white;
+    max-width: 1529px !important;
 }
 
 .catalogFilter {
@@ -69,7 +70,6 @@
     padding: 1px 6px;
 }
 
-
 .filterVal {
     margin-right: 5px;
 }
@@ -104,9 +104,13 @@
     background-color: rgba(249, 0, 0, 0.26);
 }
 
-
 #filterIcon {
-    min-width: 323px;
+    min-width: 370px;
+}
+
+#goodsListWrapper {
+    margin-right: 3px;
+    flex-direction: column;
 }
 
 @media screen and (max-width: 370px) {
@@ -115,27 +119,76 @@
     }
 }
 
-@media screen and (max-width: 994px) {
+@media screen and (min-width: 1162px) {
     #goodsListWrapper {
-        flex-direction: column;
+        flex-direction: row;
     }
 }
 
+@media screen and (max-width: 1162px) {
+    #filterIcon {
+        display: none;
+    }
+}
 
+@media screen and (max-width: 780px) {  .good {width: fit-content;}   }
+
+
+@media screen and (max-width: 321px) {
+    #catalogFiltersWrapper {
+        width: 314px;
+    }
+
+    #catalogFiltersWrapper .btn {
+        width: 310px!important;
+    }
+
+    .good {
+        width: 312px!important;
+    }
+}
+
+#filtersWrapper {
+    min-width: 370px;
+}
+
+@media screen and (max-width: 400px) {
+    .content {
+        padding: 3px;
+    }
+
+    #goodsListWrapper {
+        width: 314px;
+    }
+
+    #filtersWrapper {
+        min-width: auto;
+    }
+}
+
+#searchInfo {
+    position: relative;
+    width: 100%;
+    margin-left: 20px
+}
+
+#catalogName {
+    top: 10px;
+    position: relative;
+    margin-left: 6px
+}
 
 @media screen and (max-width: 500px) {
+
+    #contactWithConsultant {
+        display: none;
+    }
+
     #priceFilterWrapper {
         position: relative;
         left: -7px;
     }
 
-    #filterIcon {
-        display: none;
-    }
-
-    #contactWithConsultant {
-        display: none;
-    }
 
     #catalogFiltersWrapper {
         padding: 0;
@@ -146,20 +199,12 @@
         flex-direction: column;
     }
 
-    #logoAndSearch {
-        margin-left: 10px;!important;
-    }
-
-    #search {
-        width: 200px;
-    }
-
     .goods {
         margin-left: 0;
     }
 
-    .good {
-        width: fit-content;
+    #searchInfo {
+        margin-left: 0;
     }
 
     .goodImage {
@@ -167,7 +212,8 @@
         height: auto;
     }
 
-    #goodsListWrapper {
-        flex-wrap: wrap;
+    .content {
+        margin-top: 2rem!important;
     }
+
 }

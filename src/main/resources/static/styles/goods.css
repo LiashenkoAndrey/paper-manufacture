@@ -109,9 +109,6 @@
         width: auto;
     }
 
-    #goodsListWrapper {
-        flex-wrap: wrap;
-    }
 
     .good {
         width: fit-content;
@@ -123,10 +120,3 @@
     }
 }
 
-#links {
-    margin-left: 160px!important;
-}
-
-#headerSubWrapper {
-    margin: 0 160px!important;
-}
