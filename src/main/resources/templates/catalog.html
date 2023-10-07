@@ -44,7 +44,7 @@
           <div class="mt-4">
             <div class="filters">
               <div>
-                <span th:text="${machines.size()}"></span>
+                <span id="totalItems" th:text="${totalItems}"></span>
                 <span class="mx-1" th:text="#{catalogResults}"></span>
               </div>
 
@@ -133,7 +133,7 @@
     </div>
 
     <div style="display: flex; justify-content: center;" class="mt-5" th:if="${totalItems > 5}">
-      <button class="btn btn-dark mb-5 mt-5" th:text="${'Load more items(' + (totalItems - 5) + ')'}" data-pageId="1" th:data-cataloId="${catalog.id}" id="loadGoodBtn" onclick="window.loadGood()"></button>
+      <button class="btn btn-dark mb-5 mt-5" data-pageId="1" th:data-cataloId="${catalog.id}" id="loadGoodBtn" onclick="window.loadGood()"><span>Load more items(</span><span th:text="${totalItems - 5}" id="remainingItems"></span> <span>)</span></button>
     </div>
 
 

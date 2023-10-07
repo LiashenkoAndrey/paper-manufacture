@@ -22,6 +22,7 @@ public class Catalog extends Model {
     }
 
     @Size(min = 4, max = 255)
+    @Column(updatable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)

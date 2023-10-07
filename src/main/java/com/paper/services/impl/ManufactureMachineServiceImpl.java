@@ -104,7 +104,7 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
         logger.info("before: " + machines);
         List<String> names = machines.stream().map(MMDto2::getName).toList();
 
-        if (!currentLocale.equals(sourceLanguage)) {
+        if (!currentLocale.equals(sourceLanguage) && !machines.isEmpty()) {
             List<Translation> namesTranslation = translate.translate(
                     names,
                     sourceLanguage("en"),

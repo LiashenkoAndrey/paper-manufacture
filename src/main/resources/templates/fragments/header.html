@@ -26,7 +26,7 @@
         <div class="dropdown">
           <div style="display: flex; gap: 5px">
             <img style="height: 30px" th:src="@{/img/assets/globus.jpg}" alt="">
-            <span style="font-weight: bold; align-self: center; font-size: 15px; text-transform: uppercase" th:text="${#locale}"></span>
+            <span style="font-weight: bold; align-self: center; font-size: 15px; text-transform: uppercase" th:text="${#locale.getLanguage()}"></span>
           </div>
           <div class="dropdown-content" style="right: -20px">
             <p data-lang="en" onclick="setLanguage(this)" >English</p>

@@ -33,13 +33,6 @@
                 <div class="d-flex flex-column goodsList"  style="position: relative;">
                     <h5 class="filtersWrapperTitle" th:text="#{goodsCatalog}"></h5>
                     <div class="goodsListItem" th:each="catalogItem : ${catalogs}">
-                        <div>
-                            <img
-                                    th:if="${catalog != null ? (catalogItem.id == catalog.id) : false}"
-                                    th:src="@{/img/assets/goods/arrow-right.png}"
-                                    width="15" height="15" alt=""
-                            >
-                        </div>
                         <a class="link" th:href="@{'/good/manufacture-machine/catalog/' + ${catalogItem.id}}" th:text="${catalogItem.name}"></a>
                     </div>
                 </div>

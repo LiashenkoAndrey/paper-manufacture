@@ -21,7 +21,7 @@ searchInput.addEventListener("click", getSerialNumbers);
 
 let searchListDisabled = true;
 
-searchInput.addEventListener("keypress", ev => {
+searchInput.addEventListener("keydown", ev => {
     document.body.addEventListener("click", function () {
         disableSearchedList()
     });

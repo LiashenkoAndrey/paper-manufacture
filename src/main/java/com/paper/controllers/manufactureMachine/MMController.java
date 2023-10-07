@@ -3,6 +3,7 @@ package com.paper.controllers.manufactureMachine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.paper.domain.Catalog;
 import com.paper.dto.MMDto;
 import com.paper.dto.MMDto2;
 import com.paper.dto.PricesWithGoodAmountsDto;
@@ -16,6 +17,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -66,13 +68,14 @@ public class MMController {
                                                         @RequestParam(value = "producerIds", required = false) String producerIds,
                                                         @RequestParam(value = "priceFrom", required = false) Long priceFrom,
                                                         @RequestParam(value = "priceTo", required = false) Long priceTo) throws JsonProcessingException {
-        return machineRepository.findPageAndFilterBy(
+        List<MMDto2> page = machineRepository.findPageAndFilterBy(
                 catalogId,
                 parseProducerIds(producerIds),
                 priceFrom,
                 priceTo,
                 Pageable.ofSize(pageSize).withPage(pageId)
-        ).toList();
+        );
+        return machineService.translateAllNamesDto(page);
     }
 
     @GetMapping("/maxPrice")
@@ -99,9 +102,6 @@ public class MMController {
     @GetMapping("/all")
     public @ResponseBody List<MMDto> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
                                             @RequestParam(value = "pageSize",required = false) Integer pageSize) {
-
-        System.out.println(pageId);
-        System.out.println(pageSize);
         if (pageId != null) {
             return repository.getAllDto(PageRequest.of(pageId, pageSize));
         } else {

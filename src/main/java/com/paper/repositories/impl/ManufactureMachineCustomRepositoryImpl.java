@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachineCustomRepository {
@@ -47,20 +48,64 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
            );
     }
 
-    @Override
     @Transactional
-    @SuppressWarnings("unchecked")
-    public Page<MMDto2> findPageAndFilterBy(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable) {
+    @Override
+    public Long getTotalItems(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo) {
+
+        producersIds = processProducersIds(producersIds);
+
+        Stream<Tuple> totalCountStream = (Stream<Tuple>) manager.createNativeQuery("""
+           select
+            count(*)
+            from manufacture_machine mm
+               inner join good_images gi on mm.id = gi.manufacture_machine_id
+               inner join catalog c on c.id = mm.catalog_id
+               inner join producer p on p.id = mm.producer_id
+            where mm.catalog_id = :catalogId
+              and gi.good_images_order = 0
+              and
+                (case
+                    when cast(:priceFrom as integer) is not null and cast(:priceTo as integer) is not null
+                    then (price >= cast(:priceFrom as integer) and price <= cast(:priceTo as integer))
+                    else true 
+                end)
+              and
+                (case 
+                    when -1 in (:producersIds) then true
+                    else p.id in (:producersIds)
+                end);
+           """, Tuple.class)
+                .setParameter("catalogId", catalogId)
+                .setParameter("priceFrom", priceFrom)
+                .setParameter("priceTo", priceTo)
+                .setParameter("producersIds", producersIds.stream().map(Math::toIntExact).toList())
+                .getResultStream();
+
+        List<Long> totalCountList = totalCountStream.map(tuple -> tuple.get("count", Long.class)).toList();
+        logger.info("totalCountList = " + totalCountList);
+        return totalCountList.isEmpty() ? -1 : totalCountList.get(0);
+    }
+
+    private List<Long> processProducersIds(List<Long> producersIds) {
         if (producersIds == null) {
             producersIds = List.of(-1L, -2L);
         } else if (producersIds.isEmpty()) producersIds = List.of(-1L, -2L);
-        logger.info(producersIds);
+        return producersIds;
+    }
 
-        System.out.println(manager.createNativeQuery("select * from manufacture_machine", ManufactureMachine.class).getResultList());
+    @Override
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public List<MMDto2> findPageAndFilterBy(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable) {
 
+        producersIds = processProducersIds(producersIds);
+
+        if (producersIds == null) {
+            producersIds = List.of(-1L, -2L);
+        } else if (producersIds.isEmpty()) producersIds = List.of(-1L, -2L);
 
         TypedQuery<Tuple> query = (TypedQuery<Tuple>) manager.createNativeQuery("""
-            select
+           select
                 mm.id,
                 mm.serial_number as serialNumber,
                 mm.name,
@@ -87,14 +132,13 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
                 end);
            """, Tuple.class);
 
-        logger.info("producersIds: "+ producersIds);
         List<MMDto2> list = query
                 .setParameter("catalogId", catalogId)
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
                 .setParameter("producersIds", producersIds.stream().map(Math::toIntExact).toList())
-                .setFirstResult(0)
-                .setMaxResults(5)
+                .setFirstResult((pageable.getPageNumber()) * pageable.getPageSize())
+                .setMaxResults(pageable.getPageSize())
                 .getResultStream().map(tuple -> MMDto2.builder()
                         .serialNumber(tuple.get("serialNumber", String.class))
                         .id((long) tuple.get("id", Integer.class))
@@ -105,14 +149,7 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
                         .imageId(tuple.get("imageId", String.class))
                         .build()
                 ).toList();
-
-        long totalCount = list.size() < pageable.getPageSize()
-                ? pageable.getPageSize()
-                : manager
-                .createQuery("SELECT count(m) FROM ManufactureMachine m", Long.class)
-                .getSingleResult();
-
-        return new PageImpl<>(list, pageable, totalCount);
+        return list;
     }
 
 }

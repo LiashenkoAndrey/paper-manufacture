@@ -77,9 +77,9 @@ public class ManufactureMachineCustomRepositoryImplTest {
     @Order(2)
     @Test
     public void findAllByCatalogIdAndByPrice() {
-        Page<MMDto2> page = searchRepository.findPageAndFilterBy(1L, List.of(1L),  null, null, PageRequest.of(0, 5));
+        List<MMDto2> page = searchRepository.findPageAndFilterBy(1L, List.of(1L),  null, null, PageRequest.of(0, 5));
         assertThat(page.stream().toList()).hasSize(1);
-        MMDto2 item = page.toList().get(0);
+        MMDto2 item = page.get(0);
         assertThat(item).isNotNull();
         assertThat(item.getPrice())
                 .isBetween(0L, 1000L);

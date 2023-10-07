@@ -70,7 +70,7 @@ public class MMCatalog {
                 .map(Producer::getId)
                 .toList());
 
-        Page<MMDto2> machinePage = machineRepository.findPageAndFilterBy(
+        List<MMDto2> machinePage = machineRepository.findPageAndFilterBy(
                 catalogId,
                 producerIdsList,
                 priceFrom,
@@ -78,9 +78,8 @@ public class MMCatalog {
                 PageRequest.of(0, 5)
         );
 
-        System.out.println(machinePage.toList());
-        model.addAttribute("machines", machineService.translateAllNamesDto(machinePage.toList()));
-        model.addAttribute("totalItems", machinePage.getTotalElements());
+        model.addAttribute("machines", machineService.translateAllNamesDto(machinePage));
+        model.addAttribute("totalItems", machineRepository.getTotalItems(catalogId, producerIdsList, priceFrom, priceTo));
         return "/catalog";
     }
 

@@ -20,7 +20,7 @@ function loadGood() {
     params.append('priceFrom', priceFromInput.value);
     params.append('priceTo', priceToInput.value);
   }
-  GoodPrinter.getGoodsAndPrintByPage("/good/manufacture-machine/page?" ,params.toString());
+  GoodPrinter.getGoodsAndPrintByPage("/good/manufacture-machine/page?" ,params.toString(), pageId);
   loadGoodBtn.setAttribute("data-pageId", Number.parseInt(pageId) + 1)
 }
 
