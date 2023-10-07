@@ -6,23 +6,25 @@ import lombok.*;
 
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Table
-@Builder
+@ToString(callSuper = true)
 @Entity
-public class Catalog {
+public class Catalog extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Builder
+    public Catalog(Long id, String name, CatalogType type) {
+        super(id);
+        this.name = name;
+        this.type = type;
+    }
 
     @Size(min = 4, max = 255)
     private String name;
 
     @Enumerated(EnumType.STRING)
     private CatalogType type;
+
 }

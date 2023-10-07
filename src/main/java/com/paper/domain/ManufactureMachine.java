@@ -20,8 +20,8 @@ public class ManufactureMachine extends Good {
     }
 
     @Builder
-    public ManufactureMachine(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, SortedMap<String, String> properties, String serialNumber, List<Video> videos, Long price) {
-        super(id, description, name, producer, catalog, images, videos, price);
+    public ManufactureMachine(Long id, String description, String name, Producer producer, Catalog catalog, Long price, List<String> images, List<Video> videos, SortedMap<String, String> properties, String serialNumber) {
+        super(id, description, name, producer, catalog, price, images, videos);
         this.properties = properties;
         this.serialNumber = serialNumber;
     }
@@ -36,17 +36,17 @@ public class ManufactureMachine extends Good {
     @NotNull
     private String serialNumber;
 
-
     @Override
     public String toString() {
         return "ManufactureMachine{" +
                 "properties=" + properties +
                 ", serialNumber='" + serialNumber + '\'' +
-                ", id=" + id +
+                ", id=" + super.getId() +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
                 ", producer=" + producer+
                 ", catalog=" + catalog +
                 '}';
     }
+
 }

@@ -8,6 +8,8 @@ public interface MMDto {
 
      String getName();
 
+     void setName(String name);
+
      String getProducerLogotypeId();
 
      String getProducerId();

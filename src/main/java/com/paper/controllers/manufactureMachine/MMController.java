@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.paper.dto.MMDto;
+import com.paper.dto.MMDto2;
 import com.paper.dto.PricesWithGoodAmountsDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ManufactureMachineRepository;
+import com.paper.services.CatalogService;
 import com.paper.services.ManufactureMachineService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -37,34 +39,38 @@ public class MMController {
 
     private final ManufactureMachineService machineService;
 
+    private final ManufactureMachineRepository machineRepository;
+
+    private final CatalogService catalogService;
+
     @PersistenceContext
     private final EntityManager manager;
 
     @GetMapping
     @SuppressWarnings("unchecked")
     public String getGoodDetails(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("catalogs", catalogRepository.findAll());
+        model.addAttribute("catalogs", catalogService.translateAll(catalogRepository.findAll()));
         var machine = repository.findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
         List<String> image2 = (List<String>) manager.createQuery("select m.images from ManufactureMachine m where m.id = :goodId")
                 .setParameter("goodId", id)
                 .getResultList();
         model.addAttribute("images", image2);
-        model.addAttribute("machine", machine);
+        model.addAttribute("machine", machineService.translate(machine));
         return "good";
     }
 
     @GetMapping("/page")
-    public @ResponseBody List<MMDto> getPageOfEntities(@RequestParam("catalogId") Long catalogId,
-                                                       @RequestParam("pageId") Integer pageId,
-                                                       @RequestParam("pageSize") Integer pageSize,
-                                                       @RequestParam(value = "producerIds", required = false) String producerIds,
-                                                       @RequestParam(value = "priceFrom", required = false) Long priceFrom,
-                                                       @RequestParam(value = "priceTo", required = false) Long priceTo) throws JsonProcessingException {
-        return machineService.findAllWithFilters(
+    public @ResponseBody List<MMDto2> getPageOfEntities(@RequestParam("catalogId") Long catalogId,
+                                                        @RequestParam("pageId") Integer pageId,
+                                                        @RequestParam("pageSize") Integer pageSize,
+                                                        @RequestParam(value = "producerIds", required = false) String producerIds,
+                                                        @RequestParam(value = "priceFrom", required = false) Long priceFrom,
+                                                        @RequestParam(value = "priceTo", required = false) Long priceTo) throws JsonProcessingException {
+        return machineRepository.findPageAndFilterBy(
                 catalogId,
+                parseProducerIds(producerIds),
                 priceFrom,
                 priceTo,
-                parseProducerIds(producerIds),
                 Pageable.ofSize(pageSize).withPage(pageId)
         ).toList();
     }
@@ -97,7 +103,6 @@ public class MMController {
         System.out.println(pageId);
         System.out.println(pageSize);
         if (pageId != null) {
-            System.out.println("ok");
             return repository.getAllDto(PageRequest.of(pageId, pageSize));
         } else {
             return repository.getAllDto(PageRequest.of(0, PAGE_SIZE));
@@ -106,8 +111,8 @@ public class MMController {
 
     @GetMapping("/view/all")
     public String getPage(Model model) {
-        model.addAttribute("catalogs", catalogRepository.findAll());
-        model.addAttribute("machines", repository.findAll(PageRequest.of(0, PAGE_SIZE)));
+        model.addAttribute("catalogs", catalogService.translateAll(catalogRepository.findAll()));
+        model.addAttribute("machines", machineService.translateAll(repository.findAll(PageRequest.of(0, PAGE_SIZE)).toList()));
         return "goods";
     }
 

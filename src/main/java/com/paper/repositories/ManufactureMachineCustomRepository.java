@@ -1,6 +1,11 @@
 package com.paper.repositories;
 
 
+import com.paper.dto.MMDto2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 import java.util.Map;
 
 public interface ManufactureMachineCustomRepository {
@@ -10,4 +15,6 @@ public interface ManufactureMachineCustomRepository {
      * @return serial number and entity id as a java.util.Map<String, Long>
      */
     Map<String, Long> getAllSerialNumbers();
+
+    Page<MMDto2> findPageAndFilterBy(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable);
 }

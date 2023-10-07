@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalTime;
-import java.util.Arrays;
 
 @Entity
 @Builder
@@ -14,11 +13,8 @@ import java.util.Arrays;
 @Getter
 @Setter
 @Table(schema = "public", name = "videos")
-public class Video {
+public class Video extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Size(min = 5, max = 500)
     private String description;
@@ -34,7 +30,7 @@ public class Video {
     @Override
     public String toString() {
         return "Video{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
                 ", duration=" + duration +

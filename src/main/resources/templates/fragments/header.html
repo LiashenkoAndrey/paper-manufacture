@@ -6,7 +6,7 @@
           <a href="/" style="text-decoration: none;">
             <div id="logo">
               <img th:src="@{/img/assets/logo.jpg}"  alt="logo">
-              <span th:text="#{headTitle}">Modern Enterprise Machines</span>
+              <span th:text="#{siteTitle}"></span>
             </div>
           </a>
         </div>
@@ -26,21 +26,21 @@
         <div class="dropdown">
           <div style="display: flex; gap: 5px">
             <img style="height: 30px" th:src="@{/img/assets/globus.jpg}" alt="">
-            <span style="font-weight: bold; align-self: center; font-size: 15px">US</span>
+            <span style="font-weight: bold; align-self: center; font-size: 15px; text-transform: uppercase" th:text="${#locale}"></span>
           </div>
           <div class="dropdown-content" style="right: -20px">
-            <p data-lang="en-US" onclick="setLanguage(this)" >English</p>
-            <p data-lang="de-DE" onclick="setLanguage(this)" >Deutsch</p>
-            <p data-lang="pl-PL" onclick="setLanguage(this)" >język polski</p>
-            <p data-lang="uk-UA" onclick="setLanguage(this)" >Українська</p>
-            <p data-lang="ja-JP" onclick="setLanguage(this)" >日本語</p>
-            <p data-lang="zh-CN" onclick="setLanguage(this)" >汉语/漢語</p>
-            <p data-lang="es-ES" onclick="setLanguage(this)" >español</p>
-            <p data-lang="hi-IN" onclick="setLanguage(this)" >हिन्दी</p>
-            <p data-lang="fr-FR" onclick="setLanguage(this)" >français</p>
-            <p data-lang="pt-PT" onclick="setLanguage(this)" >português</p>
-            <p data-lang="tr-TR" onclick="setLanguage(this)" >Türkçe</p>
-            <p data-lang="ru-RU" onclick="setLanguage(this)" >Русский</p>
+            <p data-lang="en" onclick="setLanguage(this)" >English</p>
+            <p data-lang="de" onclick="setLanguage(this)" >Deutsch</p>
+            <p data-lang="pl" onclick="setLanguage(this)" >język polski</p>
+            <p data-lang="uk" onclick="setLanguage(this)" >Українська</p>
+            <p data-lang="ja" onclick="setLanguage(this)" >日本語</p>
+            <p data-lang="zh" onclick="setLanguage(this)" >汉语/漢語</p>
+            <p data-lang="es" onclick="setLanguage(this)" >español</p>
+            <p data-lang="hi" onclick="setLanguage(this)" >हिन्दी</p>
+            <p data-lang="fr" onclick="setLanguage(this)" >français</p>
+            <p data-lang="pt" onclick="setLanguage(this)" >português</p>
+            <p data-lang="tr" onclick="setLanguage(this)" >Türkçe</p>
+            <p data-lang="ru" onclick="setLanguage(this)" >Русский</p>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
     <div class="headerItem container" id="links" >
       <div class="dropdown">
         <div>
-          <span style="font-size: 15px; font-weight: bold" >Catalog</span>
+          <span style="font-size: 15px; font-weight: bold" th:text="#{headCatalog}" ></span>
           <svg width="9" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" id="caret-icon-uh-pn-1" class="uh-pn-caret-icon uh-pn-caret-level-0" data-testid="caret-icon-uh-pn-1"><path d="M8.001 6.25l-3.5 3.5-3.5-3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </div>
         <div class="dropdown-content" style="min-width: 200px;">
@@ -65,10 +65,10 @@
       </div>
 
       <div>
-        <a style="font-size: 15px; font-weight: bold" class="link" href="">About</a>
+        <a style="font-size: 15px; font-weight: bold" class="link" href="" th:text="#{headAbout}"></a>
       </div>
       <div>
-        <a style="font-size: 15px; font-weight: bold"  href="" class="link">Contacts</a>
+        <a style="font-size: 15px; font-weight: bold"  href="" class="link" th:text="#{headContacts}"></a>
       </div>
     </div>
   </div>

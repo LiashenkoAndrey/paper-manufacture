@@ -9,17 +9,21 @@ import org.hibernate.validator.constraints.URL;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Table
-public class Producer {
+public class Producer extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Builder
+    public Producer(Long id, String name, String description, String logotypeId, String websiteUrl) {
+        super(id);
+        this.name = name;
+        this.description = description;
+        this.logotypeId = logotypeId;
+        this.websiteUrl = websiteUrl;
+    }
 
     @Size(min = 3, max = 255)
     @NotNull

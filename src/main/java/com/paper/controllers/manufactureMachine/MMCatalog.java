@@ -5,10 +5,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.paper.domain.Catalog;
 import com.paper.domain.CatalogType;
 import com.paper.domain.Producer;
-import com.paper.dto.MMDto;
+import com.paper.dto.MMDto2;
 import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.repositories.CatalogRepository;
+import com.paper.repositories.ManufactureMachineRepository;
 import com.paper.repositories.ProducerRepository;
+import com.paper.services.CatalogService;
 import com.paper.services.ManufactureMachineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import static com.paper.util.ControllerUtil.parseProducerIds;
 
 @Controller
@@ -30,7 +33,11 @@ public class MMCatalog {
     private final CatalogRepository catalogRepository;
     private final ManufactureMachineService machineService;
 
+    private final ManufactureMachineRepository machineRepository;
+
     private final ProducerRepository producerRepository;
+
+    private final CatalogService catalogService;
 
     @GetMapping("{catalogId}")
     public String viewSpecifiedCatalog(@PathVariable("catalogId") Long catalogId,
@@ -39,9 +46,12 @@ public class MMCatalog {
                                        @RequestParam(value = "priceTo", required = false) Long priceTo,
                                        Model model) throws JsonProcessingException {
 
+        List<Catalog> translatedCatalogs = catalogService.translateAll(catalogRepository.findAll());
+        model.addAttribute("catalogs", translatedCatalogs);
+
         Catalog catalog = catalogRepository.findById(catalogId).orElseThrow(CatalogNotFoundException::new);
-        model.addAttribute("catalogs", catalogRepository.findAll());
-        model.addAttribute("catalog", catalog);
+        model.addAttribute("catalog", translatedCatalogs.get(translatedCatalogs.indexOf(catalog)));
+
         List<Producer> producers = producerRepository.findAll();
         model.addAttribute("producers", producers);
 
@@ -53,7 +63,6 @@ public class MMCatalog {
                 .filter(producer -> producerIdsList.contains(producer.getId()))
                 .toList();
 
-
         model.addAttribute("selectedProducersIdsAndNames", selected.stream()
                 .collect(Collectors.toMap(Producer::getId, Producer::getName)));
 
@@ -61,19 +70,19 @@ public class MMCatalog {
                 .map(Producer::getId)
                 .toList());
 
-        Page<MMDto> machinePage = machineService.findAllWithFilters(
+        Page<MMDto2> machinePage = machineRepository.findPageAndFilterBy(
                 catalogId,
+                producerIdsList,
                 priceFrom,
                 priceTo,
-                producerIdsList,
                 PageRequest.of(0, 5)
         );
 
-
-        model.addAttribute("machines", machinePage);
+        System.out.println(machinePage.toList());
+        model.addAttribute("machines", machineService.translateAllNamesDto(machinePage.toList()));
+        model.addAttribute("totalItems", machinePage.getTotalElements());
         return "/catalog";
     }
-
 
     @GetMapping("/all")
     public @ResponseBody List<Catalog> getAllCatalogs() {

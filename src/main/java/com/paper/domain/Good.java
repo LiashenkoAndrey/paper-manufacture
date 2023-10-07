@@ -13,26 +13,22 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class Good {
+public abstract class Good extends Model {
 
     public Good(Long id) {
-        this.id = id;
+        super(id);
     }
 
-    public Good(Long id, String description, String name, Producer producer, Catalog catalog, List<String> images, List<Video> videos, Long price) {
-        this.id = id;
+    public Good(Long id, String description, String name, Producer producer, Catalog catalog, Long price, List<String> images, List<Video> videos) {
+        super(id);
         this.description = description;
         this.name = name;
         this.producer = producer;
         this.catalog = catalog;
+        this.price = price;
         this.images = images;
         this.videos = videos;
-        this.price = price;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
 
     @NotNull
     protected String description;

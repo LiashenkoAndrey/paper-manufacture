@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paper machinery manufacture and services</title>
+  <title th:text="#{siteTitle}"></title>
   <link rel="stylesheet" th:href="@{/styles/general/general.css}">
   <link rel="stylesheet" th:href="@{/styles/goods.css}">
   <link rel="stylesheet" th:href="@{/styles/forms.css}">
@@ -25,20 +25,18 @@
 </head>
 <body>
 
-
-
 <div id="mainWrapper">
   <div th:replace="~{/fragments/header.html :: header}"></div>
 
   <div class="content container mt-5">
     <div>
-      <h2 style="font-weight: bold;">Machine products</h2>
+      <h2 style="font-weight: bold;" th:text="#{goodType}"></h2>
       <div th:replace="~{/fragments/goods.html :: #contactWithConsultant}"></div>
 
       <div class="d-flex">
         <div id="filterIcon" >
           <img th:src="@{/img/assets/filter.png}" width="30" height="30" alt="">
-          <span style="font-size: 20px;">Filters</span>
+          <span style="font-size: 20px;" th:text="#{filters}"></span>
         </div>
 
         <div id="searchInfo">
@@ -46,12 +44,12 @@
           <div class="mt-4">
             <div class="filters">
               <div>
-                <span th:text="${machines.toList().size()}"></span>
-                <span class="mx-1">results</span>
+                <span th:text="${machines.size()}"></span>
+                <span class="mx-1" th:text="#{catalogResults}"></span>
               </div>
 
               <div th:if="${priceTo != null and priceFrom != null or !selectedProducersIds.isEmpty()}" class="resetBtn">
-                <span onclick="resetFilters()">Reset</span>
+                <span onclick="resetFilters()" th:text="#{catalogReset}"></span>
               </div>
 
               <div class="filter" onclick="removePriceFilter()" th:if="${priceTo != null and priceFrom != null}">
@@ -72,12 +70,12 @@
     <div id="goodsListWrapper" class="mt-3 d-flex">
       <div id="filtersWrapper">
         <div id="catalogFiltersWrapper">
-          <h5 class="filtersWrapperTitle">Filter by</h5>
+          <h5 class="filtersWrapperTitle" th:text="#{catalogFilterBy}"></h5>
 
           <div class="catalogFilter" >
             <img th:src="@{/img/assets/arrowCatalog.svg}" width="12" height="12" alt="">
             <div class="catalogFilterSubWrapper">
-              <p id="producerFilterBtn" class="link" onclick="showTab(this)">By manufacturer</p>
+              <p id="producerFilterBtn" class="link" onclick="showTab(this)" th:text="#{catalogFilterByManufacturer}"></p>
               <div class="checkboxWrapper tab" style="display: none; flex-direction: column;">
                 <div th:each="producer : ${producers}" class="mb-2">
                   <input th:checked="${selectedProducersIds.contains(producer.id)}"  th:data-producerId="${producer.id}" class="form-check-input producerCheckInput" type="checkbox" th:id="${'manufacturer-' + producer.id}">
@@ -90,12 +88,12 @@
           <div class="catalogFilter">
             <img th:src="@{/img/assets/arrowCatalog.svg}" width="12" height="12" alt="">
             <div style="width: inherit;" class="catalogFilterSubWrapper">
-              <p id="priceFilterBtn" class="link" onclick="showTab(this)">By price</p>
+              <p id="priceFilterBtn" class="link" onclick="showTab(this)" th:text="#{catalogFilterByPrice}"></p>
               <div style="display: none; flex-direction: column; width: inherit" class="tab" id="priceFilterWrapper">
-                <h6>Price range $</h6>
+                <h6 th:text="#{catalogFilterByPriceRange}"></h6>
                 <div style="display: flex; flex-direction: row; width: inherit" >
-                  <input id="priceFrom" th:value="${priceFrom}" style="padding: 4px;" class="form-control" type="number" placeholder="From">
-                  <input id="priceTo" th:value="${priceTo}" th:data-value="${priceTo}" style="padding: 4px;" class="form-control" type="number" placeholder="To">
+                  <input id="priceFrom" th:value="${priceFrom}" style="padding: 4px;" class="form-control" type="number" th:placeholder="#{catalogFilterByPriceFrom}">
+                  <input id="priceTo" th:value="${priceTo}" th:data-value="${priceTo}" style="padding: 4px;" class="form-control" type="number" th:placeholder="#{catalogFilterByPriceTo}">
                 </div>
                 <div class="mt-2" id="chartWrapper" style="display: flex; flex-direction: column;">
                   <div style="position: relative;">
@@ -118,8 +116,7 @@
       </div>
 
       <div class="goods pt-4">
-
-        <div class="good" th:each="good : ${machines.toList()}">
+        <div class="good" th:each="good : ${machines}">
           <a th:href="@{'/producer/' + ${good.getProducerId()}}">
             <img style="margin-bottom: 10px; max-height: 40px; width: auto; max-width: 80px"  th:src="@{'/upload/image/' + ${good.getProducerLogotypeId()}}" alt="">
           </a>
@@ -129,14 +126,14 @@
           <span class="serialNumber" th:text="${good.getSerialNumber()}" ></span>
           <span class="text-black" th:text="${good.getName()}" ></span>
           <span class="mt-2" th:text="${'An approximate price: ' + good.getPrice()}" style="font-weight: bold"></span>
-          <a th:href="@{/good/manufacture-machine(id=${good.getId()})}" class="link text-black mt-2">Product details</a>
+          <a th:href="@{/good/manufacture-machine(id=${good.getId()})}" class="link text-black mt-2" th:text="#{goodPage}"></a>
         </div>
 
       </div>
     </div>
 
-    <div style="display: flex; justify-content: center;" class="mt-5" th:if="${machines.getTotalElements() > 5}">
-      <button class="btn btn-dark mb-5 mt-5" th:text="${'Load more items(' + (machines.getTotalElements() - 5) + ')'}" data-pageId="1" th:data-cataloId="${catalog.id}" id="loadGoodBtn" onclick="window.loadGood()"></button>
+    <div style="display: flex; justify-content: center;" class="mt-5" th:if="${totalItems > 5}">
+      <button class="btn btn-dark mb-5 mt-5" th:text="${'Load more items(' + (totalItems - 5) + ')'}" data-pageId="1" th:data-cataloId="${catalog.id}" id="loadGoodBtn" onclick="window.loadGood()"></button>
     </div>
 
 
@@ -149,12 +146,12 @@
 </div>
 
 
+<script type="module" th:src="@{/scripts/i18n.js}"></script>
 <script th:src="@{/scripts/services/FormService.js}"></script>
 <script th:src="@{/scripts/good/manufactureMachine.js}"></script>
 <script th:src="@{/scripts/producer.js}"></script>
 <script th:src="@{/scripts/util/search.js}"></script>
 <script th:src="@{/scripts/services/RequestService.js}"></script>
-<script type="module" th:src="@{/scripts/general.js}"></script>
 <script th:src="@{/scripts/catalog/tabs.js}"></script>
 <script th:src="@{/scripts/catalog/priceGraph.js}"></script>
 <script th:src="@{/scripts/catalog/searchGoods.js}"></script>

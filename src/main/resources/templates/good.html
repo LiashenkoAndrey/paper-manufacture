@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paper machinery manufacture and services</title>
+    <title th:text="#{siteTitle}"></title>
     <link rel="stylesheet" th:href="@{/styles/general/general.css}">
     <link rel="stylesheet" th:href="@{/styles/good.css}">
     <link rel="stylesheet" th:href="@{/styles/forms.css}">
@@ -24,7 +24,7 @@
                     <h6 style="font-size: 18px; font-weight: bold" th:text="${machine.serialNumber}"></h6>
 
                     <div class="mt-3" style="font-size: 18px">
-                        <span>Talk to our sales team. </span>
+                        <span th:text="#{talkTOSalesTeam}"></span>
                         <img height="20" class="mx-1" th:src="@{/img/assets/good/phone.svg}">
                         <span class="link" >Call +880 (546) 4344 445</span>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="text-white" style="border-bottom: solid rgb(97, 97, 97) 2px; display: flex">
                     <div style="display: flex;">
                         <div style="font-weight: bold; font-size: 22px;">
-                            <span>An approximate price:</span>
+                            <span th:text="#{approximatePrice}"></span>
                             <span id="priceValue" th:text="${machine.price}"></span>
                             <span>$</span>
                         </div>
@@ -81,12 +81,12 @@
                 </div>
                 <div id="allCharacteristics" class="text-white d-flex gap-4 mt-5" style="max-height: 503px; overflow: hidden">
                     <div class="characteristics" style="border-right: solid rgb(97, 97, 97) 2px; padding-right: 30px;">
-                        <h5>Main characteristics:</h5>
+                        <h5 th:text="#{mainCharacteristics}"></h5>
                         <table style="width:100%" class="table table-dark">
                             <thead class="thead-light">
                             <tr>
-                                <th>Property name</th>
-                                <th>Value</th>
+                                <th th:text="#{propertyName}"></th>
+                                <th th:text="#{propertyValue}"></th>
                             </tr>
                             </thead>
                             <tr th:each="entry : ${machine.properties}">
@@ -99,7 +99,7 @@
                     <div class="characteristics">
                         <div class="d-flex flex-columns gap-4">
                             <div>
-                                <p>Serial number</p>
+                                <p th:text="#{serialNumber}"></p>
                             </div>
                             <div>
                                 <p id="serialNumberValue" th:text="${machine.serialNumber}"></p>
@@ -119,7 +119,7 @@
                         <button class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>
                     </div>
                 </div>
-                <h5 id="showInfoBtn" class="mt-3" style="cursor: pointer; color: white" onclick="showMoreContent()">Show more...</h5>
+                <h5 id="showInfoBtn" class="mt-3" style="cursor: pointer; color: white" onclick="showMoreContent()" th:text="#{showMore}"></h5>
             </div>
 
             <div class="mt-5" style="display: flex; justify-content: center; align-items: center; height: 100%; margin-bottom: 219px;">
@@ -151,6 +151,8 @@
 
         <div th:replace="~{/fragments/footer.html :: footer}"></div>
     </div>
+
+    <script type="module" th:src="@{/scripts/i18n.js}"></script>
     <script th:src="@{/scripts/services/FormService.js}"></script>
     <script th:src="@{/scripts/services/RequestService.js}"></script>
     <script th:src="@{/scripts/good/manufactureMachine.js}"></script>

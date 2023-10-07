@@ -49,7 +49,7 @@ public class TestUtils {
         em.createNativeQuery("ALTER SEQUENCE good_group_id_seq RESTART WITH 1").executeUpdate();
     }
 
-    public void createTestProducerWithId1() throws IOException {
+    public Producer createTestProducerWithId1() throws IOException {
         Image image = imageRepository.save(Image.builder()
                 .base64Image(Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("src/test/resources/testImage.jpg"))))
                 .type(MediaType.IMAGE_JPEG_VALUE)
@@ -64,7 +64,7 @@ public class TestUtils {
                 .websiteUrl("https://mvnrepository.com/artifact/org.assertj/assertj-core/3.24.2")
                 .build();
 
-        producerRepository.save(producer);
+        return producerRepository.save(producer);
     }
 
     @Transactional

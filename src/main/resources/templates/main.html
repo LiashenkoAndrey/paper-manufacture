@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{siteTitle}">Paper machinery manufacture and services</title>
+    <title th:text="#{siteTitle}"></title>
     <link rel="stylesheet" th:href="@{/styles/general/general.css}">
     <link rel="stylesheet" th:href="@{/styles/mainPage.css}">
 </head>
@@ -20,7 +20,7 @@
                                 <div class="goodTypeBtnHeadLine"></div>
                             </div>
                             <div class="goodTypeBtnText">
-                                <span >Machines for production of paper napkins</span>
+                                <span th:text="#{tab1Title}">Machines for production of paper napkins</span>
                             </div>
                         </div>
                         <div class="goodTypeBtn" onclick="changeCurrentTab('tabItem2', this)">
@@ -29,7 +29,7 @@
                             </div>
 
                             <div class="goodTypeBtnText">
-                                <span>Services for control of quality & delivery</span>
+                                <span th:text="#{tab2Title}">Services for control of quality & delivery</span>
                             </div>
                         </div>
                     </div>
@@ -40,11 +40,11 @@
                         <div class="tabDescription">
                             <div class="tabText" >
                                 <h2 style="font-size: 33px">HX-SJS-1575Full</h2>
-                                <p style="max-width: 600px; margin: 0; font-size: 18px">Semi-automatic rewinding machine, for toilet paper roll making. This machine is for toilet paper roll processing.</p>
+                                <p style="max-width: 600px; margin: 0; font-size: 18px" th:text="#{tab1Desc}"></p>
 
                                 <div class="mt-5" id="buyAndGoodInfoBtns">
-                                    <button class="btn btn-light">BUY</button>
-                                    <span class="link" style="display: block;" >Learn more about the product</span>
+                                    <button class="btn btn-light" th:text="#{tab1BuyBtn}"></button>
+                                    <span class="link" style="display: block;" th:text="#{tab1LearnMore}"></span>
                                 </div>
                             </div>
                         </div>
@@ -57,20 +57,18 @@
 
                         <div id="seeMoreProducts" class="my-5 mx-5">
                             <img height="30" th:src="@{/img/assets/arrow-right-circle.svg}">
-                            <a th:href="@{/good/manufacture-machine/view/all}" class="link">See more products</a>
+                            <a th:href="@{/good/manufacture-machine/view/all}" class="link" th:text="#{tab1SeeMore}"></a>
                         </div>
                     </div>
 
                     <div class="tabItem" id="tabItem2" style="display: none;">
                         <div class="tabText" style="flex-basis: 40%;" >
-                            <h2>Delivery support services and repair</h2>
-                            <p>
-                                Each year more than $6 trillion in air cargo is shipped via the airways. This includes general cargo and special cargo such as perishables
-                            </p>
-                            <button class="btn btn-light ">ORDER</button>
+                            <h2 th:text="#{tab2Desc}"></h2>
+                            <p th:text="#{tab2Text}"></p>
+                            <button class="btn btn-light" th:text="#{tab2BuyBtn}"></button>
                             <div>
                                 <img height="20" th:src="@{/img/assets/arrow-right-circle.svg}">
-                                <span class="link">Learn more about the services</span>
+                                <span class="link" th:text="#{tab2LearnMore}"></span>
                             </div>
                         </div>
 
@@ -84,15 +82,9 @@
                 <div style="background-color: #ffffff">
                     <div id="about" class="px-5 pt-5 pb-5 container">
                         <div style="max-width: 400px; color: black">
-                            <div style="font-size: 19px">
-                                <span>TEAM. </span>
-                                <span>CUSTOMER. </span>
-                                <span>COMMUNITY. </span>
-                            </div>
-                            <h2 style="font-weight: bold; margin-top: 43px; font-size: 33px">We work with the best partners</h2>
-                            <p style="margin: 40px 0 32px 0; font-size: 19px">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, aut maiores quos voluptatum optio hic sunt dolorem asperiores, veniam repellendus eum a distinctio quod delectus vitae illum omnis esse tempora?
-                            </p>
+                            <h4 style="font-size: 19px" th:text="#{aboutPreTitle}"></h4>
+                            <h2 style="font-weight: bold; margin-top: 43px; font-size: 33px" th:text="#{aboutTitle}"></h2>
+                            <p style="margin: 40px 0 32px 0; font-size: 19px" th:text="#{aboutText}"></p>
                             <button class="btn btn-dark" style="width: 100px">BUY</button>
                         </div>
 
@@ -114,6 +106,8 @@
 
         <div th:replace="~{/fragments/footer.html :: footer}"></div>
     </div>
+
+    <script type="module" th:src="@{/scripts/i18n.js}"></script>
     <script th:src="@{/scripts/util/tabs.js}"></script>
     <script th:src="@{/scripts/util/search.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

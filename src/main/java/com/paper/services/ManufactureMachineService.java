@@ -1,10 +1,8 @@
 package com.paper.services;
 
 import com.paper.domain.ManufactureMachine;
-import com.paper.dto.MMDto;
+import com.paper.dto.MMDto2;
 import com.paper.dto.ManufactureMachineDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -22,5 +20,9 @@ public interface ManufactureMachineService {
      */
     void deleteImageById(String imageId);
 
-    Page<MMDto> findAllWithFilters(Long catalogId, Long from, Long to, List<Long> producerId, Pageable pageable);
+
+    List<MMDto2> translateAllNamesDto(List<MMDto2> machines);
+
+    List<ManufactureMachine> translateAll(List<ManufactureMachine> machines);
+    ManufactureMachine translate(ManufactureMachine machine);
 }

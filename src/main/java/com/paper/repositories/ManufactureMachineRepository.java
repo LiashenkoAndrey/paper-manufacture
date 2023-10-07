@@ -34,41 +34,8 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
     void deleteGoodImageById(@Param("imageId") String id);
 
 
-    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
-            "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
-            "    inner join catalog c on c.id = mm.catalog_id" +
-            "    inner join producer p on p.id = mm.producer_id" +
-            "    where mm.catalog_id = :catalogId and gi.good_images_order = 0 and p.id in :producerIds", nativeQuery = true)
-    Page<MMDto> findAllByCatalogIdAndProducerId(
-            @Param("catalogId") Long catalogId,
-            @Param("producerIds") List<Long> producerIds,
-            Pageable pageable);
 
-    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
-        "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
-        "    inner join catalog c on c.id = mm.catalog_id" +
-        "    inner join producer p on p.id = mm.producer_id" +
-        "    where mm.catalog_id = :catalogId and gi.good_images_order = 0 and (price >= :from and price <= :to)", nativeQuery = true)
-    Page<MMDto> findAllByCatalogIdAndByPrice(
-            @Param("catalogId") Long catalogId,
-            @Param("from") Long from,
-            @Param("to") Long to,
-            Pageable pageable);
 
-    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
-            "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
-            "    inner join catalog c on c.id = mm.catalog_id" +
-            "    inner join producer p on p.id = mm.producer_id" +
-            "    where mm.catalog_id = :catalogId " +
-            "       and gi.good_images_order = 0 " +
-            "       and (price >= :from and price <= :to) " +
-            "       and p.id in :producerIds", nativeQuery = true)
-    Page<MMDto> findAllByByCatalogIdAndProducerAndPrice(
-            @Param("catalogId") Long catalogId,
-            @Param("from") Long from,
-            @Param("to") Long to,
-            @Param("producerIds") List<Long> producerIds,
-            Pageable pageable);
 
     @Query(value = "select max(price) from paper_manufacture.public.manufacture_machine", nativeQuery = true)
     Long getMaxGoodPrice();
