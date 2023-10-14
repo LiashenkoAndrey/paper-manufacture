@@ -1,8 +1,25 @@
 
 
+@media screen and (min-width: 1600px) {
+    .content {
+        max-width: 1529px !important;
+    }
+
+
+}
+
+@media screen and (max-width: 1600px) {
+    .content {
+        max-width: 1320px !important;
+    }
+
+    .good {
+        width: 324px!important;
+    }
+}
+
 .content {
     background-color: white;
-    max-width: 1529px !important;
 }
 
 .goodsListItem span {

@@ -47,8 +47,8 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             "         count(id) as amount" +
             "     from manufacture_machine mm" +
             "     where" +
-            "         mm.price >= (m.price - 100000)" +
-            "       and mm.price <= (m.price + 100000)" +
+            "         mm.price >= (m.price - 10000)" +
+            "       and mm.price <= (m.price + 10000)" +
             "     )" +
             "from manufacture_machine m group by m.price;", nativeQuery = true)
     List<PricesWithGoodAmountsDto> getAllPricesWithGoodAmounts();

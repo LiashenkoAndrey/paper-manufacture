@@ -34,16 +34,8 @@
                     <div class="img-magnifier-container">
                         <div class="imageListItem">
                             <img th:src="@{'/upload/image/' + ${images.get(0)}}" class="img-fluid zoomable" alt="">
-                            <button style="align-self: flex-start" th:id="${image}" class="btn btn-dark" onclick="enableImageDeleteForm(this)">Delete</button>
+                            <button style="align-self: flex-start" th:id="${images.get(0)}" class="btn btn-dark" onclick="enableImageDeleteForm(this)">Delete</button>
                         </div>
-
-<!--                        <div class="imageListItem" style="position: relative;" th:each="video : ${machine.videos}">-->
-<!--                            <video controls-->
-<!--                                   style="height: 100%; user-select: none; display: block; width: 100%"-->
-<!--                                   th:src="@{'/video/upload?id=' + ${video.id}}">-->
-<!--                            </video>-->
-<!--                            <button  style="align-self: flex-start" th:id="${video.id}" class="btn btn-dark" onclick="enableVideoDeleteForm(this)">Delete</button>-->
-<!--                        </div>-->
                     </div>
 
                 </div>
@@ -58,26 +50,6 @@
                         </div>
                     </div>
 
-<!--                    <div id="goodImagesWrapper">-->
-<!--                        <div id="goodImagesWrapper2">-->
-<!--                            <button class="btn btn-dark adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>-->
-<!--                            <button class="btn btn-dark adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>-->
-<!--                            <div th:each="image : ${images}" class="item navImageListItem">-->
-<!--                                <div class="child">-->
-<!--                                    <img class="navItem" th:src="@{'/upload/image/' + ${image}}" alt="">-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div th:each="video : ${machine.videos}" class="navImageListItem" style="position: relative;">-->
-<!--                                <div class="item">-->
-<!--                                    <div class="child">-->
-<!--                                        <video class="navItem" th:src="@{'/video/upload?id=' + ${video.id}}"></video>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <span th:text="${#strings.substring(video.duration, 3)}" class="videoTime" ></span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
                 <div id="allCharacteristics" class="text-white d-flex gap-4 mt-5" style="max-height: 503px; overflow: hidden">
                     <div class="characteristics" style="border-right: solid rgb(97, 97, 97) 2px; padding-right: 30px;">
@@ -115,7 +87,7 @@
                                 style="display: inline" class="btn btn-dark mx-1 adminBtn"
                                 onclick="FormService.enableAndExecuteFunction(updateManufactureMachineForm, displayData)">Update
                         </button>
-                        <button class="btn btn-dark mx-1 adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>-->
+                        <button class="btn btn-dark mx-1 adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>
                         <button class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>
                     </div>
                 </div>
@@ -131,12 +103,13 @@
                             <div id="sceneImage">
                                 <img id="img" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
                                 <img id="impression" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
+                                <button style="position: absolute; top: 0; z-index: 100" th:id="${images.get(0)}" class="btn btn-dark" onclick="enableImageDeleteForm(this)">Delete</button>
                             </div>
                         </div>
 
                         <div id="about">
                             <div id="imgBar">
-                                <div th:each="image : ${images}">
+                                <div th:data-image_id="${image}" onclick="switchImage(this)" th:each="image : ${images}">
                                     <img th:src="@{'/upload/image/' + ${image}}" alt="">
                                 </div>
                             </div>

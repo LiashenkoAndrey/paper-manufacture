@@ -101,7 +101,11 @@
 }
 
 
-
+@media screen and (max-width: 1600px) {
+    .good {
+        width: 294px!important;
+    }
+}
 
 @media screen and (max-width: 370px) {
     #chartWrapper {

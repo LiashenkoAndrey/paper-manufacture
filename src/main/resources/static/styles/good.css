@@ -158,6 +158,22 @@
 }
 
 
+@media screen and (min-width: 1060px) {
+    #about, #mesh {
+        width: 1240px;
+    }
+
+    #sceneWrapper {
+        left: -210px;
+    }
+
+    #sceneImage {
+        right: -125px;
+    }
+
+}
+
+
 
 @media screen and (max-width: 740px) {
     #impression {

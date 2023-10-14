@@ -14,8 +14,20 @@
     display: flex; 
 }
 
+
+@media screen and (min-width: 1600px) {
+    #headerSubWrapper {
+        max-width: 1529px !important;
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    #headerSubWrapper {
+        max-width: 1320px !important;
+    }
+}
+
 #headerSubWrapper {
-    max-width: 1529px !important;
     height: 67px;
 }
 
@@ -43,8 +55,20 @@
     margin-right: 10px;
 }
 
+
+@media screen and (min-width: 1600px) {
+   #links {
+       max-width: 1529px !important;
+   }
+}
+
+@media screen and (max-width: 1600px) {
+    #links {
+        max-width: 1320px !important;
+    }
+}
+
 #links {
-    max-width: 1529px !important;
     height: 100%;
     align-items: center;
     font-size: 14px;

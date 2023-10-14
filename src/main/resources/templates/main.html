@@ -43,8 +43,12 @@
                                 <p style="max-width: 600px; margin: 0; font-size: 18px" th:text="#{tab1Desc}"></p>
 
                                 <div class="mt-5" id="buyAndGoodInfoBtns">
-                                    <button class="btn btn-light" th:text="#{tab1BuyBtn}"></button>
-                                    <span class="link" style="display: block;" th:text="#{tab1LearnMore}"></span>
+                                    <a href="/good/manufacture-machine?id=52">
+                                        <button class="btn btn-light" th:text="#{tab1BuyBtn}"></button>
+                                    </a>
+                                    <a style="text-decoration: none" href="/good/manufacture-machine?id=52">
+                                        <span class="link" style="display: block;" th:text="#{tab1LearnMore}"></span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,17 @@
 
+@media screen and (min-width: 1600px) {
+    .footer {
+        max-width: 1529px !important;
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .footer {
+        max-width: 1320px !important;
+    }
+}
 
 .footer {
-    max-width: 1529px !important;
     margin-top: 77px;
     gap: 20px;
     justify-content: space-between;
