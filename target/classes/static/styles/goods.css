@@ -1,0 +1,149 @@
+
+
+.content {
+    background-color: white;
+    max-width: 1529px !important;
+}
+
+.goodsListItem span {
+    color: black;
+}
+
+.goodsListItem div {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
+
+
+.goodsListItem a {
+    color: black;
+}
+
+.goodsList div:first-of-type div img {
+    display: inline;
+}
+
+
+.goodsList {
+    min-width: 280px;
+    border-top: solid rgb(219, 219, 219) 2px; 
+    padding: 0 5px 5px 5px; 
+    gap: 10px;
+}
+
+.filtersWrapperTitle {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    letter-spacing: 5px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.404);
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+
+
+#loadMoreItemsBtn {
+    display: flex;
+    justify-content: center;
+}
+
+.good {
+    animation: 1s fadeIn;
+    animation-fill-mode: forwards;
+    visibility: hidden;
+
+    /*height: 400px;*/
+    width: 360px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border: solid rgb(219, 219, 219) 2px;
+    background-color: rgb(247, 247, 247); 
+    padding: 20px 10px 20px 10px;
+}
+
+.good span.serialNumber {
+    font-weight: bold;
+}
+
+.good a {
+    text-decoration: underline;
+
+}
+
+.goods {
+    width: fit-content;
+    margin-left: 20px;
+    align-content: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 30px;
+    column-gap: 10px;
+    border-top: solid rgb(219, 219, 219) 2px;
+}
+
+
+@media screen and (max-width: 500px) {
+
+    #contactWithConsultant {
+        display: none;
+    }
+
+    .content {
+        margin-top: 2rem!important;
+    }
+
+    .goods {
+        margin-left: 0;
+    }
+
+    .good {
+        width: fit-content;
+    }
+
+    .goodImage {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+#goodsListWrapper {
+    margin-right: 3px;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 1162px) {
+    #goodsListWrapper {
+        flex-direction: row;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #goodsListWrapper {
+        width: 314px;
+    }
+}
+
+
+#filterIcon {
+    min-width: 370px;
+}
+
+@media screen and (max-width: 1162px) {
+    #filterIcon {
+        display: none;
+    }
+}

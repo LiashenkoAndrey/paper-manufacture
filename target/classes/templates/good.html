@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper machinery manufacture and services</title>
+    <link rel="stylesheet" th:href="@{/styles/general/general.css}">
+    <link rel="stylesheet" th:href="@{/styles/good.css}">
+    <link rel="stylesheet" th:href="@{/styles/forms.css}">
+    <link rel="stylesheet" th:href="@{/styles/imageSwitch.css}">
+</head>
+<body>
+    <div id="mainWrapper">
+        <div th:replace="~{/fragments/header.html :: header}"></div>
+
+        <div class="content pb-5 pt-4" style="padding-bottom: 30px; position: relative; display: flex; flex-direction: column">
+            <div id="goodPriceAndMainImage">
+
+                <div class="al text-white align-self-center" style="max-width: 900px;">
+                    <a class="mb-2" style="display: block" th:href="@{'/producer/' + ${machine.producer.id}}">
+                        <img style="height: 50px" th:src="@{'/upload/image/' + ${machine.producer.logotypeId}}" alt="">
+                    </a>
+                    <h4 style="font-size: 27px; font-weight: bold" id="name" th:text="${machine.name}"></h4>
+                    <h6 style="font-size: 18px; font-weight: bold" th:text="${machine.serialNumber}"></h6>
+
+                    <div class="mt-3" style="font-size: 18px">
+                        <span>Talk to our sales team. </span>
+                        <img height="20" class="mx-1" th:src="@{/img/assets/good/phone.svg}">
+                        <span class="link" >Call +880 (546) 4344 445</span>
+                    </div>
+                </div>
+
+                <div id="mainImageWrapper" >
+                    <div class="img-magnifier-container">
+                        <div class="imageListItem">
+                            <img th:src="@{'/upload/image/' + ${images.get(0)}}" class="img-fluid zoomable" alt="">
+                            <button style="align-self: flex-start" th:id="${image}" class="btn btn-dark" onclick="enableImageDeleteForm(this)">Delete</button>
+                        </div>
+
+<!--                        <div class="imageListItem" style="position: relative;" th:each="video : ${machine.videos}">-->
+<!--                            <video controls-->
+<!--                                   style="height: 100%; user-select: none; display: block; width: 100%"-->
+<!--                                   th:src="@{'/video/upload?id=' + ${video.id}}">-->
+<!--                            </video>-->
+<!--                            <button  style="align-self: flex-start" th:id="${video.id}" class="btn btn-dark" onclick="enableVideoDeleteForm(this)">Delete</button>-->
+<!--                        </div>-->
+                    </div>
+
+                </div>
+            </div>
+            <div id="goodInfo">
+                <div class="text-white" style="border-bottom: solid rgb(97, 97, 97) 2px; display: flex">
+                    <div style="display: flex;">
+                        <div style="font-weight: bold; font-size: 22px;">
+                            <span>An approximate price:</span>
+                            <span id="priceValue" th:text="${machine.price}"></span>
+                            <span>$</span>
+                        </div>
+                    </div>
+
+<!--                    <div id="goodImagesWrapper">-->
+<!--                        <div id="goodImagesWrapper2">-->
+<!--                            <button class="btn btn-dark adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>-->
+<!--                            <button class="btn btn-dark adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>-->
+<!--                            <div th:each="image : ${images}" class="item navImageListItem">-->
+<!--                                <div class="child">-->
+<!--                                    <img class="navItem" th:src="@{'/upload/image/' + ${image}}" alt="">-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            <div th:each="video : ${machine.videos}" class="navImageListItem" style="position: relative;">-->
+<!--                                <div class="item">-->
+<!--                                    <div class="child">-->
+<!--                                        <video class="navItem" th:src="@{'/video/upload?id=' + ${video.id}}"></video>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <span th:text="${#strings.substring(video.duration, 3)}" class="videoTime" ></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+                <div id="allCharacteristics" class="text-white d-flex gap-4 mt-5" style="max-height: 503px; overflow: hidden">
+                    <div class="characteristics" style="border-right: solid rgb(97, 97, 97) 2px; padding-right: 30px;">
+                        <h5>Main characteristics:</h5>
+                        <table style="width:100%" class="table table-dark">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Property name</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tr th:each="entry : ${machine.properties}">
+                                <td th:text="${entry.key}" ></td>
+                                <td th:text="${entry.value}"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="characteristics">
+                        <div class="d-flex flex-columns gap-4">
+                            <div>
+                                <p>Serial number</p>
+                            </div>
+                            <div>
+                                <p id="serialNumberValue" th:text="${machine.serialNumber}"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button style="display: inline" class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(deleteManufactureMachineForm)">Delete</button>
+                        <button id="updateData"
+                                th:data-catalog_id="${machine.catalog.id}"
+                                th:data-producer_id="${machine.producer.id}"
+                                style="display: inline" class="btn btn-dark mx-1 adminBtn"
+                                onclick="FormService.enableAndExecuteFunction(updateManufactureMachineForm, displayData)">Update
+                        </button>
+                        <button class="btn btn-dark mx-1 adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>-->
+                        <button class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>
+                    </div>
+                </div>
+                <h5 id="showInfoBtn" class="mt-3" style="cursor: pointer; color: white" onclick="showMoreContent()">Show more...</h5>
+            </div>
+
+            <div class="mt-5" style="display: flex; justify-content: center; align-items: center; height: 100%; margin-bottom: 219px;">
+                <div id="sceneWrapper" style="position: relative">
+                    <div class="reflection" id="css-element">
+                        <div>
+                            <img style="z-index: 1;" id="mesh" th:src="@{/img/assets/good/net.png}" alt="">
+
+                            <div id="sceneImage">
+                                <img id="img" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
+                                <img id="impression" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
+                            </div>
+                        </div>
+
+                        <div id="about">
+                            <div id="imgBar">
+                                <div th:each="image : ${images}">
+                                    <img th:src="@{'/upload/image/' + ${image}}" alt="">
+                                </div>
+                            </div>
+                            <div  style=" margin-left: 10px;">
+                                <p id="description" th:text="${machine.description}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="~{/fragments/footer.html :: footer}"></div>
+    </div>
+    <script th:src="@{/scripts/services/FormService.js}"></script>
+    <script th:src="@{/scripts/services/RequestService.js}"></script>
+    <script th:src="@{/scripts/good/manufactureMachine.js}"></script>
+    <script th:src="@{/scripts/util/search.js}"></script>
+    <script th:src="@{/scripts/util/zoom.js}"></script>
+    <script th:src="@{/scripts/good/ImageSwitchService.js}"></script>
+    <script th:src="@{/scripts/good/videoService.js}"></script>
+    <script th:src="@{/scripts/good/imageService.js}"></script>
+    <script th:src="@{/scripts/good/util.js}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
