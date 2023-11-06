@@ -1,0 +1,45 @@
+
+.modalWrapper {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    position: absolute;
+    background-color: #00000080;
+    color: white
+}
+
+.contentWrapper {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.contentBody {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    display: flex;
+    column-gap: 20px
+}
+
+.contentBody div:nth-of-type(1) {
+    min-width: 500px;
+}
+
+
+
+#propertyContainer div {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 5px;
+}
+
+#propertyContainer div input {
+    width: 100%;
+}
+
+#plusProperty:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,170 @@
+
+@import url("/styles/util/dropdown.css");
+@import url("/styles/util/search.css");
+
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    grid-area: header;
+}
+
+.headerItem {
+    color: white;
+    display: flex; 
+}
+
+
+@media screen and (min-width: 1600px) {
+    #headerSubWrapper {
+        max-width: 1529px !important;
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    #headerSubWrapper {
+        max-width: 1320px !important;
+    }
+}
+
+#headerSubWrapper {
+    height: 67px;
+}
+
+.catalogItem {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+
+#logoAndLangAndCard {
+    height: 100%;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+
+#headIconsWrapper {
+    align-items: center;
+    display: flex;
+    color: white;
+}
+
+#headIconsWrapper div {
+    margin-right: 10px;
+}
+
+
+@media screen and (min-width: 1600px) {
+   #links {
+       max-width: 1529px !important;
+   }
+}
+
+@media screen and (max-width: 1600px) {
+    #links {
+        max-width: 1320px !important;
+    }
+}
+
+#links {
+    height: 100%;
+    align-items: center;
+    font-size: 14px;
+}
+
+#links div {
+    margin-right: 20px;
+}
+
+#logoAndSearch {
+    display: flex;
+    height: fit-content;
+}
+
+#logo {
+    display: flex;
+    gap: 10px;
+    align-self: center;
+}
+
+#logoWrapper {
+    align-self: center;
+    margin-right: 20px;
+    height: 100%
+}
+
+#logo img {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    align-self: center
+}
+
+#logo span {
+    font-size: 17px;
+    color: white;
+    font-weight: bold
+}
+
+@media screen and (max-width: 1130px) {
+    #headerSubWrapper {
+        margin: 0 ;
+    }
+}
+
+@media screen and (max-width: 830px) {
+    #search {
+        width: auto!important;
+    }
+}
+
+@media screen and (max-width: 830px) {
+    #search {
+        width: auto!important;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    #logoWrapper {
+        margin-right: 10px;
+    }
+}
+
+#searchInputWrapper {
+    width: 100%;
+    margin-left: 15px;
+    padding: 5px
+}
+
+
+
+@media screen and (max-width: 570px) {
+    #search {
+        background: none;
+    }
+
+    #searchInputWrapper {
+
+        display: none;
+    }
+
+    #search img {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    #headIconsWrapper {
+        margin-right: 10px;
+    }
+
+    #logo span {
+        font-size: 15px;
+    }
+
+    #logoWrapper {
+        width: 186px;
+    }
+}

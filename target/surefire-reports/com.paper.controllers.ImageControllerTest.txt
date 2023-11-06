@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.paper.controllers.ImageControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.348 s -- in com.paper.controllers.ImageControllerTest

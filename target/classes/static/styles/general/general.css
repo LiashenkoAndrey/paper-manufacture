@@ -1,0 +1,68 @@
+
+@import url("/styles/fonts/Roboto.css");
+@import url("/styles/general/footer.css");
+@import url("/styles/general/header.css");
+@import url("/styles/util/dropdown.css");
+@import url("/styles/lib/Bootstrap.css");
+
+* {
+    margin: 0;
+
+    /*firefox*/
+    scrollbar-color: rgb(56, 56, 56) black;
+}
+
+body, html {
+    height: 100%;
+    /*font-family: Roboto;*/
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    background-color: black;
+    width: 1em;
+}
+
+body::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(56, 56, 56);
+}
+
+.btn {
+    border-radius: 3px!important;
+}
+
+#mainWrapper {
+    height: 120%;
+    display: grid;
+    grid-template-areas: 
+        'header header'
+        'content content'
+        'footer footer';
+    grid-template-columns: 350px 1fr;
+    grid-template-rows: 121px 1fr 1fr;
+    font-family: Roboto, serif;
+}
+
+
+.content {
+    background-color: black;
+    grid-area: content;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+.link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
