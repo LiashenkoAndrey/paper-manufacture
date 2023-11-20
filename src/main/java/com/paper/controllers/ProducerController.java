@@ -3,10 +3,13 @@ package com.paper.controllers;
 import com.paper.domain.Producer;
 import com.paper.dto.ProducerDto;
 import com.paper.exceptions.ProducerNotFoundException;
+import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ProducerRepository;
 import com.paper.services.ProducerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +19,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/producer")
 @RequiredArgsConstructor
 public class ProducerController {
+
+    private static final Logger logger = LogManager.getLogger(ProducerController.class);
+
     private final ProducerService producerService;
 
     private final ProducerRepository producerRepository;
 
     @PostMapping("/new")
-    public ResponseEntity<?> create(@Valid @RequestBody ProducerDto producerDto) {
-        Producer saved = producerService.save(producerDto);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(saved.getId());
+    public void create(@ModelAttribute Producer producer) {
+        logger.info("new producer: " + producer );
+        producerService.save(producer);
     }
 
     @GetMapping(value = "/all")

@@ -5,7 +5,7 @@ import com.paper.dto.ProducerDto;
 
 public interface ProducerService {
 
-    Producer save(ProducerDto producerDto);
+    Producer save(Producer producer);
 
     void deleteById(Long id);
 }
