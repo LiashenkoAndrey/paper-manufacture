@@ -3,21 +3,19 @@ package com.paper.controllers.manufactureMachine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.paper.domain.Catalog;
+import com.paper.domain.ManufactureMachine;
 import com.paper.dto.MMDto;
 import com.paper.dto.MMDto2;
 import com.paper.dto.PricesWithGoodAmountsDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ManufactureMachineRepository;
-import com.paper.services.CatalogService;
 import com.paper.services.ManufactureMachineService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,7 +28,7 @@ import java.util.*;
 
 import static com.paper.util.ControllerUtil.parseProducerIds;
 
-@Controller
+@RestController
 @RequestMapping("/good/manufacture-machine")
 @RequiredArgsConstructor
 public class MMController {
@@ -38,44 +36,30 @@ public class MMController {
     private static final Logger logger = LogManager.getLogger(MMController.class);
     private final CatalogRepository catalogRepository;
     private final ManufactureMachineRepository repository;
-
-    private final ManufactureMachineService machineService;
-
     private final ManufactureMachineRepository machineRepository;
 
-    private final CatalogService catalogService;
-
-    @PersistenceContext
-    private final EntityManager manager;
 
     @GetMapping
-    @SuppressWarnings("unchecked")
-    public String getGoodDetails(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("catalogs", catalogService.translateAll(catalogRepository.findAll()));
-        var machine = repository.findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
-        List<String> image2 = (List<String>) manager.createQuery("select m.images from ManufactureMachine m where m.id = :goodId")
-                .setParameter("goodId", id)
-                .getResultList();
-        model.addAttribute("images", image2);
-        model.addAttribute("machine", machineService.translate(machine));
-        return "good";
+    public ManufactureMachine getGoodDetails(@RequestParam("id") Long id) {
+        return repository.findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
     }
 
     @GetMapping("/page")
-    public @ResponseBody List<MMDto2> getPageOfEntities(@RequestParam("catalogId") Long catalogId,
+    public @ResponseBody List<MMDto2> getPageOfEntities(@RequestParam(value = "catalogId", required = false) Long catalogId,
                                                         @RequestParam("pageId") Integer pageId,
                                                         @RequestParam("pageSize") Integer pageSize,
-                                                        @RequestParam(value = "producerIds", required = false) String producerIds,
+                                                        @RequestParam(value = "producerIds", required = false) List<Long> producerIds,
                                                         @RequestParam(value = "priceFrom", required = false) Long priceFrom,
                                                         @RequestParam(value = "priceTo", required = false) Long priceTo) throws JsonProcessingException {
-        List<MMDto2> page = machineRepository.findPageAndFilterBy(
+
+        logger.info(producerIds);
+        return machineRepository.findPageAndFilterBy(
                 catalogId,
-                parseProducerIds(producerIds),
+                producerIds,
                 priceFrom,
                 priceTo,
                 Pageable.ofSize(pageSize).withPage(pageId)
         );
-        return machineService.translateAllNamesDto(page);
     }
 
     @GetMapping("/maxPrice")
@@ -111,8 +95,8 @@ public class MMController {
 
     @GetMapping("/view/all")
     public String getPage(Model model) {
-        model.addAttribute("catalogs", catalogService.translateAll(catalogRepository.findAll()));
-        model.addAttribute("machines", machineService.translateAll(repository.findAll(PageRequest.of(0, PAGE_SIZE)).toList()));
+        model.addAttribute("catalogs", catalogRepository.findAll());
+        model.addAttribute("machines", repository.findAll(PageRequest.of(0, PAGE_SIZE)).toList());
         return "goods";
     }
 

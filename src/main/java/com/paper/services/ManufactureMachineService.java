@@ -1,17 +1,14 @@
 package com.paper.services;
 
 import com.paper.domain.ManufactureMachine;
-import com.paper.dto.MMDto2;
 import com.paper.dto.ManufactureMachineDto;
-
-import java.util.List;
 
 
 public interface ManufactureMachineService {
 
     ManufactureMachine save(ManufactureMachineDto dto);
 
-    void update(ManufactureMachine saved, ManufactureMachineDto dto);
+//    void update(ManufactureMachine saved, ManufactureMachineDto dto);
 
 
     /**
@@ -20,9 +17,7 @@ public interface ManufactureMachineService {
      */
     void deleteImageById(String imageId);
 
+    void addProperty(Long goodId, String name, String value);
 
-    List<MMDto2> translateAllNamesDto(List<MMDto2> machines);
-
-    List<ManufactureMachine> translateAll(List<ManufactureMachine> machines);
-    ManufactureMachine translate(ManufactureMachine machine);
+    void deleteProperty(Long goodId, String name);
 }
