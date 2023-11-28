@@ -80,8 +80,6 @@
     animation: 1s fadeIn;
     animation-fill-mode: forwards;
     visibility: hidden;
-
-    /*height: 400px;*/
     width: 360px;
     border-radius: 2px;
     display: flex;

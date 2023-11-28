@@ -1,18 +1,14 @@
 package com.paper.controllers.manufactureMachine;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.paper.domain.ManufactureMachine;
-import com.paper.dto.MMDto;
-import com.paper.dto.MMDto2;
+import com.paper.dto.MMSearchDto;
 import com.paper.dto.PricesWithGoodAmountsDto;
+import com.paper.dto.SerialNumberDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ManufactureMachineRepository;
-import com.paper.services.ManufactureMachineService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,12 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
 
-import static com.paper.util.ControllerUtil.parseProducerIds;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/good/manufacture-machine")
@@ -45,14 +40,15 @@ public class MMController {
     }
 
     @GetMapping("/page")
-    public @ResponseBody List<MMDto2> getPageOfEntities(@RequestParam(value = "catalogId", required = false) Long catalogId,
+    public List<ManufactureMachine> getPageOfEntities(@RequestParam(value = "catalogId", required = false) Long catalogId,
                                                         @RequestParam("pageId") Integer pageId,
                                                         @RequestParam("pageSize") Integer pageSize,
                                                         @RequestParam(value = "producerIds", required = false) List<Long> producerIds,
                                                         @RequestParam(value = "priceFrom", required = false) Long priceFrom,
-                                                        @RequestParam(value = "priceTo", required = false) Long priceTo) throws JsonProcessingException {
+                                                        @RequestParam(value = "priceTo", required = false) Long priceTo) {
 
         logger.info(producerIds);
+        logger.info(catalogId);
         return machineRepository.findPageAndFilterBy(
                 catalogId,
                 producerIds,
@@ -80,17 +76,17 @@ public class MMController {
         return repository.getAllPricesWithGoodAmounts();
     }
 
-    private final Integer PAGE_SIZE = 5;
+    @GetMapping("/search")
+    public List<MMSearchDto> search(@RequestParam("q") String query) {
+        return repository.findByNameContainingOrSerialNumberContainingIgnoreCase(query);
+    }
 
+    private final Integer PAGE_SIZE = 10;
 
     @GetMapping("/all")
-    public @ResponseBody List<MMDto> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
-                                            @RequestParam(value = "pageSize",required = false) Integer pageSize) {
-        if (pageId != null) {
-            return repository.getAllDto(PageRequest.of(pageId, pageSize));
-        } else {
-            return repository.getAllDto(PageRequest.of(0, PAGE_SIZE));
-        }
+    public List<ManufactureMachine> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
+                                             @RequestParam(value = "pageSize",required = false) Integer pageSize) {
+        return repository.getAllDto(Pageable.unpaged());
     }
 
     @GetMapping("/view/all")
@@ -108,7 +104,7 @@ public class MMController {
     }
 
     @GetMapping("/serial_numbers/all")
-    public @ResponseBody Map<String, Long> getAllSerialNumbers() {
+    public List<SerialNumberDto> getAllSerialNumbers() {
         return repository.getAllSerialNumbers();
     }
 }

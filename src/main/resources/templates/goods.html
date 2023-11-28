@@ -40,10 +40,10 @@
                 <div class="goods pt-4">
                     <div class="good" th:each="good : ${machines}">
                         <a th:href="@{'/producer/' + ${good.producer.id}}">
-                            <img class="goodImage" width="60" th:src="@{'/upload/image/' + ${good.producer.logotypeId}}" alt="">
+                            <img class="goodImage" width="60" th:src="@{'/upload/mongoImage/' + ${good.producer.logotypeId}}" alt="">
                         </a>
                         <div style="max-height: 220px">
-                            <img style="width: 100%; height: 100%" th:src="@{'/upload/image/' + ${good.getImages().get(0)}} "  alt="">
+                            <img style="width: 100%; height: 100%" th:src="@{'/upload/mongoImage/' + ${good.getImages().get(0)}} "  alt="">
                         </div>
                         <span class="serialNumber" th:text="${good.serialNumber}"></span>
                         <span class="text-black" th:text="${good.name}"></span>

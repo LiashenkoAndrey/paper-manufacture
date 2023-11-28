@@ -1,8 +1,6 @@
 package com.paper.services.impl;
 
-import com.paper.domain.Image;
 import com.paper.domain.Producer;
-import com.paper.dto.ProducerDto;
 import com.paper.exceptions.ProducerNotFoundException;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ProducerRepository;
@@ -18,11 +16,8 @@ public class ProducerServiceImpl implements ProducerService {
     private final ProducerRepository producerRepository;
 
     @Override
-    public Producer save(ProducerDto producerDto) {
-        Image saved = imageRepository.save(producerDto.getImage());
-        Producer producer = producerDto.getProducer();
-        producer.setLogotypeId(saved.getId());
-        return producerRepository.save(producerDto.getProducer());
+    public Producer save(Producer producer) {
+        return producerRepository.save(producer);
     }
 
     @Override

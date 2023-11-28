@@ -27,26 +27,6 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
     @PersistenceContext
     private EntityManager manager;
 
-    /**
-     * Selects all serial numbers from all ManufactureMachine entities with their id
-     * @return serial number and entity id as a java.util.Map<String, Long>
-     */
-    @Override
-    @Transactional
-    public Map<String, Long> getAllSerialNumbers() {
-        return manager.createQuery("""
-           select 
-                m.serialNumber as serialNumber,
-                m.id as entityId
-           from ManufactureMachine m
-           """, Tuple.class)
-                .getResultStream()
-                .collect(Collectors.toMap(
-                        tuple -> (String) tuple.get("serialNumber"),
-                        tuple -> ((Number) tuple.get("entityId")).longValue()
-                )
-           );
-    }
 
     @Transactional
     @Override
@@ -96,60 +76,83 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
     @Override
     @Transactional
     @SuppressWarnings("unchecked")
-    public List<MMDto2> findPageAndFilterBy(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable) {
-
+    public List<ManufactureMachine> findPageAndFilterBy(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable) {
+    logger.info("produs " + producersIds);
         producersIds = processProducersIds(producersIds);
 
         if (producersIds == null) {
             producersIds = List.of(-1L, -2L);
         } else if (producersIds.isEmpty()) producersIds = List.of(-1L, -2L);
 
-        TypedQuery<Tuple> query = (TypedQuery<Tuple>) manager.createNativeQuery("""
-           select
-                mm.id,
-                mm.serial_number as serialNumber,
-                mm.name,
-                p.logotype_id as producerLogotypeId,
-                p.id as producerId,
-                mm.price,
-                image_id as imageId
-            from manufacture_machine mm
-               inner join good_images gi on mm.id = gi.manufacture_machine_id
-               inner join catalog c on c.id = mm.catalog_id
-               inner join producer p on p.id = mm.producer_id
-            where mm.catalog_id = :catalogId
-              and gi.good_images_order = 0
-              and
-                (case
-                    when cast(:priceFrom as integer) is not null and cast(:priceTo as integer) is not null
-                    then (price >= cast(:priceFrom as integer) and price <= cast(:priceTo as integer))
-                    else true 
-                end)
-              and
-                (case 
-                    when -1 in (:producersIds) then true
-                    else p.id in (:producersIds)
-                end);
-           """, Tuple.class);
+        logger.info("prod " +  producersIds.stream().map(Math::toIntExact).toList());
 
-        List<MMDto2> list = query
+
+//        TypedQuery<Tuple> query = (TypedQuery<Tuple>) manager.createNativeQuery("""
+//           select
+//                mm.id,
+//                mm.serial_number as serialNumber,
+//                mm.name,
+//                p.logotype_id as producerLogotypeId,
+//                p.id as producerId,
+//                mm.price,
+//                image_id as imageId
+//            from manufacture_machine mm
+//               inner join good_images gi on mm.id = gi.manufacture_machine_id
+//               inner join catalog c on c.id = mm.catalog_id
+//               inner join producer p on p.id = mm.producer_id
+//            where (case
+//                             when cast(:catalogId as integer) != -1
+//                                 then mm.catalog_id = cast(:catalogId as integer)
+//                             else true
+//                      end)
+//              and gi.good_images_order = 0
+//              and
+//                (case
+//                    when cast(:priceFrom as integer) is not null and cast(:priceTo as integer) is not null
+//                    then (price >= cast(:priceFrom as integer) and price <= cast(:priceTo as integer))
+//                    else true
+//                end)
+//              and
+//                (case
+//                    when -1 in (:producersIds) then true
+//                    else p.id in (:producersIds)
+//                end);
+//           """, Tuple.class);
+
+        TypedQuery<ManufactureMachine> query = manager.createQuery("""
+      
+            from ManufactureMachine mm
+              where 
+               (case
+                    when :catalogId <> 1000 then mm.catalog.id = :catalogId
+                    else true
+                end)
+              AND
+                (case
+                    when :priceFrom is not null and :priceTo is not null then (price >= :priceFrom  and price <= :priceTo)
+                    else true
+                end)
+              AND
+                (case
+                    when -1 in (:producersIds) then true
+                    else mm.producer.id in (:producersIds)
+                end)
+           """, ManufactureMachine.class);
+
+        logger.info(catalogId);
+        logger.info(priceFrom);
+        logger.info(priceTo);
+        logger.info(producersIds);
+
+        List<ManufactureMachine> list = query
                 .setParameter("catalogId", catalogId)
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
                 .setParameter("producersIds", producersIds.stream().map(Math::toIntExact).toList())
-                .setFirstResult((pageable.getPageNumber()) * pageable.getPageSize())
-                .setMaxResults(pageable.getPageSize())
-                .getResultStream().map(tuple -> MMDto2.builder()
-                        .serialNumber(tuple.get("serialNumber", String.class))
-                        .id((long) tuple.get("id", Integer.class))
-                        .name(tuple.get("name", String.class))
-                        .producerLogotypeId(tuple.get("producerLogotypeId", String.class))
-                        .producerId((long) tuple.get("producerId", Integer.class))
-                        .price((long) tuple.get("price", Integer.class))
-                        .imageId(tuple.get("imageId", String.class))
-                        .build()
-                ).toList();
+                .getResultList();
+        logger.info("res " + list);
         return list;
+
     }
 
 }

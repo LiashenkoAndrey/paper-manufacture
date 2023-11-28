@@ -14,7 +14,7 @@
     <div class="content p-5" style="padding-bottom: 30px; display: flex; justify-content: center; gap: 30px">
 
        <div style="color: white; max-width: 500px">
-           <img width="100px" style="border-radius: 2px" th:src="@{'/upload/image/' + ${producer.logotypeId}}" alt="logotype">
+           <img width="100px" style="border-radius: 2px" th:src="@{'/upload/mongoImage/' + ${producer.logotypeId}}" alt="logotype">
            <p th:text="${producer.name}"></p>
            <p th:text="${producer.description}"></p>
            <a th:href="${producer.websiteUrl}" class="link">→ Website</a>

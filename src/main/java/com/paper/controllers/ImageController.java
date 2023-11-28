@@ -1,17 +1,19 @@
 package com.paper.controllers;
 
-import com.paper.domain.Image;
+import com.paper.domain.MongoImage;
 import com.paper.exceptions.ImageNotFoundException;
 import com.paper.repositories.ImageRepository;
+import com.paper.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.Base64;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/upload/image")
@@ -20,28 +22,29 @@ public class ImageController {
 
     private final ImageRepository imageRepository;
 
-    @CrossOrigin
+    private static final Logger logger = LogManager.getLogger(ImageRepository.class);
+
     @GetMapping(value = "/{imageId}")
     public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) {
         if (ObjectId.isValid(imageId)) {
-            Image image = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
-            String base64Image = image.getBase64Image();
-            String payload = hasHeader(base64Image) ? getPayLoad(base64Image) : base64Image;
+            MongoImage mongoImage = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(image.getType()))
-                    .body(Base64.getDecoder().decode(payload));
+                    .contentType(MediaType.parseMediaType(mongoImage.getType()))
+                    .body(mongoImage.getImage().getData());
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    private boolean hasHeader(String base64) {
-        return base64.contains(",");
+    @PostMapping("new")
+    private String addNew(@RequestParam("file") MultipartFile file) {
+        MongoImage image = imageRepository.save(new MongoImage(Objects.requireNonNull(file.getContentType()), ServiceUtil.toBinary(file)));
+        return image.getId();
     }
 
-    private String getPayLoad(String base64ImageWithHeader) {
-        return base64ImageWithHeader.split(",")[1];
+    @DeleteMapping("/delete/{id}")
+    private void addNew(@PathVariable("id") String id) {
+        imageRepository.deleteById(id);
     }
-
 }

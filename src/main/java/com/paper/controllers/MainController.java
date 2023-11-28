@@ -2,7 +2,6 @@ package com.paper.controllers;
 
 
 import com.paper.repositories.CatalogRepository;
-import com.paper.services.CatalogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +17,9 @@ public class MainController {
     private final CatalogRepository catalogRepository;
 
 
-    private final CatalogService catalogService;
-
-
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("catalogs", catalogService.translateAll(catalogRepository.findAll()));
+        model.addAttribute("catalogs", catalogRepository.findAll());
         return "/main";
     }
 

@@ -1,12 +1,1 @@
-com\paper\controllers\ProducerControllerTest.class
-com\paper\services\ProducerServiceImplTest.class
-com\paper\controllers\ProducerControllerTest$1.class
-com\paper\controllers\ImageControllerTest.class
-com\paper\repositories\CatalogRepositoryTest.class
-com\paper\controllers\MainControllerTest.class
-com\paper\repositories\ManufactureMachineCustomRepositoryImplTest.class
-com\paper\repositories\ImageRepositoryTest.class
-com\paper\repositories\ManufactureMachineRepositoryTest.class
 com\paper\util\MapperTest.class
-com\paper\services\ManufactureMachineServiceImplTest.class
-com\paper\TestUtils.class

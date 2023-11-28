@@ -18,7 +18,7 @@
 
                 <div class="al text-white align-self-center" style="max-width: 900px;">
                     <a class="mb-2" style="display: block" th:href="@{'/producer/' + ${machine.producer.id}}">
-                        <img style="height: 50px" th:src="@{'/upload/image/' + ${machine.producer.logotypeId}}" alt="">
+                        <img style="height: 50px" th:src="@{'/upload/mongoImage/' + ${machine.producer.logotypeId}}" alt="">
                     </a>
                     <h4 style="font-size: 27px; font-weight: bold" id="name" th:text="${machine.name}"></h4>
                     <h6 style="font-size: 18px; font-weight: bold" th:text="${machine.serialNumber}"></h6>
@@ -33,7 +33,7 @@
                 <div id="mainImageWrapper" >
                     <div class="img-magnifier-container">
                         <div class="imageListItem">
-                            <img th:src="@{'/upload/image/' + ${images.get(0)}}" class="img-fluid zoomable" alt="">
+                            <img th:src="@{'/upload/mongoImage/' + ${images.get(0)}}" class="img-fluid zoomable" alt="">
                             <button style="align-self: flex-start" th:id="${images.get(0)}" class="btn btn-dark" onclick="enableImageDeleteForm(this)">Delete</button>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                                 style="display: inline" class="btn btn-dark mx-1 adminBtn"
                                 onclick="FormService.enableAndExecuteFunction(updateManufactureMachineForm, displayData)">Update
                         </button>
-                        <button class="btn btn-dark mx-1 adminBtn"  onclick="FormService.enable(addImageForm)">Add image</button>
+                        <button class="btn btn-dark mx-1 adminBtn"  onclick="FormService.enable(addImageForm)">Add mongoImage</button>
                         <button class="btn btn-dark mx-1 adminBtn" onclick="FormService.enable(addVideoForm)">Add video</button>
                     </div>
                 </div>
@@ -101,16 +101,16 @@
                             <img style="z-index: 1;" id="mesh" th:src="@{/img/assets/good/net.png}" alt="">
 
                             <div id="sceneImage">
-                                <img id="img" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
-                                <img id="impression" th:src="@{'/upload/image/' + ${images.get(0)}}" alt="">
+                                <img id="img" th:src="@{'/upload/mongoImage/' + ${images.get(0)}}" alt="">
+                                <img id="impression" th:src="@{'/upload/mongoImage/' + ${images.get(0)}}" alt="">
                                 <button style="position: absolute; top: 0; z-index: 100" th:id="${images.get(0)}" class="btn btn-dark" onclick="enableImageDeleteForm(this)">Delete</button>
                             </div>
                         </div>
 
                         <div id="about">
                             <div id="imgBar">
-                                <div th:data-image_id="${image}" onclick="switchImage(this)" th:each="image : ${images}">
-                                    <img th:src="@{'/upload/image/' + ${image}}" alt="">
+                                <div th:data-image_id="${mongoImage}" onclick="switchImage(this)" th:each="mongoImage : ${images}">
+                                    <img th:src="@{'/upload/mongoImage/' + ${mongoImage}}" alt="">
                                 </div>
                             </div>
                             <div  style=" margin-left: 10px;">

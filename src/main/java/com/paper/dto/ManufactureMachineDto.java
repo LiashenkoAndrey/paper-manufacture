@@ -1,10 +1,10 @@
 package com.paper.dto;
 
-import com.paper.domain.Image;
-import com.paper.domain.ManufactureMachine;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -16,14 +16,28 @@ import java.util.List;
 @NoArgsConstructor
 public class ManufactureMachineDto {
 
-    @NotNull
-    private ManufactureMachine manufactureMachine;
+    private Long id;
 
     @NotNull
-    private List<Image> images;
+    @Size(min = 5, max = 255)
+    private String name;
+
+    @NotNull
+    @Size(min = 10, max = 1000)
+    private String description;
+
+    @NotNull
+    private BigDecimal price;
+
+    private String serialNumber;
+
+    @NotNull
+    @Size(min = 1, max = 10)
+    private List<String> images;
 
     @NotNull
     private Long producerId;
 
+    @NotNull
     private Long catalogId;
 }

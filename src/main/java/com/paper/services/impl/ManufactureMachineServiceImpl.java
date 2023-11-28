@@ -5,7 +5,6 @@ import com.paper.domain.ManufactureMachine;
 import com.paper.domain.Producer;
 import com.paper.dto.ManufactureMachineDto;
 import com.paper.exceptions.ServiceException;
-import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import com.paper.services.ManufactureMachineService;
 import jakarta.persistence.EntityManager;
@@ -20,8 +19,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ManufactureMachineServiceImpl implements ManufactureMachineService {
-
-    private final ImageRepository imageRepository;
 
     private final ManufactureMachineRepository machineRepository;
 
@@ -38,20 +35,17 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
         Producer producer = em.getReference(Producer.class, dto.getProducerId());
 
         return machineRepository.save(ManufactureMachine.builder()
+                .id(dto.getId())
                 .name(dto.getName())
                 .description(dto.getDescription())
                 .price(dto.getPrice())
+                .serialNumber(dto.getSerialNumber())
                 .images(dto.getImages())
                 .catalog(catalog)
                 .producer(producer)
                 .build());
     }
 
-    @Override
-    public void deleteImageById(String imageId) {
-        imageRepository.deleteById(imageId);
-        machineRepository.deleteGoodImageById(imageId);
-    }
 
     @Override
     @Transactional

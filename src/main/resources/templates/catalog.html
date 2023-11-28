@@ -118,10 +118,10 @@
       <div class="goods pt-4">
         <div class="good" th:each="good : ${machines}">
           <a th:href="@{'/producer/' + ${good.getProducerId()}}">
-            <img style="margin-bottom: 10px; max-height: 40px; width: auto; max-width: 80px"  th:src="@{'/upload/image/' + ${good.getProducerLogotypeId()}}" alt="">
+            <img style="margin-bottom: 10px; max-height: 40px; width: auto; max-width: 80px"  th:src="@{'/upload/mongoImage/' + ${good.getProducerLogotypeId()}}" alt="">
           </a>
           <div style="max-height: 220px">
-            <img class="goodImage" style="height: 100%; width: 100%;" th:src="@{'/upload/image/' + ${good.getImageId()}} "  alt="">
+            <img class="goodImage" style="height: 100%; width: 100%;" th:src="@{'/upload/mongoImage/' + ${good.getImageId()}} "  alt="">
           </div>
           <span class="serialNumber" th:text="${good.getSerialNumber()}" ></span>
           <span class="text-black" th:text="${good.getName()}" ></span>

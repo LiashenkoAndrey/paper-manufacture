@@ -1,5 +1,9 @@
 package com.paper.dto;
 
+import com.paper.domain.Producer;
+
+import java.util.List;
+
 public interface MMDto {
 
      Long getId();
@@ -8,13 +12,7 @@ public interface MMDto {
 
      String getName();
 
-     void setName(String name);
-
-     String getProducerLogotypeId();
-
-     String getProducerId();
-
      Long getPrice();
 
-     String getImageId();
+     List<String> getImages();
 }

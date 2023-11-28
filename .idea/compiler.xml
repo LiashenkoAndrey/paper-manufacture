@@ -10,8 +10,5 @@
         <module name="paper-manufacture" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="paper-manufacture" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
