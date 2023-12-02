@@ -5,7 +5,6 @@ import com.paper.domain.MongoImage;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
-import com.paper.services.ManufactureMachineService;
 import com.paper.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -23,8 +22,6 @@ public class MMImageController {
     private static final Logger logger = LogManager.getLogger(MMImageController.class);
 
     private final ImageRepository imageRepository;
-
-    private final ManufactureMachineService machineService;
 
     private final ManufactureMachineRepository machineRepository;
 
@@ -53,12 +50,7 @@ public class MMImageController {
             imageRepository.deleteById(imageId);
 
             ManufactureMachine machine = machineRepository.findById(machineId).orElseThrow(ManufactureMachineNotFoundException::new);
-            logger.info("img id: " + imageId);
-
-            logger.info("before: " + machine.getImages());
             machine.getImages().remove(imageId);
-            logger.info("after: " + machine.getImages());
-
             machineRepository.save(machine);
             return ResponseEntity.ok().build();
         }

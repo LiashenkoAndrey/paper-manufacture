@@ -1,11 +1,9 @@
 package com.paper.repositories;
 
 import com.paper.domain.ManufactureMachine;
-import com.paper.dto.MMDto;
 import com.paper.dto.MMSearchDto;
 import com.paper.dto.PricesWithGoodAmountsDto;
 import com.paper.dto.SerialNumberDto;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,12 +17,6 @@ import java.util.List;
 @Repository
 public interface ManufactureMachineRepository extends JpaRepository<ManufactureMachine, Long>, ManufactureMachineCustomRepository {
 
-    @Query(value = "select mm.id, mm.serial_number as serialNumber, mm.name, p.logotype_id as producerLogotypeId, p.id as producerId, mm.price, image_id as imageId from manufacture_machine mm" +
-            "    inner join good_images gi on mm.id = gi.manufacture_machine_id" +
-            "    inner join catalog c on c.id = mm.catalog_id" +
-            "    inner join producer p on p.id = mm.producer_id" +
-            "    where mm.catalog_id = :catalogId and gi.good_images_order = 0;", nativeQuery = true)
-    Page<MMDto> findAllByCatalogId(@Param("catalogId") Long catalogId, Pageable pageable);
 
     /**
      * Deletes image record from relational database

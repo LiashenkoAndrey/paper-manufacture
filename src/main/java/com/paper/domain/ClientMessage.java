@@ -6,6 +6,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
@@ -18,7 +19,6 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 public class ClientMessage extends Model {
-
 
     @NotNull
     private String firstName;
@@ -39,4 +39,7 @@ public class ClientMessage extends Model {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
+
+    @ColumnDefault("false")
+    private Boolean isRevised;
 }

@@ -36,6 +36,18 @@ public class ClientMessageController {
         return repository.save(clientMessage);
     }
 
+    @GetMapping("/getAmountOfUnrevisedMessages")
+    public int getAmountOfUnrevisedMessages() {
+        return repository.getAmountOfUnrevisedMessages();
+    }
+
+    @PostMapping("/setRevised/{id}")
+    private void setRevisedById(@PathVariable("id") Long id) {
+        ClientMessage message = repository.findById(id).orElseThrow(ClientMessageNotFoundException::new);
+        message.setIsRevised(true);
+        repository.save(message);
+    }
+
     @GetMapping("/{id}")
     public ClientMessage get(@PathVariable("id") Long id) {
         return repository.findById(id).orElseThrow(ClientMessageNotFoundException::new);

@@ -7,7 +7,6 @@ import com.paper.domain.CatalogType;
 import com.paper.domain.ManufactureMachine;
 import com.paper.domain.Producer;
 import com.paper.dto.CatalogWithGoodsCountDto;
-import com.paper.dto.MMDto2;
 import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ManufactureMachineRepository;
