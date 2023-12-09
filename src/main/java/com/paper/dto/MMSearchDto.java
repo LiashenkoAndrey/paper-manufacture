@@ -6,5 +6,7 @@ public interface MMSearchDto {
 
     String getName();
 
+    String getImageId();
+
     String getSerialNumber();
 }

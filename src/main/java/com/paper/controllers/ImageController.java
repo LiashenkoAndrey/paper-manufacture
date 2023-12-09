@@ -5,26 +5,27 @@ import com.paper.exceptions.ImageNotFoundException;
 import com.paper.repositories.ImageRepository;
 import com.paper.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/upload/image")
+@Log4j2
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ImageController {
 
-    private final ImageRepository imageRepository;
+    @Autowired
+    private ImageRepository imageRepository;
 
-    private static final Logger logger = LogManager.getLogger(ImageRepository.class);
-
-    @GetMapping(value = "/{imageId}")
+    @GetMapping(value = "/upload/image/{imageId}")
     public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) {
         if (ObjectId.isValid(imageId)) {
             MongoImage mongoImage = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
@@ -37,14 +38,16 @@ public class ImageController {
         }
     }
 
-    @PostMapping("new")
-    private String addNew(@RequestParam("file") MultipartFile file) {
-        MongoImage image = imageRepository.save(new MongoImage(Objects.requireNonNull(file.getContentType()), ServiceUtil.toBinary(file)));
-        return image.getId();
+
+    @PostMapping("/protected/upload/image/new")
+    @PreAuthorize("hasAuthority('manage:images')")
+    public MongoImage addNew(@RequestParam("file") MultipartFile file) {
+        return imageRepository.save(new MongoImage(Objects.requireNonNull(file.getContentType()), ServiceUtil.toBinary(file)));
     }
 
-    @DeleteMapping("/delete/{id}")
-    private void addNew(@PathVariable("id") String id) {
+    @DeleteMapping("/protected/upload/image/delete/{id}")
+    @PreAuthorize("hasAuthority('manage:images')")
+    public void addNew(@PathVariable("id") String id) {
         imageRepository.deleteById(id);
     }
 }

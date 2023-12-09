@@ -4,6 +4,7 @@ import com.paper.domain.Catalog;
 import com.paper.domain.ManufactureMachine;
 import com.paper.domain.Producer;
 import com.paper.dto.ManufactureMachineDto;
+import com.paper.exceptions.EntityAlreadyExistException;
 import com.paper.exceptions.ServiceException;
 import com.paper.repositories.ManufactureMachineRepository;
 import com.paper.services.ManufactureMachineService;
@@ -13,8 +14,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-
+import static com.paper.util.EntityMapper.map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,21 +31,25 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
 
     @Override
     public ManufactureMachine save(ManufactureMachineDto dto) {
-        logger.info("new image: " + dto);
+        logger.info("new ManufactureMachine: " + dto);
 
         Catalog catalog = em.getReference(Catalog.class, dto.getCatalogId());
         Producer producer = em.getReference(Producer.class, dto.getProducerId());
 
-        return machineRepository.save(ManufactureMachine.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .price(dto.getPrice())
-                .serialNumber(dto.getSerialNumber())
-                .images(dto.getImages())
-                .catalog(catalog)
-                .producer(producer)
-                .build());
+        ManufactureMachine machine = new ManufactureMachine(producer, catalog);
+        map(dto, machine).map();
+
+        if (machineRepository.exists(Example.of(machine))) {
+            if (machine.getId() == null) {
+                logger.error("ALREADY exist, " + machine);
+                throw new EntityAlreadyExistException();
+            }
+            logger.info("Exits, " + machine);
+        } else {
+            logger.info("NOT EXIST, " + machine);
+        }
+
+        return machineRepository.save(machine);
     }
 
 

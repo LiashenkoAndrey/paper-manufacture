@@ -22,6 +22,10 @@ public class MongoImage {
         this.image = image;
     }
 
+    public MongoImage(String id) {
+        this.id = id;
+    }
+
     private String id;
 
     @NonNull

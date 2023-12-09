@@ -21,6 +21,11 @@ public abstract class Good extends Model {
         this.images = images;
     }
 
+    public Good(Producer producer, Catalog catalog) {
+        this.producer = producer;
+        this.catalog = catalog;
+    }
+
     public Good(Long id) {
         super(id);
     }

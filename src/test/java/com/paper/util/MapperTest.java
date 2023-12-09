@@ -1,9 +1,8 @@
 package com.paper.util;
 
-import com.github.dozermapper.core.loader.DozerBuilder;
 import com.github.dozermapper.core.loader.api.FieldsMappingOptions;
-import com.github.dozermapper.core.loader.api.TypeMappingOption;
 import com.paper.domain.ManufactureMachine;
+import com.paper.dto.ManufactureMachineDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -38,5 +37,17 @@ public class MapperTest {
         assertThat(source).usingRecursiveComparison()
                 .ignoringFields("images", "producer", "catalog", "videos")
                 .isEqualTo(expected);
+    }
+
+    @Test
+    public void mapAnotherEntityTest() {
+        ManufactureMachineDto dto = ManufactureMachineDto.builder()
+                .serialNumber("sd")
+                .build();
+
+        ManufactureMachine machine = new ManufactureMachine();
+
+        map(dto, machine).map();
+        System.out.println(machine);
     }
 }

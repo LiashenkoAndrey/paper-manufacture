@@ -7,48 +7,53 @@ import com.paper.exceptions.ValidationException;
 import com.paper.repositories.ClientMessageRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Log4j2
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ClientMessageController {
 
-    private static final Logger logger = LogManager.getLogger(ClientMessageController.class);
 
     private final ClientMessageRepository repository;
 
-    @GetMapping("/all")
+    @GetMapping("/protected/messages/all")
+    @PreAuthorize("hasAuthority('read:admin-messages')")
     public List<ClientMessage> getAllClientMessages() {
         return repository.findAll(Sort.by("createdOn").descending());
     }
 
-    @PostMapping("/new")
+    @PostMapping("/message/new")
     public ClientMessage newMessage(@Valid @RequestBody ClientMessage clientMessage) {
-        logger.info(clientMessage);
+        log.info(clientMessage);
         return repository.save(clientMessage);
     }
 
-    @GetMapping("/getAmountOfUnrevisedMessages")
+
+    @GetMapping("/message/getAmountOfUnrevisedMessages")
     public int getAmountOfUnrevisedMessages() {
         return repository.getAmountOfUnrevisedMessages();
     }
 
-    @PostMapping("/setRevised/{id}")
+    @PostMapping("/protected/message/setRevised/{id}")
+    @PreAuthorize("hasAuthority('read:admin-messages')")
     private void setRevisedById(@PathVariable("id") Long id) {
         ClientMessage message = repository.findById(id).orElseThrow(ClientMessageNotFoundException::new);
         message.setIsRevised(true);
         repository.save(message);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/message/{id}")
     public ClientMessage get(@PathVariable("id") Long id) {
         return repository.findById(id).orElseThrow(ClientMessageNotFoundException::new);
     }

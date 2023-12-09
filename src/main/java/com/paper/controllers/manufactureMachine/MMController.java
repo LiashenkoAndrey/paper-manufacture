@@ -7,32 +7,24 @@ import com.paper.dto.MMSearchDto;
 import com.paper.dto.PricesWithGoodAmountsDto;
 import com.paper.dto.SerialNumberDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
-import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/good/manufacture-machine")
+@RequestMapping("/api/public/good/manufacture-machine")
 @RequiredArgsConstructor
 public class MMController {
 
-    private static final Logger logger = LogManager.getLogger(MMController.class);
-    private final CatalogRepository catalogRepository;
     private final ManufactureMachineRepository repository;
     private final ManufactureMachineRepository machineRepository;
-
 
     @GetMapping
     public ManufactureMachine getGoodDetails(@RequestParam("id") Long id) {
@@ -47,8 +39,6 @@ public class MMController {
                                                         @RequestParam(value = "priceFrom", required = false) Long priceFrom,
                                                         @RequestParam(value = "priceTo", required = false) Long priceTo) {
 
-        logger.info(producerIds);
-        logger.info(catalogId);
         return machineRepository.findPageAndFilterBy(
                 catalogId,
                 producerIds,
@@ -81,7 +71,6 @@ public class MMController {
         return repository.findByNameContainingOrSerialNumberContainingIgnoreCase(query);
     }
 
-    private final Integer PAGE_SIZE = 10;
 
     @GetMapping("/all")
     public List<ManufactureMachine> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
@@ -89,12 +78,6 @@ public class MMController {
         return repository.getAllDto(Pageable.unpaged());
     }
 
-    @GetMapping("/view/all")
-    public String getPage(Model model) {
-        model.addAttribute("catalogs", catalogRepository.findAll());
-        model.addAttribute("machines", repository.findAll(PageRequest.of(0, PAGE_SIZE)).toList());
-        return "goods";
-    }
 
     @GetMapping("/{id}/properties")
     public @ResponseBody Map<String, String> getProperties(@PathVariable("id") Long id) {

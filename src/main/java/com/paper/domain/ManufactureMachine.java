@@ -15,18 +15,8 @@ import java.util.*;
 @Table(schema = "public", name = "manufacture_machine")
 public class ManufactureMachine extends Good {
 
-    public ManufactureMachine(List<String> images) {
-        super(images);
-    }
-
-    public ManufactureMachine(Long id, String description, String name, Producer producer, BigDecimal price, List<String> images, String serialNumber) {
-        super(id, description, name, producer, price, images);
-        this.serialNumber = serialNumber;
-    }
-
-    public ManufactureMachine(Long id, SortedMap<String, String> properties) {
-        super(id);
-        this.properties = properties;
+    public ManufactureMachine(Producer producer, Catalog catalog) {
+        super(producer, catalog);
     }
 
     @Builder

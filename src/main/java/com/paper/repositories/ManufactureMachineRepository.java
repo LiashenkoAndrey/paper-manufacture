@@ -32,14 +32,10 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
     Long getMaxGoodPrice();
 
 
-    @Query("select " +
-            "m.id as id, " +
-            "SUBSTRING(m.name, 0, 40) as name, " +
-            "m.serialNumber as serialNumber " +
-            "from ManufactureMachine m " +
-            "where lower(m.serialNumber) " +
-            "like lower(concat('%', :query, '%')) " +
-            "or lower(m.name) like lower(concat('%', :query, '%'))   ")
+    @Query(value = "select distinct on (id) id, name, serial_number as serialNumber, gi.image_id as imageId from manufacture_machine\n" +
+            "inner join public.good_images gi on manufacture_machine.id = gi.manufacture_machine_id\n" +
+            "where lower(serial_number) like lower(concat('%', :query, '%'))\n" +
+            "or lower(name) like lower(concat('%', :query, '%'))  ;", nativeQuery = true)
     List<MMSearchDto> findByNameContainingOrSerialNumberContainingIgnoreCase(@Param("query") String query);
 
     @Query(value = "select" +

@@ -7,13 +7,16 @@ import com.paper.repositories.ImageRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import com.paper.services.ManufactureMachineService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/manufacture-machine")
+@Log4j2
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class MMCrudController {
 
@@ -23,19 +26,19 @@ public class MMCrudController {
 
     private final ManufactureMachineService machineService;
 
-    @PostMapping(value = "/new")
-    public Long create(@ModelAttribute ManufactureMachineDto dto) {
-
+    @PostMapping(value = "/protected/manufacture-machine/new")
+    @PreAuthorize("hasAuthority('manage:goods')")
+    public ManufactureMachine create(@ModelAttribute ManufactureMachineDto dto) {
         if (dto.getImages().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image to save a good");
         }
 
-        ManufactureMachine saved = machineService.save(dto);
-        return saved.getId();
+        return machineService.save(dto);
     }
 
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/protected/manufacture-machine/{id}/delete")
+    @PreAuthorize("hasAuthority('manage:goods')")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         var manufactureMachine = repository
                 .findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
@@ -50,7 +53,8 @@ public class MMCrudController {
         }
     }
 
-    @PostMapping("/{goodId}/property/new")
+    @PostMapping("/protected/manufacture-machine/{goodId}/property/new")
+    @PreAuthorize("hasAuthority('manage:goods')")
     public void newProperty(@PathVariable("goodId") Long goodId,
                             @RequestParam("name") String name,
                             @RequestParam("value") String value) {
@@ -58,7 +62,8 @@ public class MMCrudController {
         machineService.addProperty(goodId, name, value);
     }
 
-    @DeleteMapping("/{goodId}/property/delete")
+    @DeleteMapping("/protected/manufacture-machine/{goodId}/property/delete")
+    @PreAuthorize("hasAuthority('manage:goods')")
     public void deleteProperty(@PathVariable("goodId") Long goodId,
                             @RequestParam("name") String name) {
 
