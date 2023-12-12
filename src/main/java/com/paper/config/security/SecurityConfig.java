@@ -22,8 +22,9 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/protected/**", "/api/admin/**").authenticated()
-                        .requestMatchers("/api/message/new").permitAll()
+                        .requestMatchers("/api/message/**").permitAll()
                         .anyRequest().permitAll())
+                .csrf().disable()
                 .cors(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
                                 .jwt(jwt -> jwt.jwtAuthenticationConverter(makePermissionsConverter()))

@@ -19,7 +19,7 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://pgm-4xo7yrf0tr89f86r8o.pgsql.germany.rds.aliyuncs.com:5432/postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://ec2-13-51-64-194.eu-north-1.compute.amazonaws.com:5432/paper_manufacture</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

@@ -1,7 +1,8 @@
 ---
 
 application:
-  client-origin-url: http://localhost:4040
+  client-origin-url: "http://localhost:4040, https://resplendent-buttercream-d77577.netlify.app"
+
 
 server:
   port: 6060

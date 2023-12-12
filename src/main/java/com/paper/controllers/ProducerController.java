@@ -23,7 +23,7 @@ public class ProducerController {
 
     private final ProducerRepository producerRepository;
 
-    @PostMapping("/private/producer/new")
+    @PostMapping("/protected/producer/new")
     @PreAuthorize("hasAuthority('manage:producers')")
     public void create(@ModelAttribute Producer producer) {
         log.info("New producer: " + producer );
@@ -37,12 +37,12 @@ public class ProducerController {
                 .body(producerRepository.findAll());
     }
 
-    @GetMapping("/public/producer/{id}")
+    @GetMapping("/producer/{id}")
     public Producer getInfo(@PathVariable("id") Long id) {
         return producerRepository.findById(id).orElseThrow(ProducerNotFoundException::new);
     }
 
-    @PutMapping("/private/producer/update")
+    @PutMapping("/protected/producer/update")
     @PreAuthorize("hasAuthority('manage:producers')")
     private void update(@RequestParam("name") String name,
                         @RequestParam("id") Long id,
@@ -58,7 +58,7 @@ public class ProducerController {
         producerRepository.save(producer);
     }
 
-    @DeleteMapping("/private/producer/delete")
+    @DeleteMapping("/protected/producer/delete")
     @PreAuthorize("hasAuthority('manage:producers')")
     private void delete(@RequestParam("id") Long id) {
         if (producerRepository.existsById(id)) {
