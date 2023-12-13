@@ -1,0 +1,14 @@
+name: Try to deploy spring app
+
+
+on:
+  push:
+    branches: [main]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check code
+        uses: actions/checkout@v3
