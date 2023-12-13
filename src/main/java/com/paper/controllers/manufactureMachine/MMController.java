@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Map;
 
@@ -32,20 +33,27 @@ public class MMController {
     }
 
     @GetMapping("/page")
-    public List<ManufactureMachine> getPageOfEntities(@RequestParam(value = "catalogId", required = false) Long catalogId,
+    public List<ManufactureMachine> getPageOfEntities(@RequestParam(value = "catalogName", required = false) String catalogName,
                                                         @RequestParam("pageId") Integer pageId,
                                                         @RequestParam("pageSize") Integer pageSize,
                                                         @RequestParam(value = "producerIds", required = false) List<Long> producerIds,
                                                         @RequestParam(value = "priceFrom", required = false) Long priceFrom,
                                                         @RequestParam(value = "priceTo", required = false) Long priceTo) {
 
+        Long[] price = getPrice(priceFrom, priceTo);
         return machineRepository.findPageAndFilterBy(
-                catalogId,
+                catalogName,
                 producerIds,
-                priceFrom,
-                priceTo,
+                price[0],
+                price[1],
                 Pageable.ofSize(pageSize).withPage(pageId)
         );
+    }
+
+
+    private Long[] getPrice(Long from, Long to) {
+        if (from == 0 && to == 0) return new Long[]{null ,null};
+        else return new Long[]{from ,to};
     }
 
     @GetMapping("/maxPrice")
@@ -74,8 +82,12 @@ public class MMController {
 
     @GetMapping("/all")
     public List<ManufactureMachine> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
-                                             @RequestParam(value = "pageSize",required = false) Integer pageSize) {
-        return repository.getAllDto(Pageable.unpaged());
+                                             @RequestParam(value = "pageSize",required = false) Integer pageSize,
+                                           @RequestParam(value = "catalogName", required = false) String catalogName) {
+        if (catalogName != null) {
+          return repository.getAllByCatalogName(catalogName);
+        }
+        return repository.getAll(Pageable.unpaged());
     }
 
 

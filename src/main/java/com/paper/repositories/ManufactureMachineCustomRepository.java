@@ -8,7 +8,7 @@ import java.util.List;
 public interface ManufactureMachineCustomRepository {
 
 
-    List<ManufactureMachine> findPageAndFilterBy(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable);
+    List<ManufactureMachine> findPageAndFilterBy(String catalogName, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable);
 
      Long getTotalItems(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo);
 }

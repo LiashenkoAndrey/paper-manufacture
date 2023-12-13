@@ -52,9 +52,10 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
 
 
     @Query(" from ManufactureMachine m")
-    List<ManufactureMachine> getAllDto(Pageable pageable);
+    List<ManufactureMachine> getAll(Pageable pageable);
 
-
+    @Query(" from ManufactureMachine m where m.catalog.name = :name")
+    List<ManufactureMachine> getAllByCatalogName(@Param("name") String catalogName);
     @Query("select" +
             "                m.serialNumber as serialNumber," +
             "                m.id as goodId" +

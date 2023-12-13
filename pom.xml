@@ -32,15 +32,7 @@
         <mongodb.version>4.9.0</mongodb.version>
     </properties>
 
-
-
-
     <dependencies>
-
-
-
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -58,8 +50,6 @@
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -164,9 +154,6 @@
             <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
-
-
-
     </dependencies>
 
     <build>
@@ -176,6 +163,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
+
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
