@@ -4,8 +4,17 @@ application:
   client-origin-url: "http://localhost:4040, https://resplendent-buttercream-d77577.netlify.app"
 
 
+security:
+  require-ssl: true
+
 server:
   port: 6060
+
+  ssl:
+    key-store: /etc/letsencrypt/live/paper-manufacture.miloverada.gov.ua/keystore.p12
+    key-store-password: komunist
+    key-store-type: PKCS12
+    key-alias: tomcat
 
   error:
     whitelabel:
