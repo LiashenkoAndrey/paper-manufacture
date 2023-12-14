@@ -13,5 +13,5 @@ RUN dos2unix ./mvnw
 RUN ./mvnw dependency:resolve
 
 COPY src ./src
-
+EXPOSE 5432
 CMD ["./mvnw", "spring-boot:run"]

@@ -47,4 +47,4 @@ jobs:
         run: sudo docker rm -f pm-backend
 
       - name: Run container
-        run: sudo docker run -d -p 6060:6060 -p 5432:5432 --name pm-backend liashenkoandrey/paper-manufacture-backend:latest
+        run: sudo docker run -d -p 6060:6060 --name pm-backend liashenkoandrey/paper-manufacture-backend:latest
