@@ -32,9 +32,9 @@ jobs:
 #      - name: Push image
 #        run: docker push liashenkoandrey/paper-manufacture-backend:latest
 
-  cloneAndRun:
+  deploy:
 #    needs: buildAndPush
-    runs-on: [aws-ec2]
+    runs-on: [ec2]
 
     steps:
       - name: check dir
@@ -50,7 +50,7 @@ jobs:
         run: git clone https://github.com/LiashenkoAndrey/paper-manufacture.git
 
       - name: give permission to mvnw file
-        run: sudo chmod +x paper-manufacture/mvnw
+        run: sudo chmod +x /home/admin/actions-runner/_work/paper-manufacture/paper-manufacture/mvnw
 
       - name: Run application
         run: sudo systemctl start pm
