@@ -10,8 +10,20 @@ On this website, you can explore a diverse range of paper manufacturing machines
    - Auth0 integration with JWT tokens
    - Ability to log in via a Google account
    - Intuitive admin interface
-   - <img src="/readmeAssets/loginForm.png" width="200" />
+   - <img src="https://github.com/LiashenkoAndrey/paper-manufacture/raw/main/readmeAssets/loginForm.png" width="200" />
+2. Internationalization
+3. Good filters
+   <img src="https://github.com/LiashenkoAndrey/paper-manufacture/raw/main/readmeAssets/smallSearch.png"  />
+   <img src="https://github.com/LiashenkoAndrey/paper-manufacture/raw/main/readmeAssets/bigSearch.png"  />
    
+### Start page
+<img src="https://github.com/LiashenkoAndrey/paper-manufacture/raw/main/readmeAssets/fullStartpage.png"  />
+
+### Goods page
+<img src="https://github.com/LiashenkoAndrey/paper-manufacture/raw/main/readmeAssets/fullImages.png"  />
+
+### Good info page
+<img src="https://github.com/LiashenkoAndrey/paper-manufacture/raw/main/readmeAssets/i18nInfo.png"  />
 
 
 Status of last deployment
