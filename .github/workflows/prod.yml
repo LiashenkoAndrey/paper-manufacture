@@ -1,39 +1,12 @@
 name: Try to deploy spring app
 
-
 on:
   push:
     branches: [main]
 
-
 jobs:
-#  buildAndPush:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: check code
-#        uses: actions/checkout@v3
-#
-#      - name: Install java
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'temurin'
-#          java-version: '17'
-#          cache: 'maven'
-#
-#      - name: Maven build
-#        run: mvn clean install -DskipTests
-#
-#      - name: Login to docker hub
-#        run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}}
-#
-#      - name: Build image
-#        run: docker build -t liashenkoandrey/paper-manufacture-backend .
-#
-#      - name: Push image
-#        run: docker push liashenkoandrey/paper-manufacture-backend:latest
 
   deploy:
-#    needs: buildAndPush
     runs-on: [ec2]
 
     steps:
@@ -54,15 +27,3 @@ jobs:
 
       - name: Run application
         run: sudo systemctl start pm
-
-#      - name: Login to docker hub
-#        run: sudo docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}}
-#
-#      - name: Pull image
-#        run: sudo docker pull liashenkoandrey/paper-manufacture-backend:latest
-#
-#      - name: Delete an old image
-#        run: sudo docker rm -f pm-backend
-#
-#      - name: Run container
-#        run: sudo docker run -d -p 6060:6060 --name pm-backend liashenkoandrey/paper-manufacture-backend:latest
