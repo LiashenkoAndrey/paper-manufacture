@@ -38,10 +38,10 @@ jobs:
 
     steps:
       - name: Pull image
-        run: docker pull liashenkoandrey/paper-manufacture-backend:latest
+        run: sudo docker pull liashenkoandrey/paper-manufacture-backend:latest
 
       - name: Delete an old image
-        run: docker rm -f pm-backend
+        run: sudo docker rm -f pm-backend
 
       - name: Run container
-        run: docker run -d -p 6060:6060 -p 5432:5432 --name pm-backend liashenkoandrey/paper-manufacture-backend:latest
+        run: sudo docker run -d -p 6060:6060 -p 5432:5432 --name pm-backend liashenkoandrey/paper-manufacture-backend:latest
