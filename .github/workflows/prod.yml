@@ -32,24 +32,29 @@ jobs:
 #      - name: Push image
 #        run: docker push liashenkoandrey/paper-manufacture-backend:latest
 
-  deploy:
+  cloneAndRun:
 #    needs: buildAndPush
     runs-on: [aws-ec2]
 
     steps:
-      - name: "check dir"
+      - name: check dir
         run: ls && pwd
-#      - name: Remove old files
-#        run: sudo rm -r paper-manufacture
-#
-#      - name: Clone repository
-#        run: git clone https://github.com/LiashenkoAndrey/paper-manufacture.git
-#
-#      - name: give permission to mvnw file
-#        run:  chmod +x  /home/admin/paper-manufacture/mvnw
-#
-#      - name: Run application
-#        run: /home/admin/actions-runner/mvnw spring-boot:run
+
+      - name: stop runned service
+        run: sudo systemctl stop pm
+
+      - name: Remove old files
+        run: sudo rm -r paper-manufacture
+
+      - name: Clone repository
+        run: git clone https://github.com/LiashenkoAndrey/paper-manufacture.git
+
+      - name: give permission to mvnw file
+        run: sudo chmod +x paper-manufacture/mvnw
+
+      - name: Run application
+        run: sudo systemctl start pm
+
 #      - name: Login to docker hub
 #        run: sudo docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}}
 #
