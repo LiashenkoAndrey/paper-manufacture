@@ -50,7 +50,7 @@ jobs:
         run: git clone https://github.com/LiashenkoAndrey/paper-manufacture.git
 
       - name: give permission to mvnw file
-        run: sudo chmod +x /home/admin/actions-runner/_work/paper-manufacture/paper-manufacture/mvnw
+        run: sudo chmod +x /home/admin/actions-runner/_work/paper-manufacture/paper-manufacture/paper-manufacture/mvnw
 
       - name: Run application
         run: sudo systemctl start pm
