@@ -30,43 +30,6 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
 
     private final CatalogRepository catalogRepository;
 
-
-    @Transactional
-    @Override
-    public Long getTotalItems(Long catalogId, List<Long> producersIds, Long priceFrom, Long priceTo) {
-        producersIds = processProducersIds(producersIds);
-
-        Stream<Tuple> totalCountStream = (Stream<Tuple>) manager.createNativeQuery("""
-           select
-            count(*)
-            from manufacture_machine mm
-               inner join good_images gi on mm.id = gi.manufacture_machine_id
-               inner join catalog c on c.id = mm.catalog_id
-               inner join producer p on p.id = mm.producer_id
-            where mm.catalog_id = :catalogId
-              and gi.good_images_order = 0
-              and
-                (case
-                    when cast(:priceFrom as integer) is not null and cast(:priceTo as integer) is not null
-                    then (price >= cast(:priceFrom as integer) and price <= cast(:priceTo as integer))
-                    else true 
-                end)
-              and
-                (case 
-                    when -1 in (:producersIds) then true
-                    else p.id in (:producersIds)
-                end);
-           """, Tuple.class)
-                .setParameter("catalogId", catalogId)
-                .setParameter("priceFrom", priceFrom)
-                .setParameter("priceTo", priceTo)
-                .setParameter("producersIds", producersIds.stream().map(Math::toIntExact).toList())
-                .getResultStream();
-
-        List<Long> totalCountList = totalCountStream.map(tuple -> tuple.get("count", Long.class)).toList();
-        return totalCountList.isEmpty() ? -1 : totalCountList.get(0);
-    }
-
     private List<Long> processProducersIds(List<Long> producersIds) {
         if (producersIds == null) {
             producersIds = List.of(-1L, -2L);
@@ -84,10 +47,6 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
 
         Catalog catalog = catalogRepository.findByName(catalogName)
                 .orElse(Catalog.builder().id(1000L).build());
-        log.info(catalog);
-
-        log.info(priceFrom);
-        log.info(priceTo);
 
         TypedQuery<ManufactureMachine> query = manager.createQuery("""
       
@@ -109,15 +68,11 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
                 end)
            """, ManufactureMachine.class);
 
-        List<ManufactureMachine> list = query
+        return query
                 .setParameter("catalogId", catalog.getId())
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
                 .setParameter("producersIds", producersIds.stream().map(Math::toIntExact).toList())
                 .getResultList();
-
-
-
-        return list;
     }
 }

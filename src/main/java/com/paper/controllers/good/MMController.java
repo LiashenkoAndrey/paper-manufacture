@@ -1,4 +1,4 @@
-package com.paper.controllers.manufactureMachine;
+package com.paper.controllers.good;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Map;
 
@@ -91,15 +90,6 @@ public class MMController {
     }
 
 
-    @GetMapping("/{id}/properties")
-    public @ResponseBody Map<String, String> getProperties(@PathVariable("id") Long id) {
-        var manufactureMachine = repository.findById(id)
-                .orElseThrow(ManufactureMachineNotFoundException::new);
-        return manufactureMachine.getProperties();
-    }
 
-    @GetMapping("/serial_numbers/all")
-    public List<SerialNumberDto> getAllSerialNumbers() {
-        return repository.getAllSerialNumbers();
-    }
+
 }

@@ -2,6 +2,7 @@ package com.paper.config;
 
 import com.paper.exceptions.EntityAlreadyExistException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
+@Log4j2
 public class GlobalErrorHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -34,6 +36,7 @@ public class GlobalErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
     public ErrorMessage handleInternalError(final HttpServletRequest request, final Exception error) {
-        return ErrorMessage.from(error.getMessage());
+        log.error(error);
+        throw new RuntimeException(error);
     }
 }

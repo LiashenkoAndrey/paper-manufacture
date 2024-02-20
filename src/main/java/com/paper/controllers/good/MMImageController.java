@@ -1,4 +1,4 @@
-package com.paper.controllers.manufactureMachine;
+package com.paper.controllers.good;
 
 import com.paper.domain.ManufactureMachine;
 import com.paper.domain.MongoImage;

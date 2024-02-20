@@ -2,7 +2,6 @@ package com.paper.services.impl;
 
 import com.paper.domain.Catalog;
 import com.paper.domain.ManufactureMachine;
-import com.paper.domain.Producer;
 import com.paper.dto.ManufactureMachineDto;
 import com.paper.exceptions.EntityAlreadyExistException;
 import com.paper.exceptions.ServiceException;
@@ -11,7 +10,9 @@ import com.paper.services.ManufactureMachineService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Example;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import static com.paper.util.EntityMapper.map;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class ManufactureMachineServiceImpl implements ManufactureMachineService {
 
@@ -27,26 +29,31 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
     @PersistenceContext
     private EntityManager em;
 
-    private static final Logger logger = LogManager.getLogger(ManufactureMachineServiceImpl.class);
 
     @Override
-    public ManufactureMachine save(ManufactureMachineDto dto) {
-        logger.info("new ManufactureMachine: " + dto);
+    public ManufactureMachine save(@Valid ManufactureMachineDto dto) {
+        log.info("new ManufactureMachine: " + dto);
 
         Catalog catalog = em.getReference(Catalog.class, dto.getCatalogId());
-        Producer producer = em.getReference(Producer.class, dto.getProducerId());
 
-        ManufactureMachine machine = new ManufactureMachine(producer, catalog);
-        map(dto, machine).map();
+        ManufactureMachine machine = ManufactureMachine.builder()
+                .images(dto.getImages())
+                .description(dto.getDescription())
+                .name(dto.getName())
+                .catalog(catalog)
+                .price(dto.getPrice())
+                .url(dto.getUrl())
+                .build();
 
+        log.info("after save = {}", machine);
         if (machineRepository.exists(Example.of(machine))) {
             if (machine.getId() == null) {
-                logger.error("ALREADY exist, " + machine);
+                log.error("ALREADY exist, " + machine);
                 throw new EntityAlreadyExistException();
             }
-            logger.info("Exits, " + machine);
+            log.info("Exits, " + machine);
         } else {
-            logger.info("NOT EXIST, " + machine);
+            log.info("NOT EXIST, " + machine);
         }
 
         return machineRepository.save(machine);
@@ -64,7 +71,7 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
                     .setParameter("goodId", goodId)
                     .executeUpdate();
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -78,7 +85,7 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
                     .setParameter("name", name)
                     .executeUpdate();
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e);
             throw new ServiceException(e);
         }
     }

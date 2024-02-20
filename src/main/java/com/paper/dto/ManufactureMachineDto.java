@@ -29,14 +29,12 @@ public class ManufactureMachineDto {
     @NotNull
     private BigDecimal price;
 
-    private String serialNumber;
+    @NotNull
+    private String url;
 
     @NotNull
     @Size(min = 1, max = 10)
     private List<String> images;
-
-    @NotNull
-    private Long producerId;
 
     @NotNull
     private Long catalogId;

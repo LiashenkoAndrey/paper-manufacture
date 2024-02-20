@@ -16,13 +16,11 @@ public class MapperTest {
     @Test
     public void mapTest() {
         ManufactureMachine machine = new ManufactureMachine();
-        machine.setProperties(new TreeMap<>(Map.of("key", "val", "1", "2")));
         machine.setName("hello");
         machine.setDescription("desc");
 
         var source = new ManufactureMachine();
         source.setDescription("old");
-        source.setProperties(new TreeMap<>(Map.of("key", "val")));
 
         map(machine, source)
                 .setMappingForFields("properties", "properties", FieldsMappingOptions.customConverter(MapConverter.class))
@@ -31,7 +29,6 @@ public class MapperTest {
         var expected = ManufactureMachine.builder()
                 .name("hello")
                 .description("desc")
-                .properties(new TreeMap<>(Map.of("key", "val", "1", "2")))
                 .build();
 
         assertThat(source).usingRecursiveComparison()
@@ -42,7 +39,7 @@ public class MapperTest {
     @Test
     public void mapAnotherEntityTest() {
         ManufactureMachineDto dto = ManufactureMachineDto.builder()
-                .serialNumber("sd")
+                .name("sd")
                 .build();
 
         ManufactureMachine machine = new ManufactureMachine();

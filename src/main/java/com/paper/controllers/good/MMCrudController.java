@@ -1,4 +1,4 @@
-package com.paper.controllers.manufactureMachine;
+package com.paper.controllers.good;
 
 import com.paper.domain.ManufactureMachine;
 import com.paper.dto.ManufactureMachineDto;
@@ -33,7 +33,9 @@ public class MMCrudController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image to save a good");
         }
 
-        return machineService.save(dto);
+        ManufactureMachine machine = machineService.save(dto);
+        log.info("saved = {}", machine);
+        return machine;
     }
 
 

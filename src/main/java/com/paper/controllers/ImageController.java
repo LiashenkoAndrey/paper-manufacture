@@ -4,10 +4,12 @@ import com.paper.domain.MongoImage;
 import com.paper.exceptions.ImageNotFoundException;
 import com.paper.repositories.ImageRepository;
 import com.paper.util.ServiceUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,16 +28,12 @@ public class ImageController {
     private ImageRepository imageRepository;
 
     @GetMapping(value = "/upload/image/{imageId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) {
-        if (ObjectId.isValid(imageId)) {
-            MongoImage mongoImage = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
+    public byte[] getImage(@PathVariable("imageId") String imageId, HttpServletResponse response) {
+        MongoImage mongoImage = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
 
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(mongoImage.getType()))
-                    .body(mongoImage.getImage().getData());
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.parseMediaType(mongoImage.getType()).toString());
+        response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(mongoImage.getImage().length()));
+        return mongoImage.getImage().getData();
     }
 
 

@@ -18,14 +18,7 @@ import java.util.List;
 public interface ManufactureMachineRepository extends JpaRepository<ManufactureMachine, Long>, ManufactureMachineCustomRepository {
 
 
-    /**
-     * Deletes image record from relational database
-     * @param id image id
-     */
-    @Transactional
-    @Modifying
-    @Query(value = "delete from good_images img where img.image_id = :imageId", nativeQuery = true)
-    void deleteGoodImageById(@Param("imageId") String id);
+
 
 
     @Query(value = "select max(price) from paper_manufacture.public.manufacture_machine", nativeQuery = true)
@@ -44,8 +37,8 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
             "         count(id) as amount" +
             "     from manufacture_machine mm" +
             "     where" +
-            "         mm.price >= (m.price - 5000)" +
-            "       and mm.price <= (m.price + 5000)" +
+            "         mm.price >= (m.price - 500)" +
+            "       and mm.price <= (m.price + 500)" +
             "     )" +
             "from manufacture_machine m group by m.price order by price", nativeQuery = true)
     List<PricesWithGoodAmountsDto> getAllPricesWithGoodAmounts();
@@ -56,9 +49,5 @@ public interface ManufactureMachineRepository extends JpaRepository<ManufactureM
 
     @Query(" from ManufactureMachine m where m.catalog.name = :name")
     List<ManufactureMachine> getAllByCatalogName(@Param("name") String catalogName);
-    @Query("select" +
-            "                m.serialNumber as serialNumber," +
-            "                m.id as goodId" +
-            "           from ManufactureMachine m")
-    List<SerialNumberDto> getAllSerialNumbers();
+
 }
