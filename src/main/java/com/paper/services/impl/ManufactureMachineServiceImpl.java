@@ -41,6 +41,8 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
                 .description(dto.getDescription())
                 .name(dto.getName())
                 .catalog(catalog)
+                .externalImages(dto.getExternalImagesUrls())
+                .videoUrl(dto.getVideoUrl())
                 .price(dto.getPrice())
                 .url(dto.getUrl())
                 .build();

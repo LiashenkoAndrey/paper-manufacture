@@ -29,13 +29,15 @@ public abstract class Good extends Model {
         super(id);
     }
 
-    public Good(Long id, String description, String name, Catalog catalog, BigDecimal price, List<String> images) {
+    public Good(Long id, String description, String name, Catalog catalog, BigDecimal price, List<String> images, String videoUrl, List<String> externalImages) {
         super(id);
         this.description = description;
         this.name = name;
         this.catalog = catalog;
         this.price = price;
         this.images = images;
+        this.videoUrl = videoUrl;
+        this.externalImages = externalImages;
     }
 
     public Good(Long id, String description, String name, BigDecimal price, List<String> images) {
@@ -63,5 +65,13 @@ public abstract class Good extends Model {
     @OrderColumn(name = "good_images_order")
     @Column(name = "image_id")
     protected List<String> images = new ArrayList<>();
+
+    protected String videoUrl;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "external_good_images")
+    @OrderColumn(name = "good_images_order")
+    @Column(name = "image_url")
+    protected List<String> externalImages = new ArrayList<>();
 
 }

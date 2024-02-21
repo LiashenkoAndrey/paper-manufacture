@@ -14,18 +14,21 @@ import lombok.*;
 @Entity
 public class Catalog extends Model {
 
+    public Catalog(String name) {
+        this.name = name;
+    }
+
     @Builder
-    public Catalog(Long id, String name, CatalogType type) {
+
+    public Catalog(Long id, String name) {
         super(id);
         this.name = name;
-        this.type = type;
     }
+
+
 
     @Size(min = 4, max = 255)
     @Column(updatable = false)
     private String name;
-
-    @Enumerated(EnumType.STRING)
-    private CatalogType type;
 
 }

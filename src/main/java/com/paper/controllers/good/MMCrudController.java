@@ -29,7 +29,7 @@ public class MMCrudController {
     @PostMapping(value = "/protected/manufacture-machine/new")
     @PreAuthorize("hasAuthority('manage:goods')")
     public ManufactureMachine create(@ModelAttribute ManufactureMachineDto dto) {
-        if (dto.getImages().isEmpty()) {
+        if (dto.getImages().isEmpty() && dto.getExternalImagesUrls().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image to save a good");
         }
 

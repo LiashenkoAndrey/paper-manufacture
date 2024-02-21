@@ -32,9 +32,13 @@ public class ManufactureMachineDto {
     @NotNull
     private String url;
 
-    @NotNull
-    @Size(min = 1, max = 10)
+    private String videoUrl;
+
+    @Size(max = 10)
     private List<String> images;
+
+    @Size(max = 10)
+    private List<String> externalImagesUrls;
 
     @NotNull
     private Long catalogId;
