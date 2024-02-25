@@ -48,7 +48,6 @@ public abstract class Good extends Model {
         this.images = images;
     }
 
-    @NotNull
     protected String description;
 
     @NotNull
