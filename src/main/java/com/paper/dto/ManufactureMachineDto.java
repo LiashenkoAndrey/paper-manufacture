@@ -22,8 +22,6 @@ public class ManufactureMachineDto {
     @Size(min = 5, max = 255)
     private String name;
 
-    @NotNull
-    @Size(min = 10, max = 1000)
     private String description;
 
     @NotNull

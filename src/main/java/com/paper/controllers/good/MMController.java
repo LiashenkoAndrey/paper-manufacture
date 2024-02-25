@@ -9,6 +9,8 @@ import com.paper.dto.SerialNumberDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.ManufactureMachineRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/public/good/manufacture-machine")
 @RequiredArgsConstructor
+@Log4j2
 public class MMController {
 
     private final ManufactureMachineRepository repository;
@@ -80,13 +83,14 @@ public class MMController {
 
 
     @GetMapping("/all")
-    public List<ManufactureMachine> getAll(@RequestParam(value = "pageId",required = false) Integer pageId,
-                                             @RequestParam(value = "pageSize",required = false) Integer pageSize,
+    public List<ManufactureMachine> getAll(@RequestParam(value = "pageId",required = false, defaultValue = "0") Integer pageId,
+                                             @RequestParam(value = "pageSize",required = false, defaultValue = "20") Integer pageSize,
                                            @RequestParam(value = "catalogName", required = false) String catalogName) {
+        log.info("page = {}, size - {}, catalog = {}", pageId, pageSize, catalogName);
         if (catalogName != null) {
-          return repository.getAllByCatalogName(catalogName);
+          return repository.getAllByCatalogName(catalogName, PageRequest.of(pageId, pageSize));
         }
-        return repository.getAll(Pageable.unpaged());
+        return repository.getAll( PageRequest.of(pageId, pageSize));
     }
 
 
