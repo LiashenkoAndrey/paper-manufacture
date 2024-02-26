@@ -2,7 +2,7 @@ package com.paper.services.impl;
 
 import com.paper.domain.Catalog;
 import com.paper.domain.ManufactureMachine;
-import com.paper.dto.ManufactureMachineDto;
+import com.paper.dto.GoodDto;
 import com.paper.exceptions.EntityAlreadyExistException;
 import com.paper.exceptions.ServiceException;
 import com.paper.repositories.ManufactureMachineRepository;
@@ -13,11 +13,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import static com.paper.util.EntityMapper.map;
 
 @Service
 @Log4j2
@@ -31,15 +28,15 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
 
 
     @Override
-    public ManufactureMachine save(@Valid ManufactureMachineDto dto) {
+    public ManufactureMachine save(@Valid GoodDto dto) {
         log.info("new ManufactureMachine: " + dto);
 
         Catalog catalog = em.getReference(Catalog.class, dto.getCatalogId());
 
         ManufactureMachine machine = ManufactureMachine.builder()
                 .images(dto.getImages())
-                .description(dto.getDescription())
                 .name(dto.getName())
+                .oldPrice(dto.getOldPrice())
                 .catalog(catalog)
                 .externalImages(dto.getExternalImagesUrls())
                 .videoUrl(dto.getVideoUrl())

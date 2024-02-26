@@ -29,11 +29,12 @@ public abstract class Good extends Model {
         super(id);
     }
 
-    public Good(Long id, String description, String name, Catalog catalog, BigDecimal price, List<String> images, String videoUrl, List<String> externalImages) {
+    public Good(Long id, String name, Catalog catalog, BigDecimal price, BigDecimal oldPrice, List<String> images, String videoUrl, List<String> externalImages) {
         super(id);
         this.name = name;
         this.catalog = catalog;
         this.price = price;
+        this.oldPrice = oldPrice;
         this.images = images;
         this.videoUrl = videoUrl;
         this.externalImages = externalImages;
@@ -54,6 +55,7 @@ public abstract class Good extends Model {
     protected Catalog catalog;
 
     protected BigDecimal price;
+    protected BigDecimal oldPrice;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "good_images")

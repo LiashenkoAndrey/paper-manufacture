@@ -82,7 +82,6 @@ public class MMController {
     public List<ManufactureMachine> getAll(@RequestParam(value = "pageId",required = false, defaultValue = "0") Integer pageId,
                                              @RequestParam(value = "pageSize",required = false, defaultValue = "20") Integer pageSize,
                                            @RequestParam(value = "catalogName", required = false) String catalogName) {
-        log.info("page = {}, size - {}, catalog = {}", pageId, pageSize, catalogName);
         if (catalogName != null) {
           return repository.getAllByCatalogName(catalogName, PageRequest.of(pageId, pageSize));
         }

@@ -3,6 +3,7 @@ package com.paper.config;
 import com.paper.exceptions.EntityAlreadyExistException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
+import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,6 +38,10 @@ public class GlobalErrorHandler {
     @ExceptionHandler(Throwable.class)
     public ErrorMessage handleInternalError(final HttpServletRequest request, final Exception error) {
         log.error(error);
+        if (error instanceof ClientAbortException) {
+            log.error(error.getMessage());
+            return new ErrorMessage("ClientAbortException");
+        }
         throw new RuntimeException(error);
     }
 }

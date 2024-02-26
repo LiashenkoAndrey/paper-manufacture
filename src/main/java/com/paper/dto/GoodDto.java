@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 @Builder
 @NoArgsConstructor
-public class ManufactureMachineDto {
+public class GoodDto {
 
     private Long id;
 
@@ -24,6 +24,9 @@ public class ManufactureMachineDto {
 
     @NotNull
     private BigDecimal price;
+
+    protected BigDecimal oldPrice;
+
 
     @NotNull
     private String url;

@@ -24,10 +24,12 @@ public class ManufactureMachine extends Good {
 
 
     @Builder
-    public ManufactureMachine(Long id, String description, String name, Catalog catalog, BigDecimal price, List<String> images, String videoUrl, List<String> externalImages, String url) {
-        super(id, description, name, catalog, price, images, videoUrl, externalImages);
+    public ManufactureMachine(Long id, String name, Catalog catalog, BigDecimal price, BigDecimal oldPrice, List<String> images, String videoUrl, List<String> externalImages, String url) {
+        super(id, name, catalog, price, oldPrice, images, videoUrl, externalImages);
         this.url = url;
     }
+
+
 
     @URL
     private String url;
