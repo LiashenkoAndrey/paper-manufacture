@@ -39,11 +39,7 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
 
     @Override
     @Transactional
-    public List<ManufactureMachine> findPageAndFilterBy(String catalogName, List<Long> producersIds, Long priceFrom, Long priceTo, Pageable pageable) {
-        producersIds = processProducersIds(producersIds);
-        if (producersIds == null) {
-            producersIds = List.of(-1L, -2L);
-        } else if (producersIds.isEmpty()) producersIds = List.of(-1L, -2L);
+    public List<ManufactureMachine> findPageAndFilterBy(String catalogName, Long priceFrom, Long priceTo, Pageable pageable) {
 
         Catalog catalog = catalogRepository.findByName(catalogName)
                 .orElse(Catalog.builder().id(1000L).build());
@@ -61,18 +57,13 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
                     when :priceFrom is not null and :priceTo is not null then (price >= :priceFrom  and price <= :priceTo)
                     else true
                 end)
-              AND
-                (case
-                    when -1 in (:producersIds) then true
-                    else mm.producer.id in (:producersIds)
-                end)
+     
            """, ManufactureMachine.class);
 
         return query
                 .setParameter("catalogId", catalog.getId())
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
-                .setParameter("producersIds", producersIds.stream().map(Math::toIntExact).toList())
                 .getResultList();
     }
 }

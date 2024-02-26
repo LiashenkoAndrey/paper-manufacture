@@ -22,8 +22,6 @@ public class ManufactureMachineDto {
     @Size(min = 5, max = 255)
     private String name;
 
-    private String description;
-
     @NotNull
     private BigDecimal price;
 

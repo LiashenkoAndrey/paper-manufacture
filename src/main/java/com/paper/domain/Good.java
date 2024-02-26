@@ -31,7 +31,6 @@ public abstract class Good extends Model {
 
     public Good(Long id, String description, String name, Catalog catalog, BigDecimal price, List<String> images, String videoUrl, List<String> externalImages) {
         super(id);
-        this.description = description;
         this.name = name;
         this.catalog = catalog;
         this.price = price;
@@ -42,13 +41,10 @@ public abstract class Good extends Model {
 
     public Good(Long id, String description, String name, BigDecimal price, List<String> images) {
         super(id);
-        this.description = description;
         this.name = name;
         this.price = price;
         this.images = images;
     }
-
-    protected String description;
 
     @NotNull
     protected String name;

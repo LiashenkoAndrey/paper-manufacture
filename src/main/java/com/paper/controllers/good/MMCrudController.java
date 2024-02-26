@@ -26,7 +26,7 @@ public class MMCrudController {
 
     private final ManufactureMachineService machineService;
 
-    @PostMapping(value = "/protected/manufacture-machine/new")
+    @PostMapping(value = "/protected/good/new")
     @PreAuthorize("hasAuthority('manage:goods')")
     public ManufactureMachine create(@ModelAttribute ManufactureMachineDto dto) {
         if (dto.getImages().isEmpty() && dto.getExternalImagesUrls().isEmpty()) {
@@ -39,13 +39,13 @@ public class MMCrudController {
     }
 
 
-    @DeleteMapping("/protected/manufacture-machine/{id}/delete")
+    @DeleteMapping("/protected/good/{id}/delete")
     @PreAuthorize("hasAuthority('manage:goods')")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         var manufactureMachine = repository
                 .findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
         if (!repository.existsById(id)) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Not exist");
         } else {
             repository.deleteById(id);
             for (String image : manufactureMachine.getImages()) {
@@ -55,7 +55,9 @@ public class MMCrudController {
         }
     }
 
-    @PostMapping("/protected/manufacture-machine/{goodId}/property/new")
+
+
+    @PostMapping("/protected/good/{goodId}/property/new")
     @PreAuthorize("hasAuthority('manage:goods')")
     public void newProperty(@PathVariable("goodId") Long goodId,
                             @RequestParam("name") String name,
@@ -64,7 +66,7 @@ public class MMCrudController {
         machineService.addProperty(goodId, name, value);
     }
 
-    @DeleteMapping("/protected/manufacture-machine/{goodId}/property/delete")
+    @DeleteMapping("/protected/good/{goodId}/property/delete")
     @PreAuthorize("hasAuthority('manage:goods')")
     public void deleteProperty(@PathVariable("goodId") Long goodId,
                             @RequestParam("name") String name) {

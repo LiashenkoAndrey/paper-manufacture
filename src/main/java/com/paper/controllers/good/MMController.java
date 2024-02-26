@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.paper.domain.ManufactureMachine;
 import com.paper.dto.MMSearchDto;
 import com.paper.dto.PricesWithGoodAmountsDto;
-import com.paper.dto.SerialNumberDto;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.ManufactureMachineRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/public/good/manufacture-machine")
+@RequestMapping("/api/public/good")
 @RequiredArgsConstructor
 @Log4j2
 public class MMController {
@@ -38,14 +36,12 @@ public class MMController {
     public List<ManufactureMachine> getPageOfEntities(@RequestParam(value = "catalogName", required = false) String catalogName,
                                                         @RequestParam("pageId") Integer pageId,
                                                         @RequestParam("pageSize") Integer pageSize,
-                                                        @RequestParam(value = "producerIds", required = false) List<Long> producerIds,
                                                         @RequestParam(value = "priceFrom", required = false) Long priceFrom,
                                                         @RequestParam(value = "priceTo", required = false) Long priceTo) {
 
         Long[] price = getPrice(priceFrom, priceTo);
         return machineRepository.findPageAndFilterBy(
                 catalogName,
-                producerIds,
                 price[0],
                 price[1],
                 Pageable.ofSize(pageSize).withPage(pageId)
@@ -92,8 +88,4 @@ public class MMController {
         }
         return repository.getAll( PageRequest.of(pageId, pageSize));
     }
-
-
-
-
 }
