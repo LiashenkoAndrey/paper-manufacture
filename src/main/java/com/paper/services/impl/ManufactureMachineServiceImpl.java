@@ -57,36 +57,4 @@ public class ManufactureMachineServiceImpl implements ManufactureMachineService 
 
         return machineRepository.save(machine);
     }
-
-
-    @Override
-    @Transactional
-    public void addProperty(Long goodId, String name, String value) {
-        try {
-            em.createNativeQuery("insert into manufacture_machine_properties(property_name, property_value, manufacture_machine_id) " +
-                            "VALUES (:name, :value, :goodId)")
-                    .setParameter("name", name)
-                    .setParameter("value", value)
-                    .setParameter("goodId", goodId)
-                    .executeUpdate();
-        } catch (Exception e) {
-            log.error(e);
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
-    @Transactional
-    public void deleteProperty(Long goodId, String name) {
-        try {
-            em.createNativeQuery("delete from manufacture_machine_properties where manufacture_machine_id = :goodId and property_name = :name")
-                    .setParameter("goodId", goodId)
-                    .setParameter("name", name)
-                    .executeUpdate();
-        } catch (Exception e) {
-            log.error(e);
-            throw new ServiceException(e);
-        }
-    }
-
 }

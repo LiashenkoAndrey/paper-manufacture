@@ -2,6 +2,7 @@ package com.paper.controllers.good;
 
 import com.paper.domain.ManufactureMachine;
 import com.paper.dto.GoodDto;
+import com.paper.exceptions.EntityNotFoundException;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
 import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ImageRepository;
@@ -39,6 +40,7 @@ public class MMCrudController {
         }
 
         ManufactureMachine machine = machineService.save(dto);
+
         log.info("saved = {}", machine);
         return machine;
     }
@@ -46,17 +48,17 @@ public class MMCrudController {
 
     @DeleteMapping("/protected/good/{id}/delete")
     @PreAuthorize("hasAuthority('manage:goods')")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public Long delete(@PathVariable("id") Long id) {
         var manufactureMachine = repository
                 .findById(id).orElseThrow(ManufactureMachineNotFoundException::new);
         if (!repository.existsById(id)) {
-            return ResponseEntity.badRequest().body("Not exist");
+            throw new EntityNotFoundException("not exist");
         } else {
             repository.deleteById(id);
             for (String image : manufactureMachine.getImages()) {
                 imageRepository.deleteById(image);
             }
-            return ResponseEntity.ok().build();
+            return id;
         }
     }
 
@@ -78,22 +80,5 @@ public class MMCrudController {
         }
         throw new ManufactureMachineNotFoundException("not exist");
 
-    }
-
-    @PostMapping("/protected/good/{goodId}/property/new")
-    @PreAuthorize("hasAuthority('manage:goods')")
-    public void newProperty(@PathVariable("goodId") Long goodId,
-                            @RequestParam("name") String name,
-                            @RequestParam("value") String value) {
-
-        machineService.addProperty(goodId, name, value);
-    }
-
-    @DeleteMapping("/protected/good/{goodId}/property/delete")
-    @PreAuthorize("hasAuthority('manage:goods')")
-    public void deleteProperty(@PathVariable("goodId") Long goodId,
-                            @RequestParam("name") String name) {
-
-        machineService.deleteProperty(goodId, name);
     }
 }
