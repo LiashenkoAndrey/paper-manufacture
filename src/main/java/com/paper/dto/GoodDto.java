@@ -27,7 +27,6 @@ public class GoodDto {
 
     protected BigDecimal oldPrice;
 
-
     @NotNull
     private String url;
 

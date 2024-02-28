@@ -35,8 +35,8 @@ public class MMCrudController {
     @PostMapping(value = "/protected/good/new")
     @PreAuthorize("hasAuthority('manage:goods')")
     public ManufactureMachine create(@Valid @ModelAttribute GoodDto dto) {
-        if (dto.getImages().isEmpty() && dto.getExternalImagesUrls().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image to save a good");
+        if (dto.getImages().isEmpty() && dto.getExternalImagesUrls().isEmpty() && dto.getVideoUrl().equals("null")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It needs at least a one image or video to save a good");
         }
 
         ManufactureMachine machine = machineService.save(dto);
