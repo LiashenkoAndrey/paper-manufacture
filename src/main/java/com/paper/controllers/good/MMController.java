@@ -1,14 +1,20 @@
 package com.paper.controllers.good;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.paper.domain.Catalog;
 import com.paper.domain.ManufactureMachine;
+import com.paper.dto.GoodPageDto;
 import com.paper.dto.MMSearchDto;
 import com.paper.dto.PricesWithGoodAmountsDto;
+import com.paper.exceptions.CatalogNotFoundException;
 import com.paper.exceptions.ManufactureMachineNotFoundException;
+import com.paper.repositories.CatalogRepository;
 import com.paper.repositories.ManufactureMachineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -26,6 +33,7 @@ public class MMController {
 
     private final ManufactureMachineRepository repository;
     private final ManufactureMachineRepository machineRepository;
+    private final CatalogRepository catalogRepository;
 
     @GetMapping
     public ManufactureMachine getGoodDetails(@RequestParam("id") Long id) {
@@ -33,19 +41,18 @@ public class MMController {
     }
 
     @GetMapping("/page")
-    public List<ManufactureMachine> getPageOfEntities(@RequestParam(value = "catalogName", required = false) String catalogName,
+    public GoodPageDto getPageOfEntities(@RequestParam(value = "catalogName", required = false) String catalogName,
                                                         @RequestParam("pageId") Integer pageId,
                                                         @RequestParam("pageSize") Integer pageSize,
-                                                        @RequestParam(value = "priceFrom", required = false) Long priceFrom,
-                                                        @RequestParam(value = "priceTo", required = false) Long priceTo) {
+                                                        @RequestParam(value = "priceFrom", required = false) BigDecimal priceFrom,
+                                                        @RequestParam(value = "priceTo", required = false) BigDecimal priceTo) {
 
-        Long[] price = getPrice(priceFrom, priceTo);
-        return machineRepository.findPageAndFilterBy(
-                catalogName,
-                price[0],
-                price[1],
-                Pageable.ofSize(pageSize).withPage(pageId)
-        );
+        log.info(catalogName);
+
+        Catalog catalog = catalogRepository.findByName(catalogName);
+        log.info(catalog);
+        Page<ManufactureMachine> page = machineRepository.findAllByCatalogOrPriceBetween(catalog, priceFrom, priceTo, PageRequest.of(pageId, pageSize));
+        return new GoodPageDto(page.toList(), page.getTotalElements());
     }
 
 
@@ -79,12 +86,14 @@ public class MMController {
 
 
     @GetMapping("/all")
-    public List<ManufactureMachine> getAll(@RequestParam(value = "pageId",required = false, defaultValue = "0") Integer pageId,
-                                             @RequestParam(value = "pageSize",required = false, defaultValue = "20") Integer pageSize,
-                                           @RequestParam(value = "catalogName", required = false) String catalogName) {
+    public GoodPageDto getAll(@RequestParam(value = "pageId",required = false, defaultValue = "0") Integer pageId,
+                              @RequestParam(value = "pageSize",required = false, defaultValue = "20") Integer pageSize,
+                              @RequestParam(value = "catalogName", required = false) String catalogName) {
         if (catalogName != null) {
-          return repository.getAllByCatalogName(catalogName, PageRequest.of(pageId, pageSize));
+            Page<ManufactureMachine> page = repository.getAllByCatalogName(catalogName, PageRequest.of(pageId, pageSize));
+            return new GoodPageDto(page.toList(), page.getTotalElements());
         }
-        return repository.getAll( PageRequest.of(pageId, pageSize));
+        Page<ManufactureMachine> page = repository.findAll( PageRequest.of(pageId, pageSize));
+        return new GoodPageDto(page.toList(), page.getTotalElements());
     }
 }

@@ -41,29 +41,25 @@ public class ManufactureMachineCustomRepositoryImpl implements ManufactureMachin
     @Transactional
     public List<ManufactureMachine> findPageAndFilterBy(String catalogName, Long priceFrom, Long priceTo, Pageable pageable) {
 
-        Catalog catalog = catalogRepository.findByName(catalogName)
-                .orElse(Catalog.builder().id(1000L).build());
+//        Catalog catalog = catalogRepository.findByName(catalogName)
+//                .orElse(Catalog.builder().id(1000L).build());
+//
+//        TypedQuery<ManufactureMachine> query = manager.createQuery("""
+//
+//            from ManufactureMachine mm
+//              where
+//               (case
+//                    when :catalogId <> 1000 then mm.catalog.id = :catalogId
+//                    else true
+//                end)
+//              AND
+//                (case
+//                    when :priceFrom is not null and :priceTo is not null then (price >= :priceFrom  and price <= :priceTo)
+//                    else true
+//                end)
+//
+//           """, ManufactureMachine.class);
 
-        TypedQuery<ManufactureMachine> query = manager.createQuery("""
-      
-            from ManufactureMachine mm
-              where
-               (case
-                    when :catalogId <> 1000 then mm.catalog.id = :catalogId
-                    else true
-                end)
-              AND
-                (case
-                    when :priceFrom is not null and :priceTo is not null then (price >= :priceFrom  and price <= :priceTo)
-                    else true
-                end)
-     
-           """, ManufactureMachine.class);
-
-        return query
-                .setParameter("catalogId", catalog.getId())
-                .setParameter("priceFrom", priceFrom)
-                .setParameter("priceTo", priceTo)
-                .getResultList();
+        return List.of();
     }
 }
